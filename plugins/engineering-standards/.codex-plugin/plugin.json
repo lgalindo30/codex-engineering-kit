@@ -1,0 +1,22 @@
+{
+  "name": "engineering-standards",
+  "version": "0.1.6",
+  "description": "Reusable engineering workflows for Bun, TypeScript, Hono, React, testing, and repository quality.",
+  "author": {
+    "name": "Luis Galindo"
+  },
+  "skills": "./skills/",
+  "repository": "https://github.com/lgalindo30/codex-engineering-kit",
+  "license": "MIT",
+  "interface": {
+    "displayName": "Engineering Standards",
+    "shortDescription": "Build and verify projects with reusable engineering standards.",
+    "longDescription": "Task-scoped skills, references, and safe quality templates. Global agents and instructions are installed separately with the repository's reversible setup command.",
+    "developerName": "Luis Galindo",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Use the engineering standards to implement and verify this project.",
+    "websiteURL": "https://github.com/lgalindo30/codex-engineering-kit"
+  },
+  "homepage": "https://github.com/lgalindo30/codex-engineering-kit"
+}

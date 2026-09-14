@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun plugins/engineering-standards/templates/hooks/check-stop.ts",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}

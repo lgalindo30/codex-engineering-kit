@@ -1,0 +1,6 @@
+interface:
+  display_name: 'Repository Quality'
+  short_description: 'Configure reproducible checks, hooks, and CI'
+  default_prompt: 'Use $repository-quality to apply the agreed engineering standards to this task.'
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun .codex/check-stop.ts",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}
