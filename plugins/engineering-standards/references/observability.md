@@ -25,9 +25,13 @@ are later deployment decisions.
    without copying secrets. Reproduce safely in a local or explicitly authorized environment.
 2. Inspect logs, request IDs, stack traces, database state, or browser traces relevant to the failure.
    Separate observed evidence from hypotheses. Narrow the failing boundary before changing code.
-3. Test the most plausible hypothesis with a minimal experiment and bounded diagnostics. Do not leave
+3. State what observation would support or disprove the hypothesis. Record the experiment and its
+   outcome briefly, revise the hypothesis when evidence contradicts it, and avoid changing several
+   unrelated variables at once. Test the most plausible hypothesis with a minimal experiment and bounded diagnostics. Do not leave
    verbose sensitive logs or disabled checks as the permanent fix.
-4. Correct the cause, add a meaningful regression test, verify it, and remove temporary diagnostics.
+4. Correct the cause, add or reuse a meaningful regression test, verify it, and remove temporary diagnostics.
+   Confirm failure for the expected defect before the correction when practical, and success after it;
+   disclose when that comparison could not be performed.
    For browser failures, use existing Playwright traces/screenshots when useful and redact artifacts.
 
 ## OpenTelemetry only when requested

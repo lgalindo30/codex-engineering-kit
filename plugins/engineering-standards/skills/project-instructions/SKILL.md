@@ -13,6 +13,9 @@ existing AGENTS.md/AGENTS.override.md files and executable scripts before writin
   directory or nested repository simply because a delegated role is named backend or frontend.
 - Preserve existing valid user content. Describe the actual stack, file ownership, public API version,
   local schemas, commands with working directories, test strategy and deployment assumptions.
+- Ground project-specific conventions in representative existing files or symbols; distinguish
+  observed patterns from proposed decisions. Preserve useful examples or links when maintaining rules.
+  Keep temporary task plans, hypotheses and review logs out of permanent AGENTS.md instructions.
 - Include only the local rules that change decisions, linking repository-owned documentation for
   longer details. Do not repeat the global manual or require another developer's home-directory files.
 - Record English content defaults, cohesive modules normally below 400 lines, explicit exceptions,

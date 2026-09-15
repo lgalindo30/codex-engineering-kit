@@ -7,6 +7,10 @@ description: Implement or revise React, Next.js, or Astro frontends using the pr
 
 Use this workflow for frontend implementation, including work performed directly by the parent.
 
+For substantial work, follow [delivery in verified slices](../../references/delivery.md). Ground
+project conventions in nearby code and tests, verify each dependent slice, and explain necessary
+pattern changes. Keep the process proportional to the task.
+
 1. Read applicable project instructions and inspect the existing frontend, API client, and commands.
    Preserve the requested scope and existing framework unless a migration is authorized.
 2. Read [engineering defaults](../../references/engineering.md) and the relevant sections of

@@ -22,6 +22,18 @@ direction. Prefer fewer high-confidence findings. State uncertainty or missing e
 inventing a vulnerability. Style alone is not a finding unless it violates an explicit applicable rule
 or creates concrete harm. Do not demand framework migrations or layers to satisfy personal preferences.
 
+## Review perspectives and closure
+
+Inspect comprehension of the behavior, boundary/failure handling, security, and operational readiness
+as relevant to the change. Include cleanup, bounded resource use and concurrency where applicable.
+These perspectives guide investigation; they are not quotas for findings or reasons to assume that
+AI-generated code must contain defects. Report findings by impact and evidence, not discovery order.
+
+When re-reviewing a correction, trace the original trigger through the changed code and examine its
+verification. Distinguish verified resolution from an unverified proposal or a blocked check. The
+reviewer stays read-only; implementation and closure tracking belong to the parent and implementer
+as described in [delivery](delivery.md). Do not require a separate review round for every trivial fix.
+
 ## Focus by change
 
 - **Backend/contracts:** validation and ownership at the correct boundary, serialized fields, version

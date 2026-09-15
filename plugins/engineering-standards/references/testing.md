@@ -55,6 +55,20 @@ An implementer remains responsible for verifying its work even when no testing s
 - Report exact commands and outcomes, unavailable prerequisites, and skipped scope. A test plan is
   not an executed test. Static skill validation is not an observed autonomous-agent evaluation.
 
+## Regression evidence and optional mutation exercises
+
+For a defect correction, reproduce the failure with a focused behavioral test when feasible. Confirm
+that the pre-fix failure is the expected assertion or behavior, not a missing dependency, setup error
+or unrelated crash. Verify the corrected behavior with the same test and relevant integration checks.
+If an existing test already protects the defect, reuse or strengthen it instead of adding a duplicate.
+When safely reproducing the old behavior is impractical, explain which evidence is missing.
+
+Deliberately changing a boundary, removing validation or altering a default is an optional test-quality
+evaluation, not a routine implementation step. Run such exercises only when requested, in disposable
+copies or isolated checkouts. Do not introduce deliberate defects into the user's active work or
+production. A surviving mutation indicates a behavior to investigate, not an automatic requirement
+for another test. Restore the exercise fixture and verify cleanup. Never impose test-count quotas.
+
 ## Debugging failures
 
 Reproduce the smallest relevant failure, collect its error and context, state a falsifiable

@@ -8,6 +8,10 @@ description: Implement or change Bun and TypeScript backends using Hono, Zod, Dr
 Apply [engineering defaults](../../references/engineering.md) and the existing project's instructions.
 Use these defaults for new work; preserve established stacks unless migration is requested.
 
+For substantial work, follow [delivery in verified slices](../../references/delivery.md). Ground
+project conventions in nearby code and tests, verify each dependent slice, and explain necessary
+pattern changes. Keep the process proportional to the task.
+
 1. Identify the actual project boundary, required behavior, consumers, and existing components. Do not
    create an extra backend directory or nested repository merely because this is a backend task.
 2. Read [backend architecture](../../references/backend.md). For an endpoint or consumer change, also

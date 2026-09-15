@@ -44,6 +44,10 @@ Apply these defaults to new projects and substantial new code. Explicit task req
 
 ## Quality and completion
 
+- For substantial changes, identify acceptance criteria, dependencies and exclusions; implement and verify small behavioral slices before accumulating dependent work. Scale planning to the task and commit only when authorized.
+- Ground relevant project conventions in existing code/tests. Explain necessary new patterns; keep durable decisions in local instructions and temporary task notes outside AGENTS.md. Do not copy unsafe behavior for consistency.
+- For defect fixes, demonstrate the expected regression before the fix when feasible and success afterward, reusing existing tests when sufficient. Distinguish hypotheses from evidence and proposed fixes from verified resolutions.
+
 - Keep manually maintained source modules under 400 lines; split by responsibility. Use roughly 50 lines as a function-review signal, not a mechanical extraction rule. Document justified exceptions for generated or unusual files.
 - Use EditorConfig, ESLint, Prettier and strict TypeScript. Defaults: two spaces, single JS/TS quotes, semicolons, 100 columns, UTF-8, LF, final newline; four spaces for Python.
 - Use Bun Test for backend, Vitest + React Testing Library for React behavior, and Playwright for critical browser journeys. Cover meaningful behavior, failures and regressions; avoid implementation-mirroring tests and arbitrary universal coverage quotas.
