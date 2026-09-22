@@ -7,8 +7,7 @@
 - Local plugin installation was exercised against Codex CLI 0.154.0-alpha.6.2. This is a tested
   client snapshot, not a claim that every earlier or later build supports the same settings.
 - Current custom-agent keys: name, description, developer_instructions; reviewer sandbox read-only.
-  Agent defaults use enabled, max_concurrent_threads_per_session, default_subagent_model, and
-  default_subagent_reasoning_effort under [agents]. No custom profile pins model/effort.
+  Only code_reviewer is distributed. The installer does not modify config.toml. The profile has no model/effort pins.
 
 ## Verification layers
 

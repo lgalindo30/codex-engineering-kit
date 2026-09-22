@@ -1,6 +1,0 @@
-# Merge these keys into the existing [agents] table. Never replace config.toml.
-[agents]
-enabled = true
-max_concurrent_threads_per_session = 5
-default_subagent_model = "gpt-5.6-terra"
-default_subagent_reasoning_effort = "medium"

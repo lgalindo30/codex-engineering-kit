@@ -2,7 +2,7 @@
 
 ## Layers
 
-The global AGENTS.md provides short cross-project defaults and explicit delegation guidance. Role
+The global AGENTS.md provides short cross-project defaults and collaboration guidance. Role
 TOMLs describe responsibilities and boundaries, without model/effort pins. Skills hold reusable
 workflows; linked references load only when relevant. Templates and scripts implement deterministic
 checks. A generated project's AGENTS.md describes its actual architecture and commands in English.
@@ -11,28 +11,15 @@ The repository contains the installable plugin and separate global files. Instal
 not automatically register global role TOMLs or replace global instructions. The two setup commands
 make this distinction explicit and use supported Codex CLI operations for plugin registration.
 
-## Orchestration and models
+## Skills and independent review
 
-The parent chooses delegation when independent progress or review outweighs coordination cost;
-small and tightly coupled tasks stay local and still use skills. Normally two or three workers are
-enough. Five roles are available, not mandatory simultaneous processes. Shared contracts and file
-ownership precede parallel implementation; the parent integrates and verifies. Workers do not
-delegate further by default. Reviewer execution usually follows a stable integrated diff.
+The main session applies engineering skills directly. The only distributed agent profile is
+code_reviewer, with a read-only sandbox and an independent evidence-based review workflow.
+The installer does not modify config.toml. Model, reasoning, concurrency, and agent enablement
+remain controlled by Codex and the user. The kit contains no model recommendation matrix.
 
-The requested configuration ceiling is five spawned sessions, excluding the parent. An environment
-may expose a lower effective limit. Agent closure/reuse follows the controls available in that client.
-
-| Work                                 | Starting model/effort policy          |
-| ------------------------------------ | ------------------------------------- |
-| Clear repetitive bounded work        | GPT-5.6 Luna medium                   |
-| Ordinary implementation              | GPT-5.6 Terra medium/high             |
-| Complex bounded integration          | GPT-5.6 Terra high/xhigh              |
-| Ordinary independent review          | GPT-5.6 Terra high                    |
-| Ambiguous or high-impact work/review | GPT-5.6 Sol or GPT-6 Astra high/xhigh |
-
-These are initial decision heuristics, not benchmark claims. The user's parent-model choice is
-preserved. Default subagents use Terra medium if no explicit spawn choice is available. Increasing
-effort does not guarantee that a smaller model replaces a more capable one. Escalate with evidence.
+The global installer manages only AGENTS.md and agents/code_reviewer.toml, plus private state and
+backups for reversible installation. It does not migrate older multi-profile installations.
 
 ## Application defaults
 

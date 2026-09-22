@@ -3,9 +3,9 @@
 ## Two independent installation surfaces
 
 Run `bun run setup:plugin` before `bun run setup:global`. Plugin setup uses the Codex CLI to register
-this repository's marketplace and cache its plugin. Global setup then captures the current config,
-including any plugin registration, before changing only its agent settings. Neither command publishes
-the repository or configures Git identity. Keep the checkout available while using a local marketplace.
+this repository's marketplace and cache its plugin. Global setup updates managed instructions and
+the reviewer profile, with backups for restoration. It does not change config.toml. Neither command
+publishes the repository or configures Git identity. Keep the checkout available while using a local marketplace.
 
 `CODEX_BIN` selects the Codex executable for plugin commands. `CODEX_HOME` selects its configuration
 home and is inherited by the CLI. Global setup also accepts `--codex-home PATH`; this argument belongs
@@ -15,11 +15,9 @@ only to global setup, so use CODEX_HOME for isolated plugin tests.
 
 - AGENTS.md: adds or updates a marked kit block, preserving surrounding user instructions. Review
   conflicting old preferences manually. A nonempty AGENTS.override.md shadows it and is flagged by doctor.
-- agents/*.toml: installs exactly five profiles. Differing existing profiles cause a preflight error.
+- agents/*.toml: installs only code_reviewer. Differing existing profiles cause a preflight error.
   Review the diff before explicitly using `bun run setup:global --replace-existing`.
-- config.toml: patches four scalar keys under [agents], preserving other settings and tables. Replaces
-  the legacy max_threads alias with the current concurrency key. Unusual inline/dotted agents tables
-  require manual normalization; malformed TOML is rejected before any managed file is written.
+- config.toml: never created, modified, or restored by the installer. Existing preferences remain intact.
 - `.engineering-kit/state.json`: stores original file snapshots and installed hashes with private
   permissions. Backups of replaced files live under `.engineering-kit/backups/`, also privately.
 
@@ -47,11 +45,11 @@ the exact pre-replacement file the new restore point for that file. This preserv
 additions; that snapshot can also contain previous kit settings or its instruction block. Earlier
 snapshots remain in private backups for manual recovery. Unmodified updates retain the first snapshot.
 Restore leaves unrelated files and backups intact. It refuses to overwrite later local changes,
-including unrelated edits to config.toml; reconcile those edits manually first. An empty directory
+in managed instructions or profiles; config.toml is left untouched. An empty directory
 or backup directory may remain. The plugin is separate and remains installed after global restore.
 
 To remove the plugin, use Codex's plugin removal UI or CLI. Remove its marketplace only when no other
-plugins depend on it. Prefer global restore before plugin removal so the captured config still matches.
+plugins depend on it. Plugin removal and global restoration are independent.
 
 ## Updates
 
@@ -62,9 +60,7 @@ Prepare the version change before committing; the pre-push gate checks committed
 creates a commit or edits versions. See [release workflow](releasing.md). A same-version reinstall is
 not proof that cached resources changed. Never edit Codex cache contents as the source.
 
-If plugin setup changes config.toml after global installation, global setup may report a local edit.
-Review that diff and use the backed replacement option only when intended. Global restore remains
-conservative rather than merging arbitrary later configuration changes.
+Global setup does not manage plugin registration or any other config.toml settings.
 
 Start a new session after installing or updating. Confirm role names, skills and model selections in
 that session. Full-history forks can constrain explicit model overrides in some clients; the parent
@@ -77,3 +73,10 @@ Git hooks require local activation. Codex hooks require explicit review/trust th
 hook mechanism. The plugin itself installs no global hooks. This repository provides a project Stop
 configuration pointing to the tested template; it is skipped until trusted. Run `bun run check`
 manually when hook execution is unavailable. The installer never bypasses hook trust.
+
+## Installation scope
+
+Global setup manages only the marked AGENTS.md block and agents/code_reviewer.toml. Private state,
+backups, and a transient lock support repeatable installation and restoration. It does not migrate
+legacy multi-profile installation state; that state must already be reconciled before using this
+installer. Unknown managed paths are rejected rather than silently modified.

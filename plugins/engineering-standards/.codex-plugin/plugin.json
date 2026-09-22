@@ -1,6 +1,6 @@
 {
   "name": "engineering-standards",
-  "version": "0.1.7",
+  "version": "0.5.0",
   "description": "Reusable engineering workflows for Bun, TypeScript, Hono, React, testing, and repository quality.",
   "author": {
     "name": "Luis Galindo"

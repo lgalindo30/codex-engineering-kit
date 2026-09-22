@@ -1,7 +1,6 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { roles } from './lib/install.ts';
-import { agentDefaults, parseConfig } from './lib/config.ts';
 import { parseVersion } from './lib/release.ts';
 
 const root = resolve(import.meta.dir, '..');
@@ -79,13 +78,11 @@ try {
     marketplace.plugins[0]?.source.path === './plugins/engineering-standards',
     'Marketplace source must be repository-relative.',
   );
-  const defaults = parseConfig(read(join(root, 'global/config.defaults.toml'))).agents;
-  assert(
-    JSON.stringify(defaults) === JSON.stringify(agentDefaults),
-    'Installer defaults differ from documented config.',
-  );
   for (const role of roles) {
-    const profile = parseConfig(read(join(root, 'global/agents', `${role}.toml`)));
+    const profile = Bun.TOML.parse(read(join(root, 'global/agents', `${role}.toml`))) as Record<
+      string,
+      unknown
+    >;
     assert(
       profile.name === role && profile.description && profile.developer_instructions,
       `Invalid role: ${role}`,

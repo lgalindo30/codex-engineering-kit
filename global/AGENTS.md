@@ -10,15 +10,11 @@ Apply these defaults to new projects and substantial new code. Explicit task req
 - Keep personal Git identity in local configuration. Never distribute a user's name, email, credentials, or absolute machine paths in templates.
 - Respect the requested repository layout. Never create nested Git repositories or an extra backend/frontend directory just because a role has that name.
 
-## Delegation
+## Independent review
 
-- Delegate bounded tasks to backend, frontend, testing, repo_maintainer, or code_reviewer when independent progress, substantial investigation, or useful independent review justifies the coordination cost. Handle small or tightly coupled tasks directly with the relevant skills.
-- Before delegation, specify expected outcomes, owned files, dependencies, and acceptance criteria. Establish API contracts before parallel producer/consumer implementation. Assign one owner to shared configuration and lockfiles.
-- The parent owns integration, conflict resolution, and final verification. Workers must preserve others' changes and must not delegate further unless explicitly assigned that responsibility.
-- Normally use two or three concurrent workers. Respect the effective environment limit; five available roles do not require five simultaneous sessions. Reuse agents and close finished sessions where supported before requesting more slots.
-- Select a model and effort at spawn time when supported: GPT-5.6 Luna medium for clear repetitive work; GPT-5.6 Terra medium/high for ordinary implementation; Terra high/xhigh for complex bounded work; Sol or Astra high/xhigh for high-impact or ambiguous reasoning. Use Terra high for ordinary independent review. Escalate on evidence of insufficient capability rather than repeated ineffective retries.
-- Leave model selection out of role TOMLs so explicit spawn choices can take effect. Do not override the user's chosen parent model. If the interface cannot select a model, use the configured fallback and report material limitations accurately.
-- Give workers only the context needed for their task. If explicit model selection is incompatible with a full-history fork, use a bounded task prompt instead.
+- The code_reviewer profile provides a read-only review workflow. The main session can apply all engineering skills directly.
+- Give a reviewer the scope, relevant constraints, and expected evidence. Let it investigate independently; the main session owns fixes, integration, and final verification.
+- Keep the reviewer profile free of model and reasoning pins so it follows the runtime configuration.
 
 ## Skills and project instructions
 

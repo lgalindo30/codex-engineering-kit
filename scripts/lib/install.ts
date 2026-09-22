@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { mergeConfig } from './config.ts';
 import {
   applyChanges,
   hash,
@@ -12,17 +11,11 @@ import {
   type Snapshot,
 } from './files.ts';
 
-export const roles = [
-  'backend',
-  'frontend',
-  'testing',
-  'repo_maintainer',
-  'code_reviewer',
-] as const;
+export const roles = ['code_reviewer'] as const;
 const stateName = '.engineering-kit/state.json';
 const begin = '<!-- codex-engineering-kit:begin -->';
 const end = '<!-- codex-engineering-kit:end -->';
-const allowed = ['AGENTS.md', 'config.toml', ...roles.map((role) => `agents/${role}.toml`)];
+const active = ['AGENTS.md', ...roles.map((role) => `agents/${role}.toml`)];
 
 interface Entry {
   original: Snapshot | null;
@@ -49,7 +42,7 @@ function readState(home: string): State {
     throw new Error('Unsupported or invalid installation state.');
   }
   for (const [name, entry] of Object.entries(value.entries)) {
-    if (!allowed.includes(name) || typeof entry.installedHash !== 'string') {
+    if (!active.includes(name) || typeof entry.installedHash !== 'string') {
       throw new Error('Invalid installation state entry.');
     }
     if (
@@ -87,7 +80,6 @@ function desiredFiles(options: InstallOptions): Record<string, string> {
       snapshot(safePath(options.home, 'AGENTS.md'))?.content ?? '',
       read('AGENTS.md'),
     ),
-    'config.toml': mergeConfig(snapshot(safePath(options.home, 'config.toml'))?.content ?? ''),
     ...Object.fromEntries(
       roles.map((role) => [`agents/${role}.toml`, read(`agents/${role}.toml`)]),
     ),
@@ -199,7 +191,7 @@ export function restore(home: string, dryRun: boolean): string[] {
 export function inspectInstallation(home: string): string[] {
   const problems: string[] = [];
   const state = readState(home);
-  for (const name of allowed) {
+  for (const name of active) {
     const current = snapshot(safePath(home, name));
     if (!current) problems.push(`Missing ${name}`);
     else if (!state.entries[name]) problems.push(`Not managed by this installer: ${name}`);

@@ -5,8 +5,8 @@ and reproducible setup. MIT licensed, written in English, and designed for macOS
 
 ## What is included
 
-- **Global instructions** for engineering defaults and parent-led, selective delegation.
-- **Five agent roles:** backend, frontend, testing, repo_maintainer, and independent code_reviewer.
+- **Global instructions** for engineering defaults and agent collaboration.
+- **One optional agent profile:** code_reviewer for independent read-only reviews.
 - **Engineering Standards plugin:** seven focused skills with conditional references and safe quality
   templates. No MCP server, hosted service, or global lifecycle hook is required.
 - **Reversible global setup:** dry-run, preserved configuration, collision detection, backups, and
@@ -47,8 +47,7 @@ publish anything to GitHub or a public marketplace. Set `CODEX_BIN` to a working
 the `codex` command on your PATH is unavailable. No application-specific absolute path is assumed.
 
 `setup:global` uses `CODEX_HOME` or `~/.codex`; use `--codex-home PATH` to preview/test another target.
-It installs five agent TOMLs, a managed block in AGENTS.md, and four keys in the existing `[agents]`
-table. It preserves the selected parent model and unrelated configuration. Existing agent conflicts
+It installs the code_reviewer TOML and a managed block in AGENTS.md. It preserves the selected parent model and unrelated configuration. Existing agent conflicts
 require review before using `--replace-existing`; originals are backed up locally. See
 [installation and restoration](docs/installation.md) before replacing an existing profile.
 
@@ -57,8 +56,9 @@ then try a bounded task. Files on disk are not proof that the current session lo
 
 ## Use
 
-Describe the outcome normally. The parent handles simple tasks itself and may delegate independent
-work with explicit ownership. You can also request a skill directly, for example:
+The main session uses the skills directly for backend, frontend, testing, and project scaffolding.
+The optional code_reviewer profile provides independent review with a read-only sandbox. It has no
+model or reasoning pin. For example: "Use code_reviewer to review this diff."
 
 ```text
 Use $backend-development to add a validated endpoint to this Hono API.
