@@ -11,7 +11,7 @@
 
 ## Verification layers
 
-`bun run check` verifies static packaging, local reference links, roles, defaults, type safety, formatting,
+`bun run check` verifies static packaging, local reference links, roles, type safety, formatting,
 and behavioral installer/scaffolder tests. The tests use isolated temporary directories and local Git
 repositories. They check actual file preservation, conflicts, restoration, staged snapshots and hook
 failure behavior; they do not compare prompt prose as a substitute for agent evaluation.

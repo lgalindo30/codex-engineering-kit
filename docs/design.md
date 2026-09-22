@@ -2,8 +2,7 @@
 
 ## Layers
 
-The global AGENTS.md provides short cross-project defaults and collaboration guidance. Role
-TOMLs describe responsibilities and boundaries, without model/effort pins. Skills hold reusable
+The kit does not distribute global AGENTS.md instructions. Role TOMLs describe responsibilities and boundaries, without model/effort pins. Skills hold reusable
 workflows; linked references load only when relevant. Templates and scripts implement deterministic
 checks. A generated project's AGENTS.md describes its actual architecture and commands in English.
 
@@ -18,7 +17,7 @@ code_reviewer, with a read-only sandbox and an independent evidence-based review
 The installer does not modify config.toml. Model, reasoning, concurrency, and agent enablement
 remain controlled by Codex and the user. The kit contains no model recommendation matrix.
 
-The global installer manages only AGENTS.md and agents/code_reviewer.toml, plus private state and
+The global installer manages only agents/code_reviewer.toml, plus private state and
 backups for reversible installation. It does not migrate older multi-profile installations.
 
 ## Application defaults

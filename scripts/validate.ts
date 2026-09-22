@@ -129,5 +129,4 @@ try {
 if (errors.length) {
   errors.forEach((error) => console.error(error));
   process.exitCode = 1;
-} else
-  console.log('Plugin, roles, defaults, skill metadata, local links, and source limits validated.');
+} else console.log('Plugin, roles, skill metadata, local links, and source limits validated.');

@@ -5,7 +5,6 @@ and reproducible setup. MIT licensed, written in English, and designed for macOS
 
 ## What is included
 
-- **Global instructions** for engineering defaults and agent collaboration.
 - **One optional agent profile:** code_reviewer for independent read-only reviews.
 - **Engineering Standards plugin:** seven focused skills with conditional references and safe quality
   templates. No MCP server, hosted service, or global lifecycle hook is required.
@@ -47,7 +46,7 @@ publish anything to GitHub or a public marketplace. Set `CODEX_BIN` to a working
 the `codex` command on your PATH is unavailable. No application-specific absolute path is assumed.
 
 `setup:global` uses `CODEX_HOME` or `~/.codex`; use `--codex-home PATH` to preview/test another target.
-It installs the code_reviewer TOML and a managed block in AGENTS.md. It preserves the selected parent model and unrelated configuration. Existing agent conflicts
+It installs only the code_reviewer TOML, with private state and backups. Global AGENTS.md files remain untouched. It preserves the selected parent model and unrelated configuration. Existing agent conflicts
 require review before using `--replace-existing`; originals are backed up locally. See
 [installation and restoration](docs/installation.md) before replacing an existing profile.
 

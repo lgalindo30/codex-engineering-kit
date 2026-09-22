@@ -13,9 +13,7 @@ import {
 
 export const roles = ['code_reviewer'] as const;
 const stateName = '.engineering-kit/state.json';
-const begin = '<!-- codex-engineering-kit:begin -->';
-const end = '<!-- codex-engineering-kit:end -->';
-const active = ['AGENTS.md', ...roles.map((role) => `agents/${role}.toml`)];
+const active = roles.map((role) => `agents/${role}.toml`);
 
 interface Entry {
   original: Snapshot | null;
@@ -55,35 +53,13 @@ function readState(home: string): State {
   return value;
 }
 
-export function mergeInstructions(existing: string, instructions: string): string {
-  const block = `${begin}\n${instructions.trim()}\n${end}`;
-  const start = existing.indexOf(begin);
-  const finish = existing.indexOf(end);
-  if (start >= 0 || finish >= 0) {
-    if (
-      start < 0 ||
-      finish < start ||
-      existing.indexOf(begin, start + begin.length) >= 0 ||
-      existing.indexOf(end, finish + end.length) >= 0
-    ) {
-      throw new Error('Malformed or duplicate managed AGENTS.md markers.');
-    }
-    return existing.slice(0, start) + block + existing.slice(finish + end.length);
-  }
-  return `${existing.trimEnd()}${existing.trim() ? '\n\n' : ''}${block}\n`;
-}
-
 function desiredFiles(options: InstallOptions): Record<string, string> {
-  const read = (name: string) => readFileSync(join(options.source, 'global', name), 'utf8');
-  return {
-    'AGENTS.md': mergeInstructions(
-      snapshot(safePath(options.home, 'AGENTS.md'))?.content ?? '',
-      read('AGENTS.md'),
-    ),
-    ...Object.fromEntries(
-      roles.map((role) => [`agents/${role}.toml`, read(`agents/${role}.toml`)]),
-    ),
-  };
+  return Object.fromEntries(
+    roles.map((role) => [
+      `agents/${role}.toml`,
+      readFileSync(join(options.source, 'global', 'agents', `${role}.toml`), 'utf8'),
+    ]),
+  );
 }
 
 function backups(home: string, changes: Change[]): Change[] {
@@ -198,7 +174,5 @@ export function inspectInstallation(home: string): string[] {
     else if (hash(current.content) !== state.entries[name]?.installedHash)
       problems.push(`Changed since installation: ${name}`);
   }
-  const override = snapshot(safePath(home, 'AGENTS.override.md'));
-  if (override?.content.trim()) problems.push('AGENTS.override.md shadows global AGENTS.md.');
   return problems;
 }

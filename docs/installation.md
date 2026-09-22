@@ -3,7 +3,7 @@
 ## Two independent installation surfaces
 
 Run `bun run setup:plugin` before `bun run setup:global`. Plugin setup uses the Codex CLI to register
-this repository's marketplace and cache its plugin. Global setup updates managed instructions and
+this repository's marketplace and cache its plugin. Global setup installs only
 the reviewer profile, with backups for restoration. It does not change config.toml. Neither command
 publishes the repository or configures Git identity. Keep the checkout available while using a local marketplace.
 
@@ -13,8 +13,8 @@ only to global setup, so use CODEX_HOME for isolated plugin tests.
 
 ## Global file behavior
 
-- AGENTS.md: adds or updates a marked kit block, preserving surrounding user instructions. Review
-  conflicting old preferences manually. A nonempty AGENTS.override.md shadows it and is flagged by doctor.
+- AGENTS.md and AGENTS.override.md: never created, modified, or restored by the installer.
+  Engineering workflows belong to the plugin skills; project instructions remain project-specific.
 - agents/*.toml: installs only code_reviewer. Differing existing profiles cause a preflight error.
   Review the diff before explicitly using `bun run setup:global --replace-existing`.
 - config.toml: never created, modified, or restored by the installer. Existing preferences remain intact.
@@ -42,10 +42,10 @@ bun run setup:restore
 Restore returns managed files to their state before the first installation and removes newly created
 ones, except for files explicitly reconciled with `--replace-existing`: a detected local edit makes
 the exact pre-replacement file the new restore point for that file. This preserves accepted user
-additions; that snapshot can also contain previous kit settings or its instruction block. Earlier
+customizations. Earlier
 snapshots remain in private backups for manual recovery. Unmodified updates retain the first snapshot.
 Restore leaves unrelated files and backups intact. It refuses to overwrite later local changes,
-in managed instructions or profiles; config.toml is left untouched. An empty directory
+in managed profiles; config.toml is left untouched. An empty directory
 or backup directory may remain. The plugin is separate and remains installed after global restore.
 
 To remove the plugin, use Codex's plugin removal UI or CLI. Remove its marketplace only when no other
@@ -76,7 +76,7 @@ manually when hook execution is unavailable. The installer never bypasses hook t
 
 ## Installation scope
 
-Global setup manages only the marked AGENTS.md block and agents/code_reviewer.toml. Private state,
+Global setup manages only agents/code_reviewer.toml. Private state,
 backups, and a transient lock support repeatable installation and restoration. It does not migrate
-legacy multi-profile installation state; that state must already be reconciled before using this
+legacy multi-profile or global-instruction installation state; that state must already be reconciled before using this
 installer. Unknown managed paths are rejected rather than silently modified.

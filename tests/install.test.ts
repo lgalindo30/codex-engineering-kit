@@ -13,7 +13,6 @@ import { join, resolve } from 'node:path';
 import {
   install,
   inspectInstallation,
-  mergeInstructions,
   restore,
   type InstallOptions,
 } from '../scripts/lib/install.ts';
@@ -40,7 +39,7 @@ afterEach(() => {
 describe('global installation', () => {
   test('dry run does not create target or metadata', () => {
     const options = fixture();
-    expect(install({ ...options, dryRun: true })).toHaveLength(3);
+    expect(install({ ...options, dryRun: true })).toHaveLength(2);
     expect(existsSync(options.home)).toBe(false);
   });
 
@@ -54,6 +53,11 @@ describe('global installation', () => {
     install(options);
     expect(inspectInstallation(options.home)).toEqual([]);
     expect(install(options)).toEqual([]);
+    expect(
+      Object.keys(
+        JSON.parse(readFileSync(join(options.home, '.engineering-kit/state.json'), 'utf8')).entries,
+      ),
+    ).toEqual(['agents/code_reviewer.toml']);
     expect(readFileSync(join(options.home, 'AGENTS.md'), 'utf8')).toContain('Keep this.');
     const parsed = Bun.TOML.parse(
       readFileSync(join(options.home, 'config.toml'), 'utf8'),
@@ -98,8 +102,7 @@ describe('global installation', () => {
     const options = fixture();
     install(options);
     const config = '# Personal configuration\n[preferences]\nkeep = true\n';
-    const instructions =
-      '# Later personal preference\n' + readFileSync(join(options.home, 'AGENTS.md'), 'utf8');
+    const instructions = '# Later personal preference\n';
     put(options.home, 'config.toml', config);
     put(options.home, 'AGENTS.md', instructions);
     install({ ...options, replaceExisting: true });
@@ -110,13 +113,11 @@ describe('global installation', () => {
     expect(existsSync(join(options.home, 'agents/code_reviewer.toml'))).toBe(false);
   });
 
-  test('instruction overrides are reported, malformed state paths cannot escape', () => {
+  test('personal instruction overrides are ignored, malformed state paths cannot escape', () => {
     const options = fixture();
     install(options);
     put(options.home, 'AGENTS.override.md', '# Override\n');
-    expect(inspectInstallation(options.home)).toContain(
-      'AGENTS.override.md shadows global AGENTS.md.',
-    );
+    expect(inspectInstallation(options.home)).toEqual([]);
     put(
       options.home,
       '.engineering-kit/state.json',
@@ -141,23 +142,12 @@ describe('global installation', () => {
   test('restore dry run leaves installation untouched', () => {
     const options = fixture();
     install(options);
-    expect(restore(options.home, true)).toHaveLength(3);
+    expect(restore(options.home, true)).toHaveLength(2);
     expect(inspectInstallation(options.home)).toEqual([]);
   });
 });
 
 describe('safe configuration and transactions', () => {
-  test('managed instruction markers are updated once and malformed markers rejected', () => {
-    const first = mergeInstructions('# Personal\n', '# Kit v1');
-    const second = mergeInstructions(first, '# Kit v2');
-    expect(second).toContain('# Personal');
-    expect(second).not.toContain('Kit v1');
-    expect(mergeInstructions(second, '# Kit v2')).toBe(second);
-    expect(() => mergeInstructions('<!-- codex-engineering-kit:begin -->', 'test')).toThrow(
-      'Malformed',
-    );
-  });
-
   test('failed writes roll back earlier changes', () => {
     const options = fixture();
     const path = join(options.home, 'one');
@@ -195,6 +185,7 @@ test('configuration remains untouched during install, repeat install and restore
   const options = fixture();
   install(options);
   expect(existsSync(join(options.home, 'config.toml'))).toBe(false);
+  expect(existsSync(join(options.home, 'AGENTS.md'))).toBe(false);
   const config = '# Personal\n[agents]\nenabled = false\n';
   put(options.home, 'config.toml', config);
   install(options);
