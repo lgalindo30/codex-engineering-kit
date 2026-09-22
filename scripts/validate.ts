@@ -2,6 +2,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { roles } from './lib/install.ts';
 import { parseVersion } from './lib/release.ts';
+import { inspectReferenceGraph } from './lib/skill-references.ts';
 
 const root = resolve(import.meta.dir, '..');
 const plugin = join(root, 'plugins/engineering-standards');
@@ -27,6 +28,10 @@ function walk(path: string): string[] {
 function checkSkills(): void {
   const names = readdirSync(join(plugin, 'skills'));
   for (const name of names) {
+    assert(
+      /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name) && name.length <= 64,
+      `${name}: invalid skill name`,
+    );
     const folder = join(plugin, 'skills', name);
     const source = read(join(folder, 'SKILL.md'));
     const match = source.match(/^---\n([\s\S]*?)\n---\n/);
@@ -52,7 +57,14 @@ function checkSkills(): void {
       `${name}: starter prompt missing skill invocation`,
     );
   }
-  assert(names.length === 7, 'Expected seven focused skills.');
+  errors.push(
+    ...inspectReferenceGraph(
+      names.map((name) => join(plugin, 'skills', name)),
+      join(plugin, 'references'),
+      [join(plugin, 'scripts'), join(plugin, 'templates')],
+    ),
+  );
+  assert(names.length > 0, 'Expected at least one discoverable skill.');
 }
 
 try {

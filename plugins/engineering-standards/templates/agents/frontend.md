@@ -3,7 +3,7 @@
 - Use English for code, comments, documentation, and generated content unless the product explicitly requires another language.
 - This is a quality scaffold, not an installed React, Astro, or Next.js application. Document actual framework commands after setup.
 - When unspecified, choose React + Vite SPA for simple interactive applications, Astro for mostly static public content, and Next.js for complex applications. Treat public-site SEO and performance as explicit requirements.
-- Next.js consumes the Bun/Hono backend. Put business logic in a separate backend unless explicitly requested otherwise.
+- Next.js may own integrated server behavior or consume a separate backend. Follow the selected architecture and keep secrets and persistence out of browser code.
 - Use Ant Design when product requirements call for substantial forms, tables, and CRUD interfaces; use purposeful CSS for simpler experiences.
 - Use Ant Design Skeleton for suitable initial asynchronous loading when Ant Design is installed; otherwise reuse a CSS Skeleton component. Preserve cached content during refresh, respect reduced motion, and avoid artificial loading for static content.
 - Keep the API base URL and version centralized. Prefer client types generated from a pinned backend OpenAPI contract, with local Zod schemas for forms and runtime boundaries.

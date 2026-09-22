@@ -1,4 +1,8 @@
-# Project templates
+# Bun project templates
+
+These assets require Bun, including the scaffolder and hook scripts. Use them only for a project
+that selected Bun. For Node.js, configure the selected package manager, runner, and framework directly;
+static formatting assets may be adapted without copying Bun execution commands.
 
 These assets provide a conservative quality scaffold, not an application generator. They do not install Hono, React, Next.js, Astro, Docker, authentication, or observability. A profile selects scoped project instructions; it does not invent application directories.
 

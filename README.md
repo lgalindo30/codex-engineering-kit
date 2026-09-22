@@ -6,13 +6,13 @@ and reproducible setup. MIT licensed, written in English, and designed for macOS
 ## What is included
 
 - **One optional agent profile:** code_reviewer for independent read-only reviews.
-- **Engineering Standards plugin:** seven focused skills with conditional references and safe quality
+- **Engineering Standards plugin:** ten focused skills with conditional references and safe quality
   templates. No MCP server, hosted service, or global lifecycle hook is required.
 - **Reversible global setup:** dry-run, preserved configuration, collision detection, backups, and
   restoration. Personal Git identity is never installed by the kit.
 
-Defaults are Bun + TypeScript, Hono + Zod + OpenAPI, Drizzle with PostgreSQL or SQLite, React/Next.js
-or Astro as appropriate, Pino console logging, RFC 9457 errors, and Docker for new server applications.
+Implementation skills follow the chosen stack: Bun or Node.js backends, Astro, Next.js, and React/Vite.
+Shared guidance covers contracts, persistence, structured logging, security, and verification.
 Authentication, hosted storage, OpenTelemetry, background jobs, and Kubernetes are conditional work.
 
 The plugin supplies instructions and quality assets. It does **not** generate a complete application
@@ -60,22 +60,34 @@ The optional code_reviewer profile provides independent review with a read-only 
 model or reasoning pin. For example: "Use code_reviewer to review this diff."
 
 ```text
-Use $backend-development to add a validated endpoint to this Hono API.
+Use $bun-development to add a validated endpoint to this Hono API.
 Use $repository-quality to inspect this project's checks without replacing its tooling.
 Use $observability to investigate this failure using the existing console logs.
+Use engineering-standards to create a Node.js and Next.js application.
+Use engineering-standards for a separate Node.js API and an Astro frontend.
 ```
 
-| Skill                | When it applies                                        |
-| -------------------- | ------------------------------------------------------ |
-| backend-development  | Backend implementation and persistence                 |
-| frontend-development | React, Next.js, Astro, UI and API consumption          |
-| api-contracts        | Versioned schemas, OpenAPI, clients and compatibility  |
-| testing-strategy     | Meaningful unit, integration and browser verification  |
-| repository-quality   | Toolchains, checks, hooks, CI and dependency hygiene   |
-| project-instructions | Accurate AGENTS.md at real project boundaries          |
-| observability        | Logging, debugging, and explicitly requested telemetry |
+| Skill                  | When it applies                                        |
+| ---------------------- | ------------------------------------------------------ |
+| bun-development        | Standalone Bun backends                                |
+| node-development       | Standalone Node.js backends                            |
+| astro-development      | Astro sites and islands                                |
+| nextjs-development     | Next.js, including integrated server behavior          |
+| react-vite-development | React/Vite single-page applications                    |
+| api-contracts          | Versioned schemas, OpenAPI, clients and compatibility  |
+| testing-strategy       | Meaningful unit, integration and browser verification  |
+| repository-quality     | Toolchains, checks, hooks, CI and dependency hygiene   |
+| project-instructions   | Accurate AGENTS.md at real project boundaries          |
+| observability          | Logging, debugging, and explicitly requested telemetry |
 
-For a new quality skeleton, see [project templates](plugins/engineering-standards/templates/README.md).
+Each technology skill owns its implementation, testing, tooling, and stack-specific integrations.
+Reusable policies live once in the plugin's `references/` directory and are linked where needed,
+including authentication and date semantics. A shared reference does not invoke another skill.
+Testing, quality, contracts, observability, and project instructions provide independent project-wide
+assessments and coordination rather than mandatory implementation steps. See [contributing](CONTRIBUTING.md#adding-technology-skills)
+for extension boundaries.
+
+For a Bun-specific quality skeleton, see [project templates](plugins/engineering-standards/templates/README.md).
 Existing repositories retain their conventions; the scaffolder refuses differing configuration.
 Project Git/Codex hooks are opt-in assets and need activation/trust. They are not installed globally.
 

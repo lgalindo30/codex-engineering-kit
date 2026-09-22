@@ -1,16 +1,20 @@
 ---
 name: observability
-description: Add Pino console logging, investigate runtime failures, or integrate OpenTelemetry when requested. Use for request correlation, error diagnostics, logging hygiene, and explicit telemetry work.
+description: Investigate failures across services, audit logging and correlation, or design explicit telemetry integrations. Routine application diagnostics belong to the technology skill.
 ---
 
 # Observability
 
-Read [engineering defaults](../../references/engineering.md) and
-[observability guidance](../../references/observability.md).
+This is an independent project-level workflow, not a prerequisite for development skills. Use local
+technology references only when their execution detail helps the assigned analysis; do not route
+ordinary implementation work through this skill.
+
+Preserve the project's conventions and explicit task scope. Read
+[observability guidance](references/observability.md).
 
 Choose the scope from the request:
 
-- **Application baseline:** structured Pino console logs, request correlation, safe centralized error
+- **Application baseline:** structured console logs using the existing logger or the selected technology's supported integration, request correlation, safe centralized error
   handling, and useful development output. No centralized service or telemetry SDK by default.
 - **Debugging:** reproduce, collect redacted evidence, test a hypothesis, make the smallest correction,
   and verify the failing behavior. Use existing tools and observability before introducing new ones.

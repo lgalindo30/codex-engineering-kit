@@ -1,0 +1,6 @@
+interface:
+  display_name: 'Node.js Backend'
+  short_description: 'Build and verify Node.js Backend projects'
+  default_prompt: 'Use $node-development to implement and verify this project.'
+policy:
+  allow_implicit_invocation: true

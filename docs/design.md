@@ -20,28 +20,51 @@ remain controlled by Codex and the user. The kit contains no model recommendatio
 The global installer manages only agents/code_reviewer.toml, plus private state and
 backups for reversible installation. It does not migrate older multi-profile installations.
 
-## Application defaults
+## Stack selection and shared guidance
 
-- Bun, strict TypeScript, ESM; allow pinned Node for actual compatibility constraints. Python tools
-  use uv/uvx when a better fit. Respect established projects and explicit migrations.
-- Bun/Hono with Zod and OpenAPI; new business APIs start at /api/v1. Each application owns its schemas.
-  Consumers use a versioned OpenAPI contract; packages/contracts is not created by default.
-- When unspecified: React + Vite SPA for simple interactive apps, Astro for static SEO-sensitive
-  content, and Next.js for complex applications;
-  business backend stays in Hono unless the prompt explicitly asks for integrated Next.js backend.
-- Ant Design when CRUD complexity warrants it; otherwise CSS/CSS Modules. Native framework routers,
-  TanStack Query where client remote state needs it, minimal local state and accessible reusable UI.
-- Drizzle ORM + Drizzle Kit. PostgreSQL normally; SQLite for simpler local use. Review migrations and
-  execute them once as an explicit deployment step, not on every application startup.
-- Pino console logs and RFC 9457 Problem Details; structured request correlation with redaction.
-  OpenTelemetry and centralized destinations are introduced only for an explicit integration task.
-- Authentication only on request: email/password, brief memory-only access JWT as Bearer, protected
-  refresh cookie, rotation/revocation and CSRF controls. Google login, roles and multitenancy are later
-  explicit work. Ownership checks still apply whenever resources belong to individual users.
-- Files start local on persistent storage. Maximum per file is 10,000,000 bytes unless overridden
-  explicitly; content validation, count and total/streamed request limits remain required.
-- Normal server deployment with Docker by default. Serverless is an explicit alternative. No default
-  queues, background jobs, Kubernetes or replica architecture.
+Five implementation skills cover bun-development, node-development, astro-development, nextjs-development, and
+react-vite-development. Their names and descriptions identify the selected runtime/framework; they own
+the ordinary implementation, testing, contracts, diagnostics, and tooling guidance they need.
+
+Node.js and Bun are first-class options. Runtime, framework, and package manager are separate choices.
+A request for Node.js and Next.js may describe one integrated application. A standalone backend is
+created only when the scope or existing architecture calls for it. Explicit choices and established
+project conventions take precedence over defaults.
+
+Testing, repository quality, API contracts, observability, and project instructions remain independent
+project-level workflows for assessments and coordination. They are not prerequisites for technology
+skills. Each technology skill's local references contain the relevant strategy and operational criteria,
+including isolation, regression evidence, safe boundaries, quality checks, and reporting.
+
+Testing strategies remain local: the relevant test boundaries, tools, and execution modes differ by
+technology. General policies with multiple consumers live once in the plugin's references directory.
+Local guides explain integration differences and link to the shared rule instead of copying it.
+This applies to authentication, date semantics, server uploads, security, server deployment, and interface
+criteria. A shared document is not a separate skill and does not require a second workflow invocation.
+
+For new React/Vite SPAs requiring navigation, TanStack Router is the default; TanStack Query owns remote
+server state. Their integration shares query identity and cache ownership between route loading and
+components. Explicitly selected or established alternatives are preserved. Astro and Next.js retain
+native routing; a routing preference does not introduce TanStack Start or replace the framework.
+
+The validator discovers skills rather than enforcing a fixed catalog. Adding a technology requires its
+local skill and resources; it need not alter unrelated skills or transversal procedures. The executable
+scaffold and hook assets remain Bun-specific and are optional for compatible projects.
+
+## Knowledge ownership
+
+- Technology skills own implementation, testing, tooling, and runtime/framework integration details.
+- Shared references own reusable policy. Authentication rules have one source; stack adapters explain
+  middleware, rendering, session-cache, and runtime differences without maintaining parallel policies.
+- Transversal skills own project-wide testing, quality, compatibility, observability, and instruction
+  assessments. They are not prerequisites for routine implementation.
+- The reviewer profile owns read-only review boundaries, evidence, severity, and closure checks.
+
+Local references must be reachable from their owning SKILL.md. Shared references must be reachable
+from at least one skill. The validator checks both graphs, including broken links and orphan cycles.
+Shared policy may link to other shared policy but cannot send readers back into a technology skill.
+Knowledge links between separate skills remain disallowed; shared executable/template assets remain
+available without becoming mandatory policy. References load only when relevant to the requested work.
 
 ## Quality and distribution
 

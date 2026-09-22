@@ -1,7 +1,7 @@
 {
   "name": "engineering-standards",
-  "version": "0.5.0",
-  "description": "Reusable engineering workflows for Bun, TypeScript, Hono, React, testing, and repository quality.",
+  "version": "1.0.0",
+  "description": "Stack-specific Bun, Node.js, Astro, Next.js, and React/Vite skills with shared engineering workflows.",
   "author": {
     "name": "Luis Galindo"
   },
@@ -11,7 +11,7 @@
   "interface": {
     "displayName": "Engineering Standards",
     "shortDescription": "Build and verify projects with reusable engineering standards.",
-    "longDescription": "Task-scoped skills, references, and safe quality templates. Global agents and instructions are installed separately with the repository's reversible setup command.",
+    "longDescription": "Task-scoped implementation skills, shared references, and optional Bun quality templates. The optional reviewer profile is installed separately with the reversible setup command.",
     "developerName": "Luis Galindo",
     "category": "Productivity",
     "capabilities": [],

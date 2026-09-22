@@ -1,11 +1,15 @@
 ---
 name: project-instructions
-description: Create or maintain accurate AGENTS.md files at real repository and application boundaries when establishing or changing project structure, commands, or architecture.
+description: Audit or restructure AGENTS.md guidance across repository and application boundaries. Use for instruction-focused work; routine command documentation belongs to the technology skill.
 ---
 
 # Project Instructions
 
-Read [shared policy](../../references/engineering.md). Inspect the actual tree, Git root, manifests,
+This is an independent project-level workflow, not a prerequisite for development skills. Use local
+technology references only when their execution detail helps the assigned analysis; do not route
+ordinary implementation work through this skill.
+
+Preserve the project's conventions and explicit task scope. Inspect the actual tree, Git root, manifests,
 existing AGENTS.md/AGENTS.override.md files and executable scripts before writing instructions.
 
 - A standalone backend or frontend uses its root AGENTS.md. A monorepo uses a root coordination file
@@ -17,7 +21,7 @@ existing AGENTS.md/AGENTS.override.md files and executable scripts before writin
   observed patterns from proposed decisions. Preserve useful examples or links when maintaining rules.
   Keep temporary task plans, hypotheses and review logs out of permanent AGENTS.md instructions.
 - Include only the local rules that change decisions, linking repository-owned documentation for
-  longer details. Do not repeat the global manual or require another developer's home-directory files.
+  longer details. Do not duplicate the plugin skill manuals or require another developer's home-directory files.
 - Record English content defaults, cohesive modules normally below 400 lines, explicit exceptions,
   functional composition, validation boundaries and the project's security-relevant requirements.
 - When creating a skeleton, label incomplete application setup clearly. Never document a command as

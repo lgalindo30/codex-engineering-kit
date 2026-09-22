@@ -18,7 +18,7 @@ pixel limits only when those formats are part of the feature.
 
 Enforce the total request limit before body buffering/parsing and per-file limits during streaming.
 Content-Length is an early optimization, not the sole control: test missing/false length and chunked
-input. Verify the selected Bun/Hono/proxy layers actually stop oversized streams. If the multipart
+input. Verify the selected runtime/framework/proxy layers actually stop oversized streams. If the multipart
 parser buffers, configure a strict upstream runtime body ceiling and account for concurrent memory use;
 do not claim per-file streaming protection that the parser does not provide. Clean partial files on
 failure or cancellation. Return the documented 413 Problem Details response.
@@ -44,4 +44,3 @@ message as well as the server's rejection.
 ## Primary references
 
 - [OWASP File Upload](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html)
-- [Hono Body Limit](https://hono.dev/docs/middleware/builtin/body-limit)

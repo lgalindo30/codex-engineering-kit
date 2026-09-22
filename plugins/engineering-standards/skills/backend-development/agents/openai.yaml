@@ -1,6 +1,0 @@
-interface:
-  display_name: 'Backend Development'
-  short_description: 'Build and verify Bun and Hono backend code'
-  default_prompt: 'Use $backend-development to apply the agreed engineering standards to this task.'
-policy:
-  allow_implicit_invocation: true

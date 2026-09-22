@@ -6,13 +6,13 @@ and replica architecture are outside the initial default; do not create speculat
 
 ## Reproducible container
 
-- Use a pinned supported Bun base image and frozen lockfile install, with separate build and runtime
+- Use a pinned supported base image for the selected runtime and frozen lockfile install, with separate build and runtime
   stages where helpful. Keep build tools out of the runtime image where practical.
 - Supply a `.dockerignore`; exclude secrets, local databases/uploads, development caches, and Git data.
 - Run as an unprivileged user and use runtime environment configuration with startup validation.
   Never bake credentials into layers, build arguments, public frontend variables, or committed Compose.
 - Listen on the documented container interface/port, handle SIGTERM gracefully with a bounded drain,
-  and close database connections/resources. Send Pino logs to stdout/stderr.
+  and close database connections/resources. Send structured logs to stdout/stderr.
 - Include meaningful liveness and readiness behavior and bounded request/upstream timeouts. Readiness
   may check required dependencies; avoid exposing credentials or detailed infrastructure in responses.
 
@@ -37,13 +37,10 @@ API behavior, verify shutdown, and confirm persistence across container replacem
 Use isolated data and containers. If Docker is unavailable, report the unexecuted checks; syntactic
 inspection alone does not establish a working deployment.
 
-Next.js remains a frontend consumer of the Hono backend unless explicitly requested otherwise. Adapt
-its build/runtime to the selected stable framework version and verify Bun compatibility; use a
-justified Node runtime exception where needed. Static Astro output can use a simpler static container.
+Verify production startup and native driver compatibility on the selected runtime in the built image.
 
 ## Primary references
 
-- [Bun Docker guide](https://bun.sh/guides/ecosystem/docker)
 - [Docker build best practices](https://docs.docker.com/build/building/best-practices/)
 - [Docker Compose](https://docs.docker.com/compose/)
 - [Docker volumes](https://docs.docker.com/engine/storage/volumes/)

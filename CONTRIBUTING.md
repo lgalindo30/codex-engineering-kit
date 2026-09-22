@@ -19,3 +19,29 @@ this keeps the root package version aligned. Enable `.githooks` to check outgoin
 See [the release workflow](docs/releasing.md) for initial branches, tags, and enforcement limits.
 Validate installation from the repository marketplace before publishing. Document breaking policy changes and project migration
 guidance; never rewrite previously generated projects implicitly.
+
+## Adding technology skills
+
+Add a discoverable folder under the plugin's skills directory with its own SKILL.md, agents/openai.yaml,
+and the references needed by its workflow. Runtime/framework behavior, testing strategy, and tooling
+belong to that skill. Names and descriptions should distinguish the capability and scope. The validator
+discovers skills automatically; no central technology registry is needed.
+
+Keep common policies with multiple consumers in the plugin's references directory. Link to them from
+local guides rather than copying them: authentication, date semantics, server file rules, security,
+server deployment controls, and interface criteria have canonical shared sources. Local references
+should explain real integration differences, not restate those rules. If a topic has no stack-specific
+detail, link directly to the shared policy instead of adding a wrapper file. Shared policy must not link
+back into a technology skill; the local caller owns integration details.
+
+Testing strategies remain local because execution and evidence differ by stack. Transversal skills
+remain independent project-wide assessment/coordination workflows, not mandatory implementation steps.
+A testing-only task reads the local testing guide without starting application scaffolding. Load common
+policy only for the feature that needs it, not all references for every task.
+
+The validator follows inline Markdown links from each SKILL.md through local and shared knowledge.
+Every local reference must be reachable from its skill; every shared reference must be reachable from
+at least one skill. It rejects broken targets, orphan files, cross-skill knowledge dependencies, and
+shared-policy links back into skills. Optional shared executable/template assets are allowed.
+External links are sources to verify when implementing; structural checks do not prove their current
+content or the agent's runtime behavior. Validate relevant behavior before claiming it was exercised.

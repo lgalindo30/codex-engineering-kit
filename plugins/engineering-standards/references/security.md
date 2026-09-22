@@ -1,7 +1,7 @@
 # Security at Application Boundaries
 
 Apply these controls to the requested functionality; do not install authentication, roles, or security
-infrastructure for features that do not require them. Preserve [engineering defaults](engineering.md).
+infrastructure for features that do not require them. Preserve the project's selected architecture.
 Consult the relevant current OWASP cheat sheet when implementing a sensitive boundary, rather than
 claiming general OWASP compliance from a checklist.
 
@@ -24,8 +24,7 @@ claiming general OWASP compliance from a checklist.
 
 Test realistic denial cases and failure paths: missing permission, boundary violations, malicious paths,
 sensitive-data leakage, and unsafe cross-origin state changes when relevant. Report a vulnerability
-only when supported by a plausible execution path; delegate a requested exhaustive audit to an available
-specialized security workflow rather than expanding every routine implementation into an audit.
+only when supported by a plausible execution path; use a requested specialized security workflow rather than expanding every routine implementation into an audit.
 
 ## Primary references by boundary
 

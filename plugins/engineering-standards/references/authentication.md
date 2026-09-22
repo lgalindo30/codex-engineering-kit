@@ -1,10 +1,11 @@
 # Authentication When Requested
 
-Do not add login, Google sign-in, roles, or multitenancy until requested. When login is needed, prefer
-email/password authentication with short-lived JWT access tokens and rotating refresh sessions. Use
+Do not add login, Google sign-in, roles, or multitenancy until requested. Preserve an established supported session design. For a new separate browser/API login, prefer
+email/password with short-lived JWT access tokens and rotating refresh sessions. Apply token-specific
+rules only to that flow; integrated framework sessions need not adopt a separate token API. Use
 maintained compatible libraries and established password hashing; do not implement cryptography.
 
-## Browser and server responsibilities
+## Browser/API token flow
 
 - Keep the access token in browser memory and send it as `Authorization: Bearer ...` to the intended API
   origin only. Do not place access or refresh tokens in localStorage, sessionStorage, URLs, or logs.
@@ -24,7 +25,7 @@ maintained compatible libraries and established password hashing; do not impleme
 Protect cookie-authenticated refresh/logout and relevant login flows from CSRF. Prefer a maintained
 synchronizer-token or session-bound signed double-submit solution. Validate allowed origins and content
 types as additional defenses. SameSite alone is insufficient as a universal policy; protect refresh
-before issuing a new token. Do not treat Hono middleware presence as proof it covers JSON endpoints.
+before issuing a new token. Do not treat framework middleware presence as proof it covers JSON endpoints.
 
 Consume and replace each refresh token atomically. Detect reuse of a consumed token and revoke the
 associated family rather than silently issuing another valid session. Define concurrent refresh behavior:
@@ -37,6 +38,12 @@ session and clears the cookie with matching attributes. Document that an already
 normally remains valid until expiry unless explicit server-side access revocation is implemented.
 Password resets/security events must revoke the relevant sessions when those features are requested.
 Keep third-party login as a later explicit task, not speculative scaffolding.
+
+## Integrated sessions
+
+Use a maintained session integration compatible with the server framework. Enforce expiry, revocation,
+secure cookie attributes, authorization, and CSRF defenses at server mutation boundaries. Do not expose
+session secrets or private user data in rendered props, static output, browser logs, or client storage.
 
 ## Tests and source guidance
 

@@ -1,6 +1,0 @@
-interface:
-  display_name: 'Frontend Development'
-  short_description: 'Build accessible React, Next.js, and Astro UI'
-  default_prompt: 'Use $frontend-development to apply the agreed engineering standards to this task.'
-policy:
-  allow_implicit_invocation: true
