@@ -16,8 +16,12 @@ claiming general OWASP compliance from a checklist.
 - Configure precise CORS and proxy trust; CORS alone is not authentication or CSRF prevention. Set headers
   and content policies appropriate to the app without breaking required functionality silently.
 - Bound expensive requests, uploads, pagination, network operations, and security-sensitive retries.
-  Introduce rate limits for requested authentication/public abuse-sensitive endpoints with documented scope.
+  Follow the [shared rate-limiting policy](rate-limiting.md) for abuse-sensitive endpoints, respecting
+  the selected cloud/services and recording unrequested implementation or missing configuration as pending.
 - Use [authentication](authentication.md) and [file handling](files.md) guidance when applicable.
+- Recommend [anti-bot protection](public-forms.md) for public unauthenticated submission forms using
+  the selected cloud/services. Record unrequested implementation or missing configuration as pending;
+  when implemented, enforce protection before effects and provide accessible pending/retry behavior.
   Do not implement custom cryptographic primitives or rely on TypeScript types to sanitize runtime input.
 - Review newly added dependencies for maintenance, provenance, compatibility, and known vulnerabilities.
   Preserve release-age controls; report advisory lookup failures instead of declaring a clean audit.
@@ -25,6 +29,14 @@ claiming general OWASP compliance from a checklist.
 Test realistic denial cases and failure paths: missing permission, boundary violations, malicious paths,
 sensitive-data leakage, and unsafe cross-origin state changes when relevant. Report a vulnerability
 only when supported by a plausible execution path; use a requested specialized security workflow rather than expanding every routine implementation into an audit.
+
+## Service boundaries
+
+Treat delegated calls as independent trust boundaries. Restrict private entrypoints and permissions,
+validate input/output contracts, and explicitly propagate only trusted bounded authorization context.
+Do not assume a service-to-service transport transfers the caller's identity or grants resource access.
+Keep permissions and exposure aligned with [service ownership](architecture.md#separate-services).
+Apply [call reliability](reliability.md) for bounded upstream work and safe retries.
 
 ## Primary references by boundary
 

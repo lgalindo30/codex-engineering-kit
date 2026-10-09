@@ -56,9 +56,7 @@ try {
       );
     }
     for (const command of commands) console.log(run(command).trim());
-    console.log(
-      'Plugin installed through Codex. Run setup:global after this step, then start a new session.',
-    );
+    console.log('Plugin installed through Codex. Start a new session to verify skill discovery.');
   }
 } catch (error) {
   console.error(error instanceof Error ? error.message : String(error));

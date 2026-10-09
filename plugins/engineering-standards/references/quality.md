@@ -20,6 +20,6 @@ copying this manual. Report missing services or skipped builds accurately. A tem
 existing on disk is not evidence that the configured checks execute successfully.
 
 Keep cohesive manually maintained modules normally below 400 lines, with justified exceptions rather
-than mechanical splits. Prefer explicit dependencies and functional composition; classes may fit real
-framework or lifecycle requirements. Keep personal identity and machine paths out of generated assets.
+than mechanical splits. Use [architecture guidance](architecture.md) when changing module boundaries.
+Keep personal identity and machine paths out of generated assets.
 When commits are requested, use Conventional Commits and meaningful scopes for monorepos.

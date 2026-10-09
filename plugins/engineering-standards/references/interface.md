@@ -54,6 +54,9 @@ than replacing the whole page. Handle empty and failed responses explicitly so p
   as time plus an IANA zone. Format for display without silently changing their meaning.
 - For uploads, use the [file policy](files.md) and the producer's public contract to show client limits
   and useful rejection feedback.
+- For public unauthenticated submission forms, follow [anti-bot guidance](public-forms.md) for the
+  selected cloud/services and record pending setup. When implemented, keep automatic verification and
+  success hidden, reveal required interaction, and show loading feedback on disabled pending actions.
 
 ## Public content and performance
 

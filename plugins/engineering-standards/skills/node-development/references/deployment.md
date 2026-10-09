@@ -1,6 +1,6 @@
 # Node.js deployment
 
-Verify the selected Node runtime, compiled entrypoint, and native dependencies in the built image.
-For a server/container deployment, apply the [common deployment controls](../../../references/deployment.md)
-for reproducible images, permissions, shutdown, readiness, storage, migrations, and verification.
-Preserve an established deployment target; do not introduce containers for a purely static artifact.
+Apply [shared deployment controls](../../../references/deployment.md) for the selected host.
+Verify the selected Node runtime, compiled entrypoint, native dependencies, and resource cleanup there.
+For a chosen container deployment, apply [Docker controls](../../../references/docker-deployment.md)
+and exercise those dependencies and startup/shutdown behavior in the built image.

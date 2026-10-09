@@ -1,46 +1,46 @@
-# Server Deployment with Docker
+# Deployment Controls
 
-For a new server application, prepare Docker deployment by default. Existing deployments remain in
-place unless migration is requested. Serverless is an explicit alternative. Kubernetes, clustering,
-and replica architecture are outside the initial default; do not create speculative manifests.
+Use for deployment preparation, pipeline changes, or an authorized rollout. Preserve the selected
+cloud, hosting model, runtime, and services. If the target is unspecified, leave the decision explicit
+rather than treating a guide as a choice of provider, container, or serverless host. Provider commands
+and framework adapters belong to the relevant technology guide.
 
-## Reproducible container
+## Build and configuration
 
-- Use a pinned supported base image for the selected runtime and frozen lockfile install, with separate build and runtime
-  stages where helpful. Keep build tools out of the runtime image where practical.
-- Supply a `.dockerignore`; exclude secrets, local databases/uploads, development caches, and Git data.
-- Run as an unprivileged user and use runtime environment configuration with startup validation.
-  Never bake credentials into layers, build arguments, public frontend variables, or committed Compose.
-- Listen on the documented container interface/port, handle SIGTERM gracefully with a bounded drain,
-  and close database connections/resources. Send structured logs to stdout/stderr.
-- Include meaningful liveness and readiness behavior and bounded request/upstream timeouts. Readiness
-  may check required dependencies; avoid exposing credentials or detailed infrastructure in responses.
+Use pinned compatible tools, reproducible installs, and one authoritative production build path.
+Verify deployment output and runtime requirements; a development server or type check does not
+establish a production runtime. Apply [quality controls](quality.md).
 
-## Local operation and VPS handoff
+Keep local, test, preview, and production targets/commands explicit. Validate runtime configuration
+at its supported lifecycle boundary. Keep secrets out of artifacts, logs, public frontend variables,
+and committed examples; use placeholders and the chosen host's secret mechanism. Apply minimum
+permissions and deliberate domains, origins, private-service exposure, and storage targets.
 
-Provide Compose for the application and requested local dependencies, plus documented build/start/stop,
-configuration, migration, backup, restore, and upgrade commands. Do not automatically provision a VPS,
-registry, TLS service, or remote database. Explain external requirements for the chosen deployment.
+Match process lifecycle, health checks, scaling, and storage assumptions to the selected platform.
+Do not apply persistent-process, container-filesystem, or replica assumptions to an unrelated host.
+For chosen container deployments, read [Docker controls](docker-deployment.md); static and serverless
+deployments do not acquire a container requirement from this policy.
 
-Mount persistent volumes for local uploads and SQLite; document permissions and backups. PostgreSQL
-may be a managed endpoint or a Compose service according to the project. Do not expose its port publicly
-by default. Container replacement must not discard persistent data. Keep sample secrets as placeholders.
+## Data and rollout
 
-Run reviewed database migrations as a separate deployment command before the compatible application
-rollout. Do not use every container startup as the migration coordinator. For destructive migrations,
-document recovery and compatibility requirements before an authorized production change.
+Use [persistence controls](persistence.md#migrations-and-recovery) for schema changes, backup/recovery,
+and compatible rollout order. Confirm persistent-data behavior for replaced instances or deploys.
+State how application/configuration rollback interacts with irreversible data or external effects.
+Do not introduce infrastructure or backup services outside the requested scope.
 
-## Verification
+Prepare code, build output, reviewed configuration/migrations, and relevant recovery guidance before
+any required live approval. Production deployment, provisioning, secret writes, and migrations must
+be within the user's authorized scope. Existing authorization remains valid; preparation alone does
+not authorize live actions. Missing access, configuration, or resources remain concrete pending work.
 
-Build the image, start it with representative non-secret configuration, check health and the relevant
-API behavior, verify shutdown, and confirm persistence across container replacement when applicable.
-Use isolated data and containers. If Docker is unavailable, report the unexecuted checks; syntactic
-inspection alone does not establish a working deployment.
+## Verification and handoff
 
-Verify production startup and native driver compatibility on the selected runtime in the built image.
+Inspect built configuration and use the platform's supported dry-run/preview when available. Exercise
+representative startup or event dispatch, applicable health behavior, API/static output, dependencies,
+and persistence in disposable environments. Keep checks proportionate to the changed boundary, with
+provider-specific execution in the technology guide.
 
-## Primary references
-
-- [Docker build best practices](https://docs.docker.com/build/building/best-practices/)
-- [Docker Compose](https://docs.docker.com/compose/)
-- [Docker volumes](https://docs.docker.com/engine/storage/volumes/)
+Record verified commands, environment requirements, target, and recovery steps in existing project
+documentation/instructions. Distinguish static inspection, local integration, preview, and observed
+live behavior. Report unavailable services and unexecuted checks; local builds do not prove remote
+configuration, distributed behavior, or deployment readiness.

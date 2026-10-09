@@ -1,7 +1,7 @@
 {
   "name": "engineering-standards",
   "version": "1.0.0",
-  "description": "Stack-specific Bun, Node.js, Astro, Next.js, and React/Vite skills with shared engineering workflows.",
+  "description": "Stack-specific Bun, Node.js, Cloudflare Workers, Astro, Next.js, and React/Vite skills with shared engineering workflows.",
   "author": {
     "name": "Luis Galindo"
   },
@@ -11,7 +11,7 @@
   "interface": {
     "displayName": "Engineering Standards",
     "shortDescription": "Build and verify projects with reusable engineering standards.",
-    "longDescription": "Task-scoped implementation skills, shared references, and optional Bun quality templates. The optional reviewer profile is installed separately with the reversible setup command.",
+    "longDescription": "Task-scoped implementation skills, shared references, and optional Bun quality templates, including modular TypeScript Workers with Hono and protected public forms.",
     "developerName": "Luis Galindo",
     "category": "Productivity",
     "capabilities": [],

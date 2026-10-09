@@ -5,7 +5,7 @@ agent responsibility, reusable workflow, and executable enforcement. Avoid addin
 every skill; link focused references instead.
 
 Install the pinned toolchain/dependencies, run `bun run format`, then `bun run check`. Run
-`bun run security:check` when changing dependencies. Add behavioral tests for installer or hook changes
+`bun run security:check` when changing dependencies. Add behavioral tests for tooling or hook changes
 that could damage user files, misreport validation, or bypass a quality gate. Test changes to skills
 against realistic tasks when appropriate and record what was actually executed.
 

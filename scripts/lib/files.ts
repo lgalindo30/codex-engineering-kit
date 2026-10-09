@@ -1,13 +1,5 @@
-import { createHash, randomUUID } from 'node:crypto';
-import {
-  existsSync,
-  lstatSync,
-  mkdirSync,
-  readFileSync,
-  renameSync,
-  rmSync,
-  writeFileSync,
-} from 'node:fs';
+import { randomUUID } from 'node:crypto';
+import { lstatSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 
 export interface Snapshot {
@@ -20,8 +12,6 @@ export interface Change {
   before: Snapshot | null;
   after: Snapshot | null;
 }
-
-export const hash = (value: string) => createHash('sha256').update(value).digest('hex');
 
 export function safePath(home: string, name: string): string {
   const root = resolve(home);
@@ -83,18 +73,5 @@ export function applyChanges(changes: Change[], write: typeof atomicWrite = atom
   } catch (error) {
     for (const change of applied.reverse()) atomicWrite(change.path, change.before);
     throw error;
-  }
-}
-
-export function withLock<T>(home: string, action: () => T): T {
-  mkdirSync(home, { recursive: true, mode: 0o700 });
-  const path = safePath(home, '.engineering-kit.lock');
-  if (existsSync(path))
-    throw new Error('Another setup may be running: .engineering-kit.lock exists.');
-  mkdirSync(path, { mode: 0o700 });
-  try {
-    return action();
-  } finally {
-    rmSync(path, { recursive: true });
   }
 }

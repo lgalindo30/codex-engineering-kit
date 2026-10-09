@@ -4,8 +4,9 @@ Do not publish credentials, private configuration, personal data, or a working e
 third-party system in an issue. Use GitHub private vulnerability reporting when enabled; otherwise
 request a private reporting channel without disclosing exploit details publicly.
 
-The installer manages the optional reviewer profile, which can affect future review behavior. Review these sources before installation. Dry-run is read-only; replacement is explicit and
-backed up. Backups may contain secrets from existing config and are never repository artifacts.
+Review plugin instructions and executable assets before installation. Plugin setup supports a
+read-only preview and refuses a marketplace registered to a different checkout. Project scaffolding
+refuses conflicting files; adopt changes deliberately rather than overwriting local configuration.
 
 The plugin contains instructions and local scripts. It has no MCP server, account credentials, analytics,
 or automatic external telemetry. Dependency installation and audits contact package registries; plugin
@@ -16,4 +17,4 @@ Relevant OWASP controls live in the [common security policy](plugins/engineering
 Instructions and scanners do not replace application-specific threat analysis and behavioral testing.
 
 Report compatibility failures with redacted versions, commands, and reproducible steps. Never attach
-your complete Codex config, local installation state, token cookies, or environment file.
+your complete Codex config, token cookies, or environment file.

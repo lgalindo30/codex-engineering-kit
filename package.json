@@ -12,9 +12,6 @@
     "bun": ">=1.3.14"
   },
   "scripts": {
-    "setup:global": "bun scripts/setup.ts install",
-    "setup:doctor": "bun scripts/setup.ts doctor",
-    "setup:restore": "bun scripts/setup.ts restore",
     "setup:plugin": "bun scripts/plugin.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

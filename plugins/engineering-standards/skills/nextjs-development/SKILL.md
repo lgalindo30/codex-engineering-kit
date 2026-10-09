@@ -19,6 +19,7 @@ Select only the guidance needed by the request:
 Read these conditional references only when the feature requires them:
 
 - [Security](../../references/security.md): trust boundaries, permission checks, or sensitive data.
+- [Public forms](../../references/public-forms.md): provider-aware anti-bot recommendations and pending setup.
 - [Authentication](references/authentication.md): requested or existing login/session behavior.
 - [Files](references/files.md): uploads, storage, or retrieval.
 - [Dates](../../references/dates.md): timestamps, civil dates, or schedules.

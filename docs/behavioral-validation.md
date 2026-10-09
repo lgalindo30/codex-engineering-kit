@@ -14,7 +14,7 @@ and executed checks; do not pass a run solely because its final message claims c
 Kit source: initial 0.1.0 working tree, before its first commit. Host: macOS, Bun 1.3.14.
 Two bounded workers received explicit skill paths in fresh temporary application directories. These
 were narrower probes than the full scenarios below and did not validate fresh-session automatic
-skill discovery, global role loading, or autonomous model selection. No production resources were used.
+skill discovery or autonomous model selection. No production resources were used.
 
 | Probe                                                     | Observed model        | Result                                                                           |
 | --------------------------------------------------------- | --------------------- | -------------------------------------------------------------------------------- |
@@ -159,6 +159,138 @@ Prompt:
 
 Accept when the agent makes the narrow change, runs relevant checks, and avoids new dependencies,
 broad refactors, or new project folders. No additional transversal workflow is required.
+
+## Modular Cloudflare Workers API — not run
+
+Prompt:
+
+> Create a TypeScript Cloudflare Worker with Hono inventory and contact features. Use Zod for request
+> and response contracts, generate OpenAPI, persist inventory in D1 through Drizzle, and protect public
+> routes with rate limits. Prepare local development and verification without deploying live resources.
+
+Accept when the result:
+
+- Uses feature subapplications with inferred route types and explicit business dependencies, keeping
+  the Worker entrypoint separate from route implementation. Does not add a DI framework or separate
+  services merely because there are two features.
+- Distinguishes Bun package management, Wrangler's supported Node.js execution, and workerd runtime.
+  Uses pinned compatible Wrangler/Vite/Vitest integrations and generated binding types.
+- Validates runtime inputs and mapped outputs, documents mounted routes and middleware errors, and
+  verifies malformed payloads, serialized contracts, and unexpected failures in the Workers runtime.
+- Applies reviewed Drizzle migrations to disposable local D1 with a single migration history and
+  tests actual adapter behavior. Does not assume PostgreSQL transaction semantics or use production.
+- Exercises rate-limit rejection and safe key selection without claiming strict global quotas.
+  Produces safe warning/error application logs and disables automatic invocation logs.
+
+Repeat with an explicitly requested separately deployable notification Worker. Accept a narrow private
+Service Binding API, validated delegated contracts, authorization/correlation context, and actual
+local inter-Worker verification. Record mocks separately from exercised HTTP/RPC bindings.
+
+## Cloudflare public form with interaction-only Turnstile — not run
+
+Prompt:
+
+> Add a public contact form to this landing page using its current design system. The deployment target
+> is Cloudflare. Keep automatic verification and success invisible, show the widget only when manual
+> interaction is required, and show loading on disabled submission actions while verification runs.
+
+Run with disposable frontend/server fixtures and Cloudflare test keys. Repeat across selected frontend
+frameworks when evaluating their specific lifecycle integration.
+
+Accept when the result:
+
+- Uses Managed interaction-only appearance with submit-triggered execution and a form-specific action.
+  Keeps the interactive widget accessible instead of hiding it with CSS or choosing Invisible mode.
+- Selects Turnstile directly from the Cloudflare deployment context. With missing keys/account setup,
+  records specific pending configuration and distinguishes prepared code from active protection.
+- Prevents duplicate submissions, keeps data on failure, shows accessible pending/error status, and
+  permits bounded retry after expiration, timeout, unsupported browser, or provider failure.
+- Calls server Siteverify and checks success, hostname, and action before side effects; rejects missing,
+  invalid, expired, or reused tokens. Keeps secrets server-only and tokens absent from diagnostics.
+- Tests hidden automatic/success states, interaction visibility, loading/disabled controls, and
+  failure recovery, distinguishing simulated callbacks from a live interactive challenge.
+
+These scenarios have not been executed; kit formatting, type checks, reference validation, and tooling
+tests do not establish generated-application or provider behavior.
+
+## Public form on another cloud — not run
+
+Prompt:
+
+> Plan a public contact form for this application using the selected cloud and services. Recommend
+> anti-bot protection and identify the configuration/implementation still needed. Do not configure a
+> protection service or provision infrastructure yet.
+
+Repeat with AWS, Azure, and GCP deployment fixtures and a fixture with no selected cloud. Include an
+established protection service in one fixture and an unrelated mention of Cloudflare in another.
+
+Accept when the result:
+
+- Recommends an appropriate native option for the selected cloud using current official capabilities
+  and the actual form/endpoint architecture; preserves an explicitly selected protection service.
+- Keeps protection implementation/configuration as a concrete pending item and reports that it is
+  not active. Does not add credentials, infrastructure, widgets, or a third-party vendor automatically.
+- Does not select Turnstile or change hosting because a public form exists or Cloudflare tooling was
+  mentioned. When no cloud is selected, leaves provider selection pending with a generic recommendation.
+- Evaluates whether the recommended control supports the requested hidden automatic verification,
+  interactive fallback, and browser/API flow instead of promising equivalent behavior across providers.
+
+Repeat with an explicit request to implement the chosen native integration in a disposable fixture.
+Accept scoped code/configuration and meaningful provider-specific tests, respecting live-action scope.
+These evaluations have not been executed.
+
+## Provider-aware API rate limiting — not run
+
+Prompt:
+
+> Assess rate limiting for this application's public and expensive API endpoints. Respect its selected
+> deployment and services. Recommend a policy and identify pending implementation/configuration;
+> do not provision infrastructure or configure live services.
+
+Repeat with selected AWS, Azure, GCP, Cloudflare Workers, self-hosted, and unspecified deployment
+fixtures. Include an existing compatible limiter in one fixture and unrelated Cloudflare tooling
+in another.
+
+Accept when the result:
+
+- Recommends a suitable existing or native control for the actual serving boundary without changing
+  hosting or adding a vendor from an unrelated guide. Unspecified service selection remains pending.
+- Identifies endpoint scope, justified thresholds, trusted keys, distributed guarantees, rejection
+  semantics, and failure behavior. Distinguishes approximate protection from exact global accounting.
+- Records concrete pending implementation/configuration and does not claim active protection.
+- Uses the Cloudflare adapter only for the selected Workers deployment/native integration, preserving
+  an explicitly chosen compatible service and avoiding Cloudflare bindings in other deployments.
+
+Repeat with authorized implementation in a disposable fixture. Verify accepted, exceeded, and limiter
+failure paths at the actual boundary without side effects after rejection; record mocked versus
+observed provider behavior. These evaluations have not been executed.
+
+## Shared architecture, persistence, and deployment policy — not run
+
+Prompt:
+
+> Add a small feature to this existing service using its selected framework, database, and deployment.
+> It performs a coupled write and calls an external service. Assess whether it needs a separate
+> service, implement within the agreed scope, and prepare verification without live deployment.
+
+Repeat with Node, Bun, Next.js, and Cloudflare Workers fixtures, preserving an existing ORM/service
+choice. Include selected container, static/serverless, and unspecified deployment variants where
+compatible with the task; static fixtures delegate the operation to their existing server endpoint.
+
+Accept when the result:
+
+- Keeps cohesive feature boundaries and explicit dependencies; separates services only for a concrete
+  deployment, permission, ownership, or operational need. Uses the selected framework/transport.
+- Checks the actual engine/adapter's concurrency behavior and reviewed migration history, retaining
+  data ownership and avoiding competing migration runners or migrations at every process startup.
+- Bounds calls and retries without duplicating effects or claiming a timeout cancels remote mutations.
+  Adds durable background infrastructure only when the requested operation requires it.
+- Preserves the deployment/cloud/services; applies Docker checks only to chosen container deployments.
+  Leaves unspecified target decisions and missing setup explicit rather than silently selecting a host.
+- Exercises actual runtime/adapter boundaries with disposable data and distinguishes mocks/local checks
+  from remote behavior. Reports pending rollout/recovery checks without claiming a live deployment.
+
+These evaluations have not been executed; reference validation does not establish agent behavior.
 
 ## Static public site — not run
 

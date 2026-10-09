@@ -23,6 +23,11 @@ clients or compatibility checks depend on it, provide a reproducible export comm
 versioned artifact in the repository or release pipeline. Never maintain a separate hand-edited copy
 that can drift from the implementation.
 
+For internal RPC or delegated operations, define input/output schemas, safe failure semantics, and
+serialization rules at the transport boundary. Runtime validation is still required; a typed client
+does not establish trusted data. Internal operations do not become public HTTP/OpenAPI endpoints
+merely because they have contracts. Preserve the selected transport and validate delegated context.
+
 ## Schema behavior
 
 Use the selected framework's maintained validation and contract integration. Consult the matching
@@ -39,8 +44,13 @@ Schema-validation hooks alone do not cover every framework parsing failure. Exer
 and unsupported media types against actual requests, and map parsing/HTTP exceptions centrally while
 preserving the chosen status semantics. Do not classify unrelated server errors as invalid input.
 
+Validate mapped output against its runtime schema before returning it at a trust boundary. Ensure
+dates and transformed values match the serialized wire representation. Output validation failures
+are internal failures, not invalid client input; report them safely once at the handling boundary.
+Technology guides specify the validator integration without making one library a universal dependency.
+
 Validate external responses and environment inputs at the boundary where they become trusted. Apply
-[file policy](files.md) for uploads and [date policy](../../../references/dates.md) for temporal fields. Frontend validation
+[file policy](files.md) for uploads and [date policy](dates.md) for temporal fields. Frontend validation
 improves usability but does not replace server checks or authorization.
 
 ## Errors

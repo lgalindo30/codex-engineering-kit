@@ -17,7 +17,7 @@ bun plugins/engineering-standards/scripts/apply-project.ts --target /path/to/pro
 
 Profiles are `backend`, `frontend`, and `monorepo`. Use the actual project root. The command reports a full preflight plan, creates absent files, and leaves identical files unchanged. Any differing managed file, directory in place of a file, or file symlink aborts before writes. There is no force or merge option. Unrelated files are preserved. A concurrent process creating a destination file causes an exclusive-write error; files created by that run are rolled back without deleting a concurrent replacement. Empty directories may remain. Do not run concurrent initializers against the same directory.
 
-An existing configured repository will commonly conflict. In that case, scaffold a temporary directory and review individual changes rather than overwriting the project. Keep a clean Git checkpoint before manually adopting templates; no existing file is overwritten by the initializer, so it does not create backups. The global installer has its own separate backup/restore mechanism.
+An existing configured repository will commonly conflict. In that case, scaffold a temporary directory and review individual changes rather than overwriting the project. Keep a clean Git checkpoint before manually adopting templates; no existing file is overwritten by the initializer, so it does not create backups.
 
 In the generated project:
 

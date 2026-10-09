@@ -39,17 +39,20 @@ Official references: [Vite](https://vite.dev/guide/), [React](https://react.dev/
 
 ## API contracts and interaction
 
-Use the API producer's supported version and pinned client/contract when supplied. Keep its origin and
-version in one client configuration; do not import private server runtime code into the browser.
-Generated types are not runtime validation. Validate consequential external values and handle real
-status/error shapes, cancellation, and bounded retry behavior. Do not assume fixture responses establish
-backend compatibility. Coordinate breaking changes with affected producers and consumers.
+Apply the consumer responsibilities in the [shared API contract policy](../../../references/api-contracts.md).
+Handle actual status/error shapes, cancellation, and bounded retries in the API/query layer. Mocked
+fixtures do not establish backend compatibility.
 
 Reuse accessible components and preserve loading, empty, error, and retry states. Retain useful cached
 content during refresh. Keep form validation local for usability while the server owns authorization
 and persistence. Avoid unsafe HTML and exposing secrets in public environment variables or bundles.
 For existing authentication, preserve its supported session design; never introduce browser localStorage
 as a secret token store. Authentication and remote services are added only within task scope.
+
+For public submission forms, follow the [shared anti-bot policy](../../../references/public-forms.md)
+to recommend protection appropriate to the selected cloud/services and record pending implementation
+or configuration. When implemented, coordinate the browser control lifecycle with the actual protected
+endpoint. Reuse button loading/disabled styles, handle retries, and ignore stale callbacks on unmount.
 
 ## Diagnostics
 

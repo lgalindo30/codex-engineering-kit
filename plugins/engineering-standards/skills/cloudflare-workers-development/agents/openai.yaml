@@ -1,0 +1,6 @@
+interface:
+  display_name: 'Cloudflare Workers'
+  short_description: 'Build modular TypeScript Workers with Hono'
+  default_prompt: 'Use $cloudflare-workers-development to implement and verify this Worker.'
+policy:
+  allow_implicit_invocation: true

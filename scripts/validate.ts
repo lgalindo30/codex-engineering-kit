@@ -1,6 +1,5 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
-import { roles } from './lib/install.ts';
 import { parseVersion } from './lib/release.ts';
 import { inspectReferenceGraph } from './lib/skill-references.ts';
 
@@ -90,22 +89,6 @@ try {
     marketplace.plugins[0]?.source.path === './plugins/engineering-standards',
     'Marketplace source must be repository-relative.',
   );
-  for (const role of roles) {
-    const profile = Bun.TOML.parse(read(join(root, 'global/agents', `${role}.toml`))) as Record<
-      string,
-      unknown
-    >;
-    assert(
-      profile.name === role && profile.description && profile.developer_instructions,
-      `Invalid role: ${role}`,
-    );
-    assert(
-      !('model' in profile) && !('model_reasoning_effort' in profile),
-      `${role}: model pin prevents dynamic choice`,
-    );
-    if (role === 'code_reviewer')
-      assert(profile.sandbox_mode === 'read-only', 'Reviewer must be read-only.');
-  }
   checkSkills();
   for (const file of walk(root)) {
     const name = relative(root, file);
@@ -141,4 +124,4 @@ try {
 if (errors.length) {
   errors.forEach((error) => console.error(error));
   process.exitCode = 1;
-} else console.log('Plugin, roles, skill metadata, local links, and source limits validated.');
+} else console.log('Plugin, skill metadata, local links, and source limits validated.');

@@ -45,7 +45,7 @@ enforcement. Configure protected branches and required CI checks separately if s
 is needed. A commit made through another tool or directly on GitHub does not run these local hooks.
 
 After obtaining a new revision, install dependencies and run `bun run check`, then rerun the documented
-plugin/global installation and doctor commands. Increasing the plugin version allows Codex to identify
+plugin installation and check commands. Increasing the plugin version allows Codex to identify
 new plugin content instead of reusing the previous version's cache. A successful version check alone
 does not prove plugin installation or behavior; validate the actual installed version as documented in
 [installation.md](installation.md).

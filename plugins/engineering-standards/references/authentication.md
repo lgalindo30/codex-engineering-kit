@@ -18,7 +18,8 @@ maintained compatible libraries and established password hashing; do not impleme
   and applicable claims. Document short access lifetime, bounded refresh lifetime, key rotation, and
   clock skew. Decoding a token is not validation; JWT payloads are not encrypted secret storage.
 - Hash passwords with a maintained Argon2id implementation and parameters checked against current OWASP
-  guidance and runtime performance. Use generic login errors and bounded rate limits; never truncate passwords.
+  guidance and runtime performance. Use generic login errors and [rate limiting](rate-limiting.md);
+  never truncate passwords.
 
 ## CSRF, rotation, and logout
 

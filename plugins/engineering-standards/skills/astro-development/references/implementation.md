@@ -24,12 +24,19 @@ rendering; treat raw HTML as untrusted and sanitize only when rich HTML is actua
 sizes, metadata, canonical URLs, and generated routes consistent with the real deployment. Do not invent
 a production origin. Static pages need no artificial loading states, API layer, or OpenAPI document.
 
-For interactive API consumers, use the producer's versioned contract and validate consequential external
+For interactive API consumers and public on-demand APIs, apply the
+[shared API contract policy](../../../references/api-contracts.md) and validate consequential external
 values. Keep client form validation separate from server authorization. On-demand endpoints validate
 input, enforce ownership where relevant, bound bodies/uploads, and return safe errors without stack
 traces or credentials. Keep secrets out of client directives, public environment values, and output.
 
 Diagnose static failures from build/content evidence, island failures from browser/hydration evidence,
-and on-demand failures from the adapter's server logs. Correlate requests where useful and redact user
-payloads and credentials. Verify the original failing path after a correction. Do not add a logger SDK,
-analytics, or remote telemetry merely to a static site; retain supported logging for existing servers.
+and on-demand failures from the adapter's server logs, following
+[shared logging](../../../references/logging.md). Verify the original failing path after a correction.
+Do not add a logger SDK, analytics, or remote telemetry merely to a static site; retain supported logging
+for existing servers.
+
+For public submission forms, follow the [shared anti-bot policy](../../../references/public-forms.md)
+to recommend protection appropriate to the selected cloud/services and record pending implementation
+or configuration. When implemented, integrate browser controls through a hydrated island or focused
+script and enforce protection at the real endpoint; a static build alone does not establish it.

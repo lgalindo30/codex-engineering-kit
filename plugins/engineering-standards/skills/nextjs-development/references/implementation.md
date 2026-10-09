@@ -26,16 +26,17 @@ Official references:
 
 ## Contracts, persistence, and safe errors
 
-Keep server business rules independent enough to test without browser rendering. Validate and authorize
+Apply [feature architecture](../../../references/architecture.md),
+[call reliability](../../../references/reliability.md), and [persistence](../../../references/persistence.md)
+to changed server boundaries. Keep business rules testable without browser rendering. Validate and authorize
 all server mutation entrypoints, including ownership checks and relevant origin/CSRF defenses. Client
-form validation does not replace these controls. Use transactions and database constraints for coupled
-writes; keep reviewed migrations outside ordinary request handling and automatic process startup.
+form validation does not replace these controls. Apply the shared consistency and migration criteria
+with the database adapter supported by the selected Next.js server or edge runtime.
 
-For public Route Handlers, document runtime request/response schemas and supported versions. Use a
-reproducible OpenAPI artifact when external consumers need one, preserving existing conventions.
-Internal server calls do not require an HTTP layer. Map public errors consistently, preserving status
-and safe headers; use RFC 9457 where adopted. Avoid leaking stack traces, SQL, tokens, or private fields
-into responses, client props, or rendered markup. Validate external data at consequential boundaries.
+For public Route Handlers, apply the [shared API contract policy](../../../references/api-contracts.md),
+preserving established conventions. Internal server calls do not require an HTTP layer. Avoid leaking
+stack traces, SQL, tokens, or private fields into responses, client props, or rendered markup.
+Validate external data at consequential boundaries.
 Bound request and upload sizes before buffering; enforce file count and content limits if uploads exist.
 
 ## Diagnostics and user-visible behavior
@@ -44,11 +45,15 @@ Reuse accessible components and meaningful loading, empty, failure, and retry st
 content during refresh. Keep transient state local and shareable navigation state in the URL; do not
 introduce a duplicate client cache for framework-owned server data without a concrete need.
 
-Preserve the server logger and correlate safe request/mutation errors using bounded identifiers.
-Redact cookies, authorization, personal payloads, and error details. Browser diagnostics must not reveal
-server secrets or private rendered data. Diagnose the failing boundary with redacted evidence and verify
+Apply [shared logging](../../../references/logging.md) to server diagnostics. Browser diagnostics must
+not reveal server secrets or private rendered data. Diagnose failures with redacted evidence and verify
 the original trigger after fixing it. Introduce external telemetry only for an explicit integration,
 checking support for the selected server or edge runtime and keeping SDKs out of unrelated client code.
+
+For public submission forms, follow the [shared anti-bot policy](../../../references/public-forms.md)
+to recommend protection appropriate to the selected cloud/services and record pending implementation
+or configuration. When implemented, protect the actual Route Handler or server mutation, keep
+provider credentials server-side, and verify client pending/retry states at the real serving boundary.
 
 For changed HTTP middleware, verify credentialed origin restrictions, precise proxy trust, security
 headers, and actual request-size enforcement rather than inferring protection from middleware presence.

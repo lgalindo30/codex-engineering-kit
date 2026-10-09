@@ -15,4 +15,5 @@ into a Node-only project. For Hono use the Node adapter; Zod/OpenAPI integration
 new-service defaults, not reasons to replace an existing framework, validator, or logger.
 
 Select drivers and instrumentation supported on Node, and test the production entrypoint on Node.
-Use the selected Node runtime in deployment images and verify startup, shutdown, and resource cleanup.
+Verify startup, shutdown, and resource cleanup on the selected host. For chosen containers, use the
+selected Node runtime in the image and [Docker controls](../../../references/docker-deployment.md).

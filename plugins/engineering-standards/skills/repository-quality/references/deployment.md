@@ -1,17 +1,10 @@
 # Deployment pipeline verification
 
-Keep the selected platform and runtime. Verify pinned compatible build/runtime environments, reproducible
-installs, secret exclusion, minimum runtime permissions, and intentional build outputs. Do not provision
-infrastructure or publish simply because pipeline configuration is complete.
+Apply [shared deployment controls](../../../references/deployment.md) when assessing the actual
+pipeline and [Docker controls](../../../references/docker-deployment.md) only for selected containers.
+Use [persistence policy](../../../references/persistence.md) when the pipeline coordinates migrations.
 
-For containers, check unprivileged execution, ignored secrets/data, startup validation, bounded SIGTERM
-cleanup, readiness, and persistent volumes where files must survive replacement. Run database migrations
-as an explicit compatible rollout step with recovery instructions rather than at every process startup.
-Keep test and production credentials separate; do not expose database ports publicly by default.
-
-For static hosting, check base paths, asset caching, deep-link behavior, and public runtime configuration.
-For framework adapters, verify actual supported server features and filesystem persistence. Run builds
-and representative startup/health checks in disposable environments. Report unexecuted container or
-remote checks rather than implying syntactic validation proves deployment readiness.
-
-- [Docker build practices](https://docs.docker.com/build/building/best-practices/)
+Verify that CI invokes the real build and target-specific checks with isolated credentials/resources.
+Check static-host base paths, asset caching, deep links, and public configuration where applicable.
+For framework adapters, verify supported server features and storage assumptions on the chosen host.
+Report which pipeline and deployment checks ran, including unavailable container or remote checks.

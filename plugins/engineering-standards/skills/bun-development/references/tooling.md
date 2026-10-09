@@ -15,5 +15,6 @@ Use EditorConfig, ESLint, Prettier, and strict type checks where compatible. Con
 tests before accepting the scaffold's check command; its initial test placeholder intentionally fails.
 
 For a new server, Pino console logging and Hono's Zod/OpenAPI integration are useful defaults. Verify
-library, database driver, and telemetry compatibility on Bun itself. Use a pinned Bun container image
-for Bun production services and verify the actual entrypoint, shutdown, and persistence.
+library, database driver, and telemetry compatibility on Bun itself. Verify the production entrypoint,
+shutdown, and persistence on the selected host. For chosen containers, use a pinned Bun runtime image
+and the [Docker deployment controls](../../../references/docker-deployment.md).

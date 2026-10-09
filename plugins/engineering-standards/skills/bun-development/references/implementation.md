@@ -11,27 +11,24 @@ Hono and Zod are defaults for a new standalone API; preserve a requested or esta
   filter. An existing lockfile still requires advisory review.
 - The [quality scaffold and hooks](../../../templates/README.md) are optional Bun assets. They do not create
   an application, configure a frontend framework, or establish that tests pass.
-- Verify the real production entrypoint, resource cleanup, and container readiness on Bun.
+- Verify the real production entrypoint and resource cleanup on Bun; check container readiness when
+  containers are the selected deployment.
 
 Sources to verify when implementing:
 [Bun tests](https://bun.com/docs/test), [Hono Bun](https://hono.dev/docs/getting-started/bun).
 
 ## Architecture and persistence
 
-Keep HTTP parsing and response mapping separate from business rules and external adapters when
-complexity warrants it. Prefer explicit dependencies and cohesive modules over empty abstraction layers.
-Validate environment configuration once at startup and give upstream calls bounded timeouts; retry only
-when safe for the operation. Preserve the database and ORM. For a new service, Drizzle with PostgreSQL
-is a useful default, with SQLite for simple local use; verify driver compatibility on this runtime.
-Use parameterized queries and database constraints. Run coupled writes in transactions and version
-reviewed migrations. Apply production migrations as an explicit deployment step, not every startup.
+Apply [feature architecture](../../../references/architecture.md),
+[call reliability](../../../references/reliability.md), and [persistence](../../../references/persistence.md)
+when those boundaries change. Validate environment configuration once at Bun startup. For a new
+service without a selected database/ORM, Drizzle with PostgreSQL is a useful default, with SQLite for
+simple local use; verify Bun driver compatibility. Preserve explicit choices and existing persistence.
 
 ## HTTP contracts and trust boundaries
 
-Preserve existing API versioning; use /api/v1 for new public business APIs. Define runtime input and
-response schemas together using the selected framework; Hono's Zod/OpenAPI integration is a useful
-option. Export a reproducible versioned OpenAPI artifact when public consumers need one. Keep private
-server imports out of clients; generated types do not validate incoming data.
+Apply the [shared API contract policy](../../../references/api-contracts.md) for public HTTP APIs;
+Hono's Zod/OpenAPI integration is a useful Bun-compatible option.
 
 Validate path/query/body inputs and relevant upstream responses. Bound payloads; for uploads, apply
 the [common file policy](../../../references/files.md) and verify Bun's configured body ceiling with
@@ -45,12 +42,10 @@ and affected consumers; include migration guidance for incompatible public behav
 
 ## Logging and debugging
 
-Preserve the existing logger; Pino console output is a useful new-service default. Include bounded
-request IDs, normalized routes, status, duration, and safe error context. Redact credentials, cookies,
-tokens, and sensitive payloads, including nested error data. Log unexpected failures once at the
-handling boundary. Reproduce failures with redacted evidence, test a concrete hypothesis, then verify
-the original trigger after correcting it. Do not add telemetry SDKs or external exporters by default;
-when requested, verify runtime compatibility, propagation, redaction, and bounded shutdown behavior.
+Apply the [shared logging policy](../../../references/logging.md). Preserve the existing logger;
+Pino console output is a useful new-service default. Verify its Bun integration and transports;
+for explicitly requested telemetry, verify runtime compatibility, propagation, redaction, and bounded
+shutdown behavior.
 
 For changed HTTP middleware, verify credentialed origin restrictions, precise proxy trust, security
 headers, and actual request-size enforcement rather than inferring protection from middleware presence.

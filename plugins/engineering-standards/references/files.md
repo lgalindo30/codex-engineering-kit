@@ -2,7 +2,8 @@
 
 Apply only to features that receive, store, or serve files. Start with local storage; remote providers
 are a separate requested integration. Put filesystem access behind a small boundary so storage can
-change without rewriting business logic. Keep container persistence in [deployment](deployment.md).
+change without rewriting business logic. For selected containers, follow
+[Docker persistence controls](docker-deployment.md#local-operation-and-persistent-data).
 
 ## Limits and admission
 

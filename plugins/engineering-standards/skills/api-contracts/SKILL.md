@@ -10,12 +10,12 @@ technology references only when their execution detail helps the assigned analys
 ordinary implementation work through this skill.
 
 Preserve the project's conventions and explicit task scope. Follow
-[the API contract policy](references/api-contracts.md).
+[the shared API contract policy](../../references/api-contracts.md).
 
 1. Inspect producers and consumers, the supported API versions, and the project's generated-code
    convention. Identify whether the proposed change is compatible before implementation.
 2. Define runtime request and response schemas using the selected framework's validation tools and OpenAPI documentation together. Include
-   validation failures and [Problem Details errors](references/api-contracts.md#errors).
+   validation failures and [Problem Details errors](../../references/api-contracts.md#errors).
 3. Keep frontend form schemas and consumer contracts local. Generate client types from a pinned
    OpenAPI artifact when useful; do not introduce `packages/contracts` or private server implementation imports
    across applications by default.
