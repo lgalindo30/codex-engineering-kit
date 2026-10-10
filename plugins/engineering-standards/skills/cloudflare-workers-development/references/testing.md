@@ -24,8 +24,9 @@ plugin/config API from official docs. Node/Bun-only passing tests do not establi
   [Turnstile verification](turnstile.md#verification) and the
   [shared form criteria](../../../references/public-forms.md#verification).
   Never send production secrets or tokens to fixtures. Verify no side effects after rejection.
-- Check warning/error levels, safe request correlation and redaction through actual failed requests.
-  Successful requests should emit no routine production application/access logs. Static Wrangler
+- Apply [logging verification](../../../references/logging.md#verification) through actual requests,
+  including structured console severity. Default production success paths emit no routine logs;
+  exercise other levels only when explicitly selected. Static Wrangler
   configuration checks alone do not prove remotely stored log behavior.
 - Exercise changed `scheduled`/`queue` handlers with the integration's supported event helpers,
   including retry/idempotency behavior when applicable. Do not add background handlers for a test rubric.

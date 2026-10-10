@@ -12,6 +12,8 @@ choosing a harness; a browser-like DOM runner cannot establish all server compon
   integration or browser tests when affected; mocks of framework internals do not prove these paths.
 - Test Route Handlers and server mutations with invalid input, unauthorized requests, resource ownership,
   error mapping, and successful effects. Invocations from the UI do not make server inputs trusted.
+- Apply [logging verification](../../../references/logging.md#verification) through actual server
+  requests; check that framework error capture and application handling do not duplicate a failure.
 - Cover critical browser journeys across navigation, refresh, mutations, and resulting server state.
   Distinguish intercepted API fixtures from an application connected to its actual backend.
 - Verify native Not Found behavior and URL filters/sorting/pagination across history, direct links

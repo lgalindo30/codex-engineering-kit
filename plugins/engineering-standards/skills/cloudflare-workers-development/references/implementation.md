@@ -58,16 +58,20 @@ explicitly; local tests must reach disposable local peers.
 
 ## Logging
 
-Apply [structured logging](../../../references/logging.md) with a Workers-supported console logger.
-Production application output is restricted to `warn` and `error`; default the level to `warn` and
-do not add routine request/success logs or Hono access logging middleware. Development diagnostics may
-be temporarily more verbose.
+Apply [structured logging and request correlation](../../../references/logging.md). Preserve a
+compatible established logger; for new Workers use native `console` methods with structured objects.
+A small request-scoped adapter may attach context, redact fields and filter levels; no Pino dependency
+or custom logging framework is required. Workers Logs collects output; it is not the application logger.
+Use the matching `console.warn`/`console.error` methods so Cloudflare records severity correctly.
+Default production output to `warn` and `error`, without routine request/success logs or Hono access
+logging middleware. Explicit project requirements may enable other native levels; include `requestId`
+at every enabled level. Development diagnostics may be temporarily more verbose.
 
 Enable Workers Logs while disabling automatic invocation logs through
 `observability.logs.invocation_logs: false` in Wrangler configuration. Keep explicit warning/error
 console methods so Cloudflare records their severity. Apply the shared sampling/redaction policy.
-Verify config against the installed schema: successful requests produce no application/access logs,
-while unexpected failures produce one safe correlated error.
+Verify config against the installed schema: under the default production policy, successful requests
+produce no routine application/access logs, while unexpected failures produce one safe correlated error.
 
 Sources to verify when implementing:
 [Workers best practices](https://developers.cloudflare.com/workers/best-practices/workers-best-practices/),

@@ -1,6 +1,6 @@
 {
   "name": "engineering-standards",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Stack-specific Bun, Node.js, Cloudflare Workers, Astro, Next.js, and React/Vite skills with shared engineering workflows.",
   "author": {
     "name": "Luis Galindo"

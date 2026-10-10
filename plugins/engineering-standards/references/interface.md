@@ -78,6 +78,8 @@ Verify history restoration, errors/retry, empty states and cache consistency aft
   Static content and internal server calls do not require creating an API or OpenAPI artifact. Keep generated files identifiable and out of manual editing and source-line limits.
 - Centralize API origin and version, such as `/api/v1`, in the client layer rather than components.
   Support compatible upgrades deliberately; do not silently consume an unpinned latest contract.
+- Apply [request correlation](logging.md#request-correlation) in the shared API client, including
+  `X-Request-ID` creation, response diagnostics and cross-origin header access when applicable.
 - Do not create `packages/contracts` by default, including in a monorepo. Shared public schema
   packages require an explicit project justification and compatibility with every consumer.
 - TypeScript types do not validate network data at runtime. Validate untrusted responses where a

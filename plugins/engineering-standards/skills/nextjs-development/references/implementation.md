@@ -57,10 +57,22 @@ Reuse accessible components and meaningful loading, empty, failure, and retry st
 content during refresh. Keep transient state local and shareable navigation state in the URL; do not
 introduce a duplicate client cache for framework-owned server data without a concrete need.
 
-Apply [shared logging](../../../references/logging.md) to server diagnostics. Browser diagnostics must
-not reveal server secrets or private rendered data. Diagnose failures with redacted evidence and verify
-the original trigger after fixing it. Introduce external telemetry only for an explicit integration,
-checking support for the selected server or edge runtime and keeping SDKs out of unrelated client code.
+Apply [shared logging and request correlation](../../../references/logging.md) to server diagnostics.
+Preserve the established logger; for new integrated backends on Node.js, prefer server-only Pino with
+structured console output and request-scoped child loggers. Verify the installed Next.js/runtime and
+transport support, especially when Bun is selected; do not impose Node-specific transports on Edge.
+Use a compatible native console adapter for Edge when needed and keep server logging out of client bundles.
+Map public Route Handler errors centrally to the shared Problem Details contract; preserve native
+Server Action/rendering error semantics. Where supported, use `instrumentation.ts`/`onRequestError`
+for framework-captured failures, coordinating with handled-error logging to avoid duplicate records.
+The framework's development logging is separate from structured production application logs.
+Browser diagnostics must not reveal server secrets or private rendered data. Diagnose failures with
+redacted evidence and verify the original trigger after fixing it. Introduce external telemetry only
+for an explicit integration, checking support for the selected runtime.
+
+Integration references: [Pino](https://github.com/pinojs/pino),
+[Next.js instrumentation](https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation),
+[server packages](https://nextjs.org/docs/app/api-reference/config/next-config-js/serverExternalPackages).
 
 For public submission forms, follow the [shared anti-bot policy](../../../references/public-forms.md)
 to recommend protection appropriate to the selected cloud/services and record pending implementation

@@ -59,6 +59,8 @@ Use `application/problem+json` according to RFC 9457. Keep stable `type` identif
 `title`; actual HTTP status and any `status` member must agree. Use safe `detail`, an opaque request or
 occurrence identifier where useful, and stable extensions such as `code`, `requestId`, and field errors.
 An error `instance` must not reveal a sensitive URL/query. Do not expose internal exceptions or stack traces.
+Apply [request correlation](logging.md#request-correlation) so public application errors contain the
+accepted `requestId` and their response header carries the same value.
 
 Centralize mapping for validation, malformed input, authentication, authorization, missing resources,
 conflicts, rate limits, and unexpected exceptions. Keep public machine-readable codes independent of
