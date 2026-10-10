@@ -18,6 +18,7 @@ Read only the guidance relevant to the request:
 - [Security](references/security.md): Cloudflare rate-limit bindings, service boundaries, and public-form protection.
 - [Turnstile](references/turnstile.md): public forms when deployment selects Cloudflare or the service
   is explicitly chosen. Use this reference directly for a form-only task without scaffolding a Worker.
+- [Frontends](references/frontends.md): selected Workers/Pages assets, SPA routing and framework/host decisions.
 - [Tooling](references/tooling.md): Wrangler, Vite, generated types, quality gates, and deployment checks.
 - [Testing](references/testing.md): Vitest in the Workers runtime, bindings, isolation, and failure paths.
 

@@ -17,6 +17,9 @@ full scenario rubric below has been executed or passed.
 See [the second 2026-10-09 round](behavioral-validation-2026-10-09-round-2.md) for independent Luna
 implementation probes, assisted review, and isolated native plugin installation/removal.
 
+See [the 2026-10-10 frontend evaluation](behavioral-validation-2026-10-10-frontend.md) for observed
+framework/host decisions, design-system preservation and the Tailwind/shadcn implementation probe.
+
 ## Historical implementation probes — 2026-09-14
 
 Kit source: initial 0.1.0 working tree, before its first commit. Host: macOS, Bun 1.3.14.
@@ -88,8 +91,8 @@ Supply an actual small contract fixture and a disposable API or declared mock be
 
 Accept when the result:
 
-- Uses React/Vite with business persistence in the supplied API. Uses Ant Design where its forms and
-  tables add value.
+- Uses React/Vite with business persistence in the supplied API. For a new unselected design system,
+  uses Tailwind and relevant shadcn components with React Hook Form/Zod; preserves selected alternatives.
 - Centralizes API origin/version, uses local Zod form schemas, and does not create shared contracts.
 - Distinguishes generated compile-time types from any required runtime response validation.
 - For the new routed SPA, uses TanStack Router and TanStack Query with one QueryClient and reusable
@@ -97,6 +100,8 @@ Accept when the result:
 - Verifies back/forward, refresh, direct links, validated filters, mutation invalidation, loading/error
   states, and accessible labels/focus. Does not replace Vite with TanStack Start.
 - Includes meaningful Vitest/Testing Library coverage and browser evidence for critical behavior.
+- Includes Not Found, URL sorting/pagination, guarded pending forms with retained values/field focus,
+  and actual production route splitting/failure recovery for substantial SPA features.
 - Keeps default copy and instructions in English and accurately states whether API tests were mocked.
 
 Repeat with an established or explicitly requested alternative router/data library. Accept preservation
@@ -309,7 +314,26 @@ Prompt:
 
 Accept when the result chooses Astro with limited islands only if needed; includes meaningful SEO
 metadata, crawlable content, responsive assets, and measured production-build checks; and avoids
-unneeded Ant Design, authentication, telemetry, queues, database, or a separate backend.
+unneeded component systems, authentication, telemetry, queues, database, or a separate backend.
+
+## Frontend architecture and existing design systems — not run
+
+Prompt:
+
+> Plan this frontend against the supplied project context. Identify consequential missing decisions
+> before scaffolding. Keep explicit framework, host and design-system choices; explain tradeoffs and
+> outline implementation/verification without installing dependencies or deploying services.
+
+Use distinct fixtures: an unspecified CRM host; React with a missing hosting service; Cloudflare
+Workers administrative frontend; a supported Next.js Node host; mostly static content; explicitly
+selected Astro with interactive forms; selected Next.js on Workers without an adapter decision; and
+an existing Ant Design/router/form stack receiving a small feature. Do not disclose expected selections
+to the evaluating agent. Record actual results separately from this rubric.
+
+Accept when consequential missing choices produce focused questions before dependent scaffolding,
+known choices are not asked again, explicit Astro/Ant Design survive, and new-stack preferences fit
+the selected host without declaring SSR universally incompatible with serverless. Existing projects
+do not acquire Tailwind, shadcn, another router/form system or a framework migration automatically.
 
 ## Recording a run
 

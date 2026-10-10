@@ -2,6 +2,7 @@
 
 Preserve the existing router. For a new project, follow the supported framework setup and confirm
 runtime/package-manager compatibility. Node.js is a normal deployment choice; Bun is optional.
+For new framework/host decisions, use [architecture selection](../../../references/frontend-architecture.md).
 
 A request for Node.js plus Next.js can describe one integrated application. Do not create a second
 backend, Hono dependency, or extra repository just because Node is mentioned. Where a separate API
@@ -40,6 +41,17 @@ Validate external data at consequential boundaries.
 Bound request and upload sizes before buffering; enforce file count and content limits if uploads exist.
 
 ## Diagnostics and user-visible behavior
+
+Give navigable views native file-system routes and implement the chosen router's Not Found convention
+(App Router `not-found.tsx`, or the Pages Router equivalent). Apply
+[URL/data-view policy](../../../references/interface.md#navigation-and-data-views) to filters, sorting
+and pagination. Keep Next.js routing; do not add a SPA router to satisfy this policy. Verify actual
+not-found response semantics, including streaming, with the installed framework and host.
+
+Use native route loading/error boundaries and split expensive optional client features when useful.
+Do not wrap the entire application in a client boundary or disable SSR indiscriminately for UI
+primitives. Apply [interface policy](../../../references/interface.md) to React Hook Form/Zod,
+mutation feedback and accessible component behavior with the selected server entrypoints.
 
 Reuse accessible components and meaningful loading, empty, failure, and retry states. Preserve useful
 content during refresh. Keep transient state local and shareable navigation state in the URL; do not

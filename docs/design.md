@@ -73,6 +73,20 @@ server state. Their integration shares query identity and cache ownership betwee
 components. Explicitly selected or established alternatives are preserved. Astro and Next.js retain
 native routing; a routing preference does not introduce TanStack Start or replace the framework.
 
+Frontend architecture selection is shared guidance: inspect explicit/existing framework and deployment
+choices, ask only for missing consequential decisions, and avoid scaffolding the dependent stack until
+they are resolved. Dynamic administrative frontends on edge asset hosts prefer React/Vite SPAs;
+compatible selected Next.js hosts prefer Next.js for complex applications, with rendering chosen per
+feature. Content sites prefer Astro with selective islands. These are preferences, not universal
+serverless/SSR compatibility claims; explicit Astro and other framework choices remain valid.
+
+New unselected styling prefers Tailwind, with shadcn/ui for complex React controls. Ant Design and
+other explicit/established design systems remain supported without a second default guide. Styling
+integration details are conditional; visual identity belongs to each project. Shared interface policy
+owns component placement, React Hook Form/Zod defaults, form/error behavior, URL state, Not Found and
+data-view criteria. Framework guides own routing, islands/client boundaries, lazy loading and host
+verification. Cloudflare's frontend reference owns Workers/Pages asset routing and API/static boundaries.
+
 The validator discovers skills rather than enforcing a fixed catalog. Adding a technology requires its
 local skill and resources; it need not alter unrelated skills or transversal procedures. The executable
 scaffold and hook assets remain Bun-specific and are optional for compatible projects.

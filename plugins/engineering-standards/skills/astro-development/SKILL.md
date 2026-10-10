@@ -17,6 +17,7 @@ Select only the guidance needed by the request:
 
 Read these conditional references only when the feature requires them:
 
+- [Architecture selection](../../references/frontend-architecture.md): new frontend or framework/host decisions.
 - [Security](../../references/security.md): trust boundaries, permission checks, or sensitive data.
 - [Public forms](../../references/public-forms.md): provider-aware anti-bot recommendations and pending setup.
 - [Authentication](references/authentication.md): requested or existing login/session behavior.

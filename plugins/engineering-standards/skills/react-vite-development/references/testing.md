@@ -15,6 +15,11 @@ component behavior; Playwright can cover critical browser journeys without repla
   instances per test; confirm route loading and components use the same cache.
 - Verify critical navigation, refresh/deep links, and shareable URL state in a browser. Use production-
   like serving when routing fallback, base paths, bundles, or assets change.
+- Cover Not Found routes, filter/sort/page history restoration and reset, form values/focus after errors,
+  and duplicate pending submissions. For code splitting changes inspect initial/deferred production
+  requests and failed chunk recovery, keeping useful content/unsaved work and avoiding reload loops.
+- For styling changes verify generated Tailwind variants, responsive/focus states and reduced motion
+  through rendered behavior; checking class strings alone does not establish working styles.
 - Distinguish mocked API journeys from end-to-end tests against the real backend. Client-side validation
   tests cannot establish server authorization or data integrity.
 

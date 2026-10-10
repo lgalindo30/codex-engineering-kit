@@ -2,6 +2,7 @@
 
 Use a client SPA when it fits the requested product. For new SPAs needing navigation, use TanStack Router
 (@tanstack/react-router). Preserve a requested or established router unless migration is authorized. Vite development middleware is not a production backend.
+For new framework/host decisions, use [architecture selection](../../../references/frontend-architecture.md).
 
 - Keep secrets, authorization, persistence, and privileged integrations in the selected server.
   Browser-exposed environment variables are public configuration, not secret storage.
@@ -21,6 +22,8 @@ Use TanStack Router for typed routes, navigation, validated search parameters, a
 and error boundaries. Give primary navigable views stable pathnames; use search parameters for filters,
 pagination, and other shareable state. Preserve browser back/forward, refresh, and direct-link behavior.
 A simple screen without navigation does not need a router merely to satisfy a dependency checklist.
+Provide a router Not Found view for unknown paths. Apply
+[URL/data-view policy](../../../references/interface.md#navigation-and-data-views) to filters, sorting and pagination.
 
 Use TanStack Query (@tanstack/react-query) for remote server state: useQuery for reads, useMutation for
 writes, and a shared QueryClient/provider for cache ownership. Keep transient UI state local. Do not
@@ -36,6 +39,25 @@ authorization. Next.js and Astro keep their native routing; this default belongs
 Official references: [Vite](https://vite.dev/guide/), [React](https://react.dev/learn),
 [TanStack Router integration](https://tanstack.com/router/latest/docs/guide/external-data-loading),
 [TanStack Query APIs](https://tanstack.com/query/latest/docs/framework/react/reference/index).
+
+## Code loading
+
+For substantial SPAs, split navigable feature routes and expensive optional dependencies rather than
+shipping all views/editors/charts in the initial bundle. Use the chosen router's supported route code
+splitting, or module-scope `React.lazy(() => import(...))` with appropriately placed `Suspense` and
+error boundaries. Keep the shell and common lightweight controls available; do not lazily split every
+primitive. Preload likely navigation selectively without eagerly downloading all features.
+
+Inspect production chunks and browser requests: dynamic imports in source alone do not prove deferred
+loading if eager imports/barrel exports also reach the module. Provide recovery for rejected imports
+or stale asset URLs after deployment. Use the installed Vite/router APIs, bounded reload/retry behavior
+and appropriate HTML/hashed-asset caching; preserve meaningful unsaved work and avoid reload loops.
+Apply this across SPA hosts, not only Cloudflare. Verify initial/deferred requests, navigation fallbacks
+and import failure recovery in production-like serving when these boundaries change.
+
+Sources: [React lazy](https://react.dev/reference/react/lazy),
+[TanStack splitting](https://tanstack.com/router/latest/docs/guide/code-splitting),
+[Vite load errors](https://vite.dev/guide/build.html#load-error-handling).
 
 ## API contracts and interaction
 

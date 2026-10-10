@@ -13,6 +13,9 @@ tools; do not add a UI framework merely to obtain its test runner.
   controls, invalid input, and loading/empty/error states when those behaviors exist.
 - Use browser tests for hydration timing, navigation, focus, keyboard interactions, and critical flows
   when changed. Inspect responsive output; a component test does not establish successful hydration.
+- Verify the built Not Found page through the selected host. For interactive data views/forms check
+  URL history, retained values, error/focus and pending behavior. For Tailwind/shadcn changes inspect
+  rendered variants and island hydration without shipping React to unrelated static content.
 - For on-demand routes, test the selected adapter and runtime, validation, authorization, failure
   responses, and persistence as applicable. A successful static build does not verify server behavior.
 

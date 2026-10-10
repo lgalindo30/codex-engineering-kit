@@ -14,6 +14,9 @@ choosing a harness; a browser-like DOM runner cannot establish all server compon
   error mapping, and successful effects. Invocations from the UI do not make server inputs trusted.
 - Cover critical browser journeys across navigation, refresh, mutations, and resulting server state.
   Distinguish intercepted API fixtures from an application connected to its actual backend.
+- Verify native Not Found behavior and URL filters/sorting/pagination across history, direct links
+  and refresh. For form/component changes cover retained values, server errors, invalid-control focus,
+  pending submission guards and actual generated styles; exercise optional client loading when changed.
 
 ## Isolation and regression evidence
 

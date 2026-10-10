@@ -2,11 +2,11 @@
 
 ## Components, style, and state
 
-- Use Ant Design when rich forms, tables, and CRUD workflows benefit from its component system.
-  Prefer plain CSS or CSS Modules for bespoke marketing pages and other focused interfaces.
-  Tailwind is not a default dependency. Respect an existing project's chosen design system.
-- Reuse cohesive components and style tokens. Extract shared behavior when there are real consumers,
-  while keeping feature-specific components close to their feature.
+- Respect explicit or established design systems, including Ant Design. For new projects without
+  a selected system, prefer Tailwind and add shadcn/ui for complex React controls. Read
+  [styling integration](frontend-styling.md) only when setting up or changing styling/components.
+- Resolve identity and tokens per project. Reuse shared components in `components/` or its established
+  equivalent; keep single-view components near their view/feature and extract only real reuse.
 - Keep transient UI state local. Use TanStack Query when client-side remote data caching, mutations,
   or synchronization justify it; do not duplicate framework-managed server data without a reason.
 - Provide loading, empty, failure, retry, and success behavior where each state is possible. Prevent
@@ -23,15 +23,52 @@ its dimensions to the final cards, text, or list to reduce layout shifts. Keep u
 visible during background refresh; use a modest progress indicator for refresh or submission rather
 than replacing the whole page. Handle empty and failed responses explicitly so placeholders end.
 
-- With Ant Design, reuse its `Skeleton` and supported variants, including in a React SPA. Consult
-  the installed version before using props or semantic style APIs. Use button loading for submissions.
-- Without Ant Design, implement a reusable CSS/CSS Modules Skeleton component in the chosen framework;
-  share dimensions, radius, colors and optional shimmer through tokens. Do not install a UI framework
-  solely to obtain a placeholder.
+- Reuse the chosen component system's Skeleton, or a small Tailwind/custom-style placeholder in the
+  selected framework. Share dimensions, radius and colors through tokens. Do not install a UI system
+  solely for a placeholder. Use accessible button progress for submissions.
 - Content already available at render time needs no artificial loading delay or skeleton.
 - Hide decorative shapes from assistive technology, expose a concise loading status and `aria-busy`
   on the actual content region, and respect `prefers-reduced-motion`. Avoid announcing every shape.
 - Verify loading-to-content, loading-to-error, cached refresh and reduced-motion behavior where used.
+
+## Forms, errors and mutations
+
+For new React forms, use React Hook Form with local Zod schemas and compatible resolvers. Preserve
+an explicitly chosen or established supported form integration rather than silently replacing it.
+Selecting a UI component system alone does not select its form-state/validation library.
+Non-React forms retain their framework's appropriate controls; do not add React solely for this policy.
+
+- Prefer validation on blur or submit, then revalidate invalid fields as they are corrected. Associate
+  errors with fields, focus the first invalid control, and preserve values on failure. Deliberately
+  handle empty numeric values, optional fields, dates and server validation errors rather than coercing
+  empty input into a valid value. The server independently validates and authorizes mutations.
+- Prevent duplicate pending actions and expose accessible loading/disabled feedback. Reset or navigate
+  only after confirmed success. Keep recoverable operation errors visible near the action; toasts may
+  supplement feedback but must not be the only field/error record. Warn about losing unsaved changes
+  when meaningful; do not prompt for every untouched form or ordinary navigation.
+- Separate field, HTTP/domain, connection and render/load failures. Map the producer's contract to
+  actionable messages without exposing private diagnostics. Use appropriate error boundaries for
+  rendering/module failures; they do not replace handling rejected network/form operations.
+- Apply [call reliability](reliability.md) for bounded retries and mutations. Do not automatically
+  replay a write after an uncertain result without supported idempotency/reconciliation. Invalidate
+  or update affected caches on success; use optimistic updates only with deliberate rollback/error
+  behavior, and retain useful data when background refresh fails.
+
+## Navigation and data views
+
+Give each navigable page/view a stable path such as `/dashboard` or `/profiles`, using the framework's
+router. Put shareable filters, sorting and pagination in validated URL search parameters; define
+defaults/bounds and reset pagination when filters change. Preserve unrelated parameters and browser
+back/forward, refresh and direct links. Keep transient inputs local and sensitive data out of URLs.
+
+Include a useful Not Found page for unknown routes, with navigation back to valid content. Verify it
+through the actual framework and host; a generic SPA fallback must not disguise missing API/assets.
+Native server/static routing should return the appropriate HTTP status where supported.
+
+For large data sets, use supported server-side pagination/filtering/sorting rather than downloading
+everything. Virtualize long lists when measured needs warrant it. Distinguish an empty data set from
+no filter matches; define an accessible small-screen presentation for tables and dense dashboards.
+Verify history restoration, errors/retry, empty states and cache consistency after changes.
 
 ## Client boundaries
 

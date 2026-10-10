@@ -3,6 +3,9 @@
 Use static output for content that can be built ahead of time. Select on-demand rendering and a
 compatible deployment adapter only when the behavior requires it. Package management and server
 runtime are separate choices; Astro does not imply Bun or a standalone API.
+For new framework/host decisions, use [architecture selection](../../../references/frontend-architecture.md).
+Respect explicitly selected Astro for complex interfaces; discuss rendering/island/shared-state costs
+without silently replacing it with React/Vite or Next.js.
 
 - Prefer Astro components for static content. Add hydrated framework islands only for actual
   interaction, choosing hydration timing to match when the control must work.
@@ -10,6 +13,13 @@ runtime are separate choices; Astro does not imply Bun or a standalone API.
   generated routes, metadata, and asset behavior in the built output.
 - Keep shared layout, copy, and styles coherent without shipping a React application for a static page.
   Apply accessible interactions and reduced-motion behavior to any islands added.
+- Prefer Tailwind for an unselected new styling stack. Use shadcn/React Hook Form/Zod in React islands
+  when those controls are needed, following [interface policy](../../../references/interface.md).
+  Preserve supported existing styles/forms and do not hydrate static content solely for a UI system.
+- Give pages native Astro routes and include `src/pages/404.astro` or the established equivalent.
+  Apply [URL/data-view policy](../../../references/interface.md#navigation-and-data-views) to interactive
+  filters/pagination; verify history and hydration across navigation without adding a second router
+  by default. Static hosts must serve the built not-found page with their supported 404 behavior.
 - Use framework type checking and production build verification. Test interactive islands with their
   framework's tools; verify hydration and critical navigation in a browser when behavior warrants it.
 - For server-rendered routes, validate input and enforce authorization at the server boundary; test
