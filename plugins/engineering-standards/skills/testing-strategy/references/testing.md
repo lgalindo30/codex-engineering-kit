@@ -23,8 +23,9 @@ Do not add a runtime solely to satisfy a generic testing preference.
   alone does not prove runtime contract compatibility or detect every breaking API change.
 - Check API versioning, unknown fields, limits, status codes, public error shapes, and disclosure
   boundaries when those behaviors change. Cover file size/content checks when uploads are added.
-- For requested authentication, cover token expiry and refresh, cookie attributes, CSRF rejection,
-  logout/revocation, and unauthorized requests as appropriate to the implemented session design.
+- For requested authentication, cover the selected provider/session design's expiry, logout/revocation,
+  and unauthorized requests. Add refresh, cookie attributes, and CSRF checks where those mechanisms
+  exist; do not introduce them merely to satisfy this checklist.
 - Use an injectable clock or controlled time for expiry and date boundaries. Avoid arbitrary sleeps;
   prefer deterministic events and browser assertions that wait for observable state.
 - Add automated accessibility checks when useful and complement them with keyboard and focus

@@ -1,11 +1,21 @@
 # Authentication When Requested
 
-Do not add login, Google sign-in, roles, or multitenancy until requested. Preserve an established supported session design. For a new separate browser/API login, prefer
-email/password with short-lived JWT access tokens and rotating refresh sessions. Apply token-specific
-rules only to that flow; integrated framework sessions need not adopt a separate token API. Use
-maintained compatible libraries and established password hashing; do not implement cryptography.
+Do not add login, identity providers, roles, or multitenancy until requested. Follow the task's explicit
+authentication requirements; otherwise preserve the project's established supported provider and
+session design. Change that design only within a requested migration or feature that requires it.
+For a new login with no selected design, recommend a compatible option and record selection/setup as
+pending rather than treating email/password or JWT as mandatory.
+
+An email/password request specifies a sign-in method, not necessarily a JWT architecture or provider
+migration. Use the selected provider's supported password flow when applicable. Apply the token rules
+below only to a selected application-managed browser/API token flow; managed identity and integrated
+framework sessions follow their actual contracts. Use maintained compatible libraries and established
+password hashing when the application owns passwords; do not implement cryptography.
 
 ## Browser/API token flow
+
+For a selected application-managed token flow, use short-lived access tokens and bounded rotating
+refresh sessions. JWT-specific controls apply when the chosen access token is a JWT.
 
 - Keep the access token in browser memory and send it as `Authorization: Bearer ...` to the intended API
   origin only. Do not place access or refresh tokens in localStorage, sessionStorage, URLs, or logs.
@@ -38,7 +48,6 @@ On refresh failure clear client authentication state and stop retry loops. Logou
 session and clears the cookie with matching attributes. Document that an already-issued access token
 normally remains valid until expiry unless explicit server-side access revocation is implemented.
 Password resets/security events must revoke the relevant sessions when those features are requested.
-Keep third-party login as a later explicit task, not speculative scaffolding.
 
 ## Integrated sessions
 
@@ -46,11 +55,19 @@ Use a maintained session integration compatible with the server framework. Enfor
 secure cookie attributes, authorization, and CSRF defenses at server mutation boundaries. Do not expose
 session secrets or private user data in rendered props, static output, browser logs, or client storage.
 
+## Managed identity
+
+Use the chosen provider's maintained integration and server-side verification. Enforce the feature's
+authorization and session lifecycle at the actual trust boundary. Do not duplicate provider-owned
+password storage, token issuance, or refresh flows. Record missing application registration, callback
+origins, and credentials as pending setup; never invent production values or claim inactive protection.
+
 ## Tests and source guidance
 
-Cover invalid signature/claims, expired tokens, cookie flags, CSRF rejection and valid flow, missing
-session, rotation, concurrent refresh, replay detection, logout, bounded retry behavior, and accidental
-credential leakage. Test with actual browser origin/cookie behavior as well as backend unit tests.
+Cover missing/invalid/expired sessions, authorization denial, logout/revocation, and credential leakage
+for the selected design. Add signature/claims, cookie/CSRF, rotation, concurrent refresh, replay, and
+bounded retry checks where those mechanisms exist. Test actual browser origin/cookie behavior when
+applicable; do not add a token or password flow solely to satisfy a test checklist.
 
 - [OWASP Session Management](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)
 - [OWASP Password Storage](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)

@@ -5,9 +5,17 @@ not mean the evaluations have run. Record actual results, model/runtime versions
 artifacts, and failures separately. Structural validation of the kit cannot establish whether an
 agent follows its policies during real work.
 
-Use a disposable workspace with the kit installed into an isolated Codex home. Do not alter the
-operator's global configuration or create live external resources. Inspect the generated result
-and executed checks; do not pass a run solely because its final message claims compliance.
+Use a disposable workspace. For installation or automatic skill-discovery evaluations, install the
+kit into an isolated Codex home. Explicit-path forward tests do not establish discovery behavior.
+Do not alter the operator's global configuration or create live external resources. Inspect the
+generated result and executed checks; do not pass a run solely because its final message claims compliance.
+
+See [the 2026-10-09 bounded forward tests](behavioral-validation-2026-10-09.md) for observed storage,
+authentication, provider-planning, Workers and form checks. Those observations do not imply that every
+full scenario rubric below has been executed or passed.
+
+See [the second 2026-10-09 round](behavioral-validation-2026-10-09-round-2.md) for independent Luna
+implementation probes, assisted review, and isolated native plugin installation/removal.
 
 ## Historical implementation probes — 2026-09-14
 

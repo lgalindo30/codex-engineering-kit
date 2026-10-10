@@ -1,8 +1,14 @@
-# Local File Handling
+# File Handling
 
-Apply only to features that receive, store, or serve files. Start with local storage; remote providers
-are a separate requested integration. Put filesystem access behind a small boundary so storage can
-change without rewriting business logic. For selected containers, follow
+Apply only to features that receive, store, or serve files. Follow the task's explicit storage choice;
+otherwise preserve the project's existing storage and services. Do not infer a provider migration from
+an upload feature. When no storage is selected, recommend an option compatible with the deployment
+and record selection/setup as pending before provider-dependent implementation. A chosen cloud alone
+does not authorize provisioning its storage services.
+
+Keep storage access behind a small boundary so business logic does not depend on a provider SDK or
+filesystem. Local files are appropriate when selected and supported by persistent writable storage;
+temporary or ephemeral filesystems are not durable upload storage. For selected containers, follow
 [Docker persistence controls](docker-deployment.md#local-operation-and-persistent-data).
 
 ## Limits and admission
@@ -26,9 +32,11 @@ failure or cancellation. Return the documented 413 Problem Details response.
 
 ## Storage and retrieval
 
-Generate storage names independently of submitted filenames. Keep the original name as sanitized
-metadata only. Prevent traversal and symlink escapes; store outside the public webroot and executable
-paths. Write safely without overwriting another user's content. Bound disk usage and define cleanup.
+Generate storage names or object keys independently of submitted filenames. Keep the original name as
+sanitized metadata only. For filesystem storage, prevent traversal and symlink escapes and store
+outside the public webroot and executable paths. For object storage, enforce the selected bucket/key
+boundary and access policy. Write safely without overwriting another user's content. Bound storage
+usage and define cleanup, including incomplete uploads supported by the chosen integration.
 
 Protect retrieval according to the feature's ownership/access rules. Serve safe content types and
 content-disposition deliberately; do not execute uploaded content or allow active untrusted content to
