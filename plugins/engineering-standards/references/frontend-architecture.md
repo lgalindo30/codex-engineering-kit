@@ -32,6 +32,39 @@ If Astro or another supported framework is explicitly selected for a complex app
 Explain the costs of numerous interactive islands or shared client state and suggest alternatives
 when useful; proceed with the user's choice once required hosting/rendering decisions are resolved.
 
+## Feature organization
+
+Keep a feature's views, specific components, API operations, query options and local form schemas
+together when their size warrants separation. Routes compose views; the shared API client owns common
+transport, correlation and error handling, while feature API operations map their own resource contracts.
+Shared UI primitives and transport utilities must not depend on feature implementations. Integrate
+features through deliberate public operations/components instead of reaching into another feature's
+private files. Apply [module boundaries](architecture.md#module-dependencies) where relevant.
+
+A larger React SPA may use this layout; the names and files are illustrative, not a scaffold mandate:
+
+```text
+src/
+  features/
+    orders/
+      components/
+      api.ts
+      queries.ts
+      schemas.ts
+      OrdersView.tsx
+  components/
+    ui/
+  lib/
+    api-client.ts
+```
+
+Only add `queries.ts` when a client query/cache integration is used. Extract shared code after real
+reuse; do not create empty directories for a small page. Preserve framework-native route files such
+as Next.js `app/` or Astro `pages/`, and keep server-only services/adapters outside client dependency
+graphs. Sharing a feature directory does not authorize importing server code into a browser bundle.
+Public exports must preserve intended route splitting rather than eagerly importing every feature.
+Use [state ownership](interface.md#state-ownership) to choose where behavior belongs.
+
 ## Record and verify
 
 Record the agreed framework, rendering mode, host/service, backend boundary and real commands in the

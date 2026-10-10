@@ -8,13 +8,34 @@
 - Resolve identity and tokens per project. Reuse shared components in `components/` or its established
   equivalent; keep single-view components near their view/feature and extract only real reuse.
 - Keep transient UI state local. Use TanStack Query when client-side remote data caching, mutations,
-  or synchronization justify it; do not duplicate framework-managed server data without a reason.
+  or synchronization justify it; apply [state ownership](#state-ownership) rather than maintaining
+  competing copies.
 - Provide loading, empty, failure, retry, and success behavior where each state is possible. Prevent
   accidental repeated mutations and invalidate relevant cached data after successful changes.
 - Use semantic controls, associated labels, keyboard access, visible focus, adequate contrast, and
   accessible error messages. Treat automated accessibility checks as one input, not complete proof.
 - Keep default user-facing strings in a focused copy module or the existing localization system.
   Use English unless another language is requested; do not add an i18n library without a use case.
+
+## State ownership
+
+| State                                     | Owner                                            |
+| ----------------------------------------- | ------------------------------------------------ |
+| Shareable filters, sorting and pagination | Validated URL parameters in the selected router  |
+| Remote data and mutation results          | Selected query cache or framework data mechanism |
+| Form values, validation and submission    | Selected form integration                        |
+| Temporary interaction state               | Local component or owning feature                |
+
+Derive values from the authoritative state instead of synchronizing duplicate copies through effects.
+Do not mirror URL filters or query results in a global store. A form may own an intentional editable
+draft of remote data; define how refresh/conflicts affect it instead of overwriting unsaved values.
+Introduce shared client state only for a real cross-component need, preserving an established manager
+and using the smallest sufficient mechanism. Do not add a state library as an architecture checklist.
+
+For complex flows such as multi-step forms, represent mutually exclusive states and allowed transitions
+explicitly instead of combining contradictory booleans. Use the existing form/framework mechanism,
+a reducer or a tagged state model when useful; do not install a state-machine library by default.
+Exercise relevant transitions, failure/retry paths and preservation of unsaved state.
 
 ## Loading placeholders
 

@@ -20,6 +20,36 @@ Keep transport contracts and adapter types at their boundaries. Follow [API cont
 for public HTTP and internal RPC, using the selected framework's integration. A reusable business
 function does not require a new HTTP endpoint or schema package.
 
+## Module dependencies
+
+Transport adapters call application operations with validated values. Business rules must not import
+HTTP handlers, framework contexts, database drivers or provider SDK clients. Inject the required
+persistence/integration operations and compose their concrete adapters at application entrypoints.
+Keep ORM records and transport-specific types within their adapters instead of making them the
+business model. Define interfaces only for meaningful boundaries; do not create one for every function.
+
+Expose narrow operations from each feature. Other features call those operations rather than importing
+its private repositories or writing its owned tables. A deliberate shared read model needs explicit
+ownership; it does not grant callers permission to mutate another feature's data. Coordinate operations
+spanning features at the application boundary while preserving [consistency](persistence.md).
+An explicit module surface does not require an `index.ts` barrel or a new package.
+
+For a larger backend feature, a useful optional layout is:
+
+```text
+features/
+  orders/
+    routes.ts       # Transport and response mapping
+    schemas.ts      # Transport contracts
+    service.ts      # Application operations and business rules
+    repository.ts   # Persistence adapter
+```
+
+Use fewer files for a small CRUD feature and split larger operations by responsibility when needed.
+Preserve established boundaries; do not add generic base repositories, empty layers or a formal
+architecture pattern solely to reproduce this layout. Frontend boundaries follow
+[feature organization](frontend-architecture.md#feature-organization).
+
 ## Separate services
 
 Keep features together while deployment, permissions, ownership, and operational needs align. Split
@@ -42,3 +72,6 @@ their implementation belongs to the technology guide.
 Test business behavior with explicit dependencies and exercise changed adapters/contracts at the real
 boundary. Verify authorization, failure behavior, and ownership across new service boundaries. Report
 mocked communication separately from exercised integration. Do not create a service for a test layout.
+For substantial module boundaries, use the existing lint/build tooling to restrict concrete forbidden
+imports when useful. Check allowed and forbidden examples and actual import resolution, including
+aliases; do not install another architecture tool or impose import restrictions on an unrelated edit.
