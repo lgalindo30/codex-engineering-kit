@@ -17,7 +17,8 @@ CI and applicable AGENTS files. Follow the assigned scope: a bug fix is not a to
    Load only that guidance for tooling-only work; do not start an application implementation workflow.
    If no matching skill exists, use the project's commands and current official ecosystem guidance.
    Never overwrite established configuration with a scaffold.
-3. Pin compatible stable dependencies/toolchains and use reproducible CI installation. Preserve
+3. Follow [dependency selection](../../references/quality.md#dependency-selection) for current stable
+   releases, record adopted versions and use reproducible CI installation. Preserve
    ecosystem-specific dependency protections and inspect advisories; avoid unrequested preview releases.
 4. Provide check-only format, lint, types, meaningful tests, and build when relevant through one
    reliable check entrypoint. Keep autofixes separate and avoid duplicate competing tools.

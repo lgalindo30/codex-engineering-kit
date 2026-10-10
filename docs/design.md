@@ -112,7 +112,10 @@ as appropriate. Formatting: two spaces, single JS/TS quotes, semicolons, 100 col
 newline; four spaces for Python. Manually maintained source stays under 400 lines with documented
 exceptions; function size around 50 lines is a review signal. No universal coverage quota.
 
-Use exact stable tool versions, lockfiles, frozen CI installs, and 24-hour maturity for new Bun
+Resolve new dependencies from current stable registry releases, verify compatibility, then record
+exact adopted versions with lockfiles and frozen CI installs. Bun quality scaffolds leave reviewed
+dependency selection to installation instead of copying kit baselines; existing projects keep their choices.
+Keep 24-hour maturity for new Bun
 dependency resolutions. Check advisories separately; retain relevant OWASP guidance and realistic
 tests. Hooks provide local feedback, while CI remains authoritative. A bounded hook failure is still
 a reported failure, not successful verification.

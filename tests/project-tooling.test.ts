@@ -34,9 +34,24 @@ describe('project quality scaffolding', () => {
     expect(repeat.every((file) => file.action === 'unchanged')).toBe(true);
     const packageJson = await Bun.file(join(target, 'package.json')).json();
     expect(packageJson.dependencies).toBeUndefined();
+    expect(packageJson.devDependencies).toBeUndefined();
+    expect(packageJson.packageManager).toBe(`bun@${Bun.version}`);
     expect(packageJson.scripts.check).toContain('format:check');
     expect(await Bun.file(join(target, '.codex/hooks.json')).exists()).toBe(false);
     expect(await readFile(join(target, 'bunfig.toml'), 'utf8')).toContain('86400');
+  });
+
+  test('reapplying does not replace dependency versions adopted by project setup', async () => {
+    const target = join(await directory(), 'project');
+    await applyProject({ target, profile: 'frontend', dryRun: false });
+    const manifest = await Bun.file(join(target, 'package.json')).json();
+    manifest.devDependencies = { typescript: '5.9.3' };
+    const adopted = `${JSON.stringify(manifest, null, 2)}\n`;
+    await writeFile(join(target, 'package.json'), adopted);
+    await expect(applyProject({ target, profile: 'frontend', dryRun: false })).rejects.toThrow(
+      'nothing was written',
+    );
+    expect(await readFile(join(target, 'package.json'), 'utf8')).toBe(adopted);
   });
 
   test('conflicts abort before writing any files and preserve existing content', async () => {

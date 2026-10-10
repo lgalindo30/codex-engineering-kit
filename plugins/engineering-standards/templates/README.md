@@ -19,16 +19,22 @@ Profiles are `backend`, `frontend`, and `monorepo`. Use the actual project root.
 
 An existing configured repository will commonly conflict. In that case, scaffold a temporary directory and review individual changes rather than overwriting the project. Keep a clean Git checkpoint before manually adopting templates; no existing file is overwritten by the initializer, so it does not create backups.
 
-In the generated project:
+Before running checks in the generated project, resolve current stable compatible versions of
+`@eslint/js`, `@types/bun`, `eslint`, `prettier`, `typescript`, and `typescript-eslint` using
+[dependency selection](../references/quality.md#dependency-selection). Inspect runtime requirements
+and peer ranges together; independently selecting every `latest` tag may produce an unsupported
+combination. Install the reviewed choices with `bun add --dev --exact` and explicit selected versions
+or supported ranges. These come from the registry at setup time, not numbers stored in this kit.
+
+Then run:
 
 ```sh
-bun install
 bun run format:check
 bun run lint
 bun run typecheck
 ```
 
-The initializer pins the tested Bun baseline (1.3.14) in `packageManager` and exact tested quality-tool versions. Review dependency resolution and commit `bun.lock`; use `bun install --frozen-lockfile` in CI and containers. The 24-hour minimum release age applies to new resolutions. No dependencies are downloaded by the initializer itself. Run `bun run security:check` to audit the resolved dependencies; this network-dependent check is separate from local quality checks.
+Select a current stable compatible Bun runtime before scaffolding; `packageManager` records the actual Bun executing the initializer, rather than a kit baseline. The initializer does not resolve or download dependencies and does not copy fixed library versions. Initial dependency installation records exact adopted versions and a lockfile. Review the resulting manifest and commit `bun.lock`; subsequent installs use `bun install --frozen-lockfile`. Resolve newer versions only for new dependencies or intentional updates. The 24-hour minimum release age applies to new resolutions; disclose a blocked release instead of bypassing it. Run `bun run security:check` to audit the resolved dependencies; this network-dependent check is separate from local quality checks.
 
 The scaffold includes ESLint flat configuration, Prettier, EditorConfig, and strict TypeScript. The initial `test` command intentionally fails with an actionable message: there is no application to test yet. Configure behavioral tests before replacing this placeholder. Backend tests use `bun test`; React tests use Vitest with React Testing Library, and browser journeys use Playwright. Only then run `bun run check` as the acceptance gate. Never bypass missing tests with an unconditional success or `--pass-with-no-tests`. Frontend setup must adapt JSX, browser/server TypeScript boundaries, framework lint rules, and Vitest/Testing Library commands. A monorepo must add real workspaces and aggregate their checks. Never claim the root scaffold checks packages that have not been wired into it.
 

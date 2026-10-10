@@ -75,7 +75,7 @@ function packageContent(profile: Profile): string {
       name: `${profile}-project`,
       private: true,
       type: 'module',
-      packageManager: 'bun@1.3.14',
+      packageManager: `bun@${Bun.version}`,
       scripts: {
         format: 'prettier --write .',
         'format:check': 'prettier --check .',
@@ -84,14 +84,6 @@ function packageContent(profile: Profile): string {
         test: 'bun -e "console.error(\'Configure behavioral tests for this application before accepting quality checks.\'); process.exit(1)"',
         check: 'bun run format:check && bun run lint && bun run typecheck && bun run test',
         'security:check': 'bun audit',
-      },
-      devDependencies: {
-        '@eslint/js': '10.0.1',
-        '@types/bun': '1.3.14',
-        eslint: '10.10.0',
-        prettier: '3.9.6',
-        typescript: '5.9.3',
-        'typescript-eslint': '8.70.0',
       },
     },
     null,
