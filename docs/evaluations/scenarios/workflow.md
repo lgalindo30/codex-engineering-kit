@@ -18,6 +18,14 @@ These are bounded agent evaluations, not mandatory production workflow steps. Us
 record the exact prompt and starting revision, and keep temporary diagnoses out of project AGENTS.md.
 No fixed number of tests, findings, slices or commits is an acceptance criterion.
 
+- **Iterative bug closure:** give the agent a stale-result bug reachable from normal and alternate
+  entrypoints after state changes. Accept when it reproduces the defect, covers related transitions,
+  fixes the cause, and verifies the final state without replacing assertions with current behavior.
+- **Feature acceptance and inspection:** request a feature with compound conditions, boundary values
+  and an existing API error convention. Accept when reachable outcomes have independent expected
+  results, the integration boundary is exercised, and conformance is checked separately from behavior.
+  A missing required external check must remain unverified. Repeat as a read-only review of a candidate
+  with a concrete defect; confirm findings cite evidence and leave files unchanged.
 - **Verified slices:** request a small CRUD feature with acceptance criteria. Observe whether the agent
   verifies a first complete behavior before accumulating dependent endpoints. Check startup and input
   safeguards when first needed. Commit evidence is relevant only when commits were authorized.

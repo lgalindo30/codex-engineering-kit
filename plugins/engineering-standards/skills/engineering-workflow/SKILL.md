@@ -16,6 +16,7 @@ A request for Node.js and Next.js can describe one integrated application.
 | Workers, bindings, D1 or selected Cloudflare form protection | [Cloudflare Workers](../cloudflare-workers-development/SKILL.md)                                                                      |
 | Frontend or integrated application                           | [Astro](../astro-development/SKILL.md), [Next.js](../nextjs-development/SKILL.md) or [React/Vite](../react-vite-development/SKILL.md) |
 | Public contracts and compatibility                           | [API contracts](../api-contracts/SKILL.md)                                                                                            |
+| Bug/feature acceptance and standards inspection              | [Change verification](../change-verification/SKILL.md)                                                                                |
 | Project-wide test assessment                                 | [Testing strategy](../testing-strategy/SKILL.md)                                                                                      |
 | Repository checks and tooling                                | [Repository quality](../repository-quality/SKILL.md)                                                                                  |
 | Logging, diagnosis or requested telemetry                    | [Observability](../observability/SKILL.md)                                                                                            |

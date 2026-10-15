@@ -17,6 +17,21 @@ the technology guide owns runners, adapters and runtime commands.
 - Reversible low-impact configuration changes may need direct validation rather than new tests.
   Coverage informs risk; there is no universal percentage or required test count.
 
+## Flow evidence
+
+For bug fixes and features, map acceptance criteria to affected entrypoints, decisions and state
+transitions, expected outcomes and executable checks. Keep a compact table when several paths need
+tracking. Mark each check as passed, failed or unexecuted; record the reason for an omitted path.
+
+Cover both outcomes of reachable changed conditions, including independently meaningful terms in
+compound conditions, boundaries and relevant error/recovery paths. Include alternate callers, retry,
+reset, navigation, permissions or concurrent operations when they can reach or reactivate the defect.
+Choose cases from the actual dependency/state model; do not enumerate unrelated application flows
+or every theoretical input combination. Explain unreachable branches and material coverage gaps.
+
+Exercise the integration boundary when unit tests or mocks cannot demonstrate the acceptance criterion.
+Recheck impacted cases after repairs; evidence must correspond to the final implementation.
+
 ## Isolation and execution
 
 Use disposable databases, directories, accounts and ports with deterministic fixtures and explicit

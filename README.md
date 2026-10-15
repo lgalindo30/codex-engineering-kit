@@ -32,22 +32,24 @@ Use $node-development to add a validated endpoint to this API.
 Use $cloudflare-workers-development to add an inventory feature backed by D1.
 Use $engineering-workflow to build a Node.js API and separate Astro frontend.
 Use $repository-quality to inspect this project's checks.
+Use $change-verification to fix this bug and verify related flows and engineering standards.
 ```
 
-| Skill                          | Purpose                                             |
-| ------------------------------ | --------------------------------------------------- |
-| engineering-workflow           | Coordinate work across selected skills              |
-| bun-development                | Standalone Bun backends                             |
-| node-development               | Standalone Node.js backends                         |
-| cloudflare-workers-development | TypeScript Workers with Hono, bindings, and D1      |
-| astro-development              | Astro sites and islands                             |
-| nextjs-development             | Next.js applications and integrated server behavior |
-| react-vite-development         | React/Vite single-page applications                 |
-| api-contracts                  | Schemas, OpenAPI, clients, and compatibility        |
-| testing-strategy               | Project-wide verification strategy                  |
-| repository-quality             | Toolchains, checks, hooks, CI, and dependencies     |
-| project-instructions           | AGENTS.md at actual project boundaries              |
-| observability                  | Logging, debugging, and requested telemetry         |
+| Skill                          | Purpose                                               |
+| ------------------------------ | ----------------------------------------------------- |
+| engineering-workflow           | Coordinate work across selected skills                |
+| bun-development                | Standalone Bun backends                               |
+| node-development               | Standalone Node.js backends                           |
+| cloudflare-workers-development | TypeScript Workers with Hono, bindings, and D1        |
+| astro-development              | Astro sites and islands                               |
+| nextjs-development             | Next.js applications and integrated server behavior   |
+| react-vite-development         | React/Vite single-page applications                   |
+| api-contracts                  | Schemas, OpenAPI, clients, and compatibility          |
+| testing-strategy               | Project-wide verification strategy                    |
+| change-verification            | Iterative bug/feature acceptance and standards review |
+| repository-quality             | Toolchains, checks, hooks, CI, and dependencies       |
+| project-instructions           | AGENTS.md at actual project boundaries                |
+| observability                  | Logging, debugging, and requested telemetry           |
 
 Skills load shared policies and stack references as needed. They preserve existing project choices;
 enabling the plugin does not install application dependencies or generate an application.

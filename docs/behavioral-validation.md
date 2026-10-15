@@ -6,6 +6,8 @@ Structural checks validate packaging and tooling, not agent behavior.
 
 ## Bounded evaluations
 
+- [2026-10-15 change verification](evaluations/2026-10-15-change-verification.md): independent bug,
+  feature and read-only inspection exercises, parent checks and explicit execution limits.
 - [2026-10-15 simplification](evaluations/2026-10-15-simplification.md): per-skill local execution,
   scoring criteria, observed corrections and cleanup status. These smaller cases do not establish a
   pass for the broader scenario rubrics below.

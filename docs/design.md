@@ -15,6 +15,10 @@ preferences, and unrelated plugins. Model and concurrency choices remain with Co
 Runtime/framework integration belongs to technology skills. Reusable rules have one source in
 `references/`; local guides explain integration differences. The common workflow and testing
 references remove repeated process instructions without replacing runtime-specific verification.
+`change-verification` closes one fix or feature through behavioral evidence, applicable standards
+inspection and in-scope repairs. It reuses the selected stack guides; `testing-strategy` retains
+project-wide coverage assessment. Read-only inspection remains read-only, and unexecuted checks remain
+explicit gaps rather than passing verdicts.
 See [contributing](../CONTRIBUTING.md#adding-technology-skills) for ownership and link constraints.
 
 ## Project boundaries

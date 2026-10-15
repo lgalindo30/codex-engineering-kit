@@ -1,6 +1,6 @@
 ---
 name: testing-strategy
-description: Audit cross-component test coverage and integration risks, or coordinate regression plans. Routine stack tests belong to the technology skill.
+description: Audit cross-component test coverage and integration risks, or coordinate regression plans. Concrete fix or feature closure belongs to change-verification; routine stack tests belong to the technology skill.
 ---
 
 # Testing Strategy
@@ -8,6 +8,8 @@ description: Audit cross-component test coverage and integration risks, or coord
 Read [the shared workflow](../../references/workflow.md) and [testing policy](../../references/testing.md).
 Use the selected technology's testing reference for execution details without loading an implementation
 workflow. Preserve the existing runner; use project evidence and official docs when no matching skill exists.
+For iterative acceptance and implementation inspection of one change, use
+[change verification](../change-verification/SKILL.md) instead of expanding a coverage audit into repairs.
 
 Map changed behavior to consumers, integration boundaries, and likely regressions. Identify what current
 tests establish and where mocks hide consequential behavior; choose the smallest additional layer that
