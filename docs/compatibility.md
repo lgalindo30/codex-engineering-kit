@@ -4,7 +4,8 @@
 
 - Bun 1.3.14, TypeScript 5.9.3, ESLint 10.10.0, typescript-eslint 8.70.0, Prettier 3.9.6.
 - macOS is the primary development environment; Linux is included in the CI matrix.
-- Local plugin installation was exercised against Codex CLI 0.154.0-alpha.6.2. This is a tested
+- Local plugin registration, installation, repeat installation and removal were exercised against
+  Codex CLI 0.159.2 on 2026-10-15. This is a tested
   client snapshot, not a claim that every earlier or later build supports the same settings.
 
 ## Verification layers

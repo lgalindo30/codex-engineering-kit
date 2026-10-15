@@ -1,19 +1,15 @@
-# Node.js tooling
+# Node.js tooling and deployment
 
-For tooling changes or implementation handoff, apply the
-[common quality policy](../../../references/quality.md) alongside the integration details below.
+Apply [quality policy](../../../references/quality.md). Use strict TypeScript/ESM for new code, a pinned
+supported Node release, and the selected package manager/lockfile. Use reproducible CI installation
+and preserve configured release-age/install-script controls, checking their version-specific units.
 
-Use strict TypeScript and ESM for new code. Pin a supported Node version compatible with the framework.
-Keep the selected package manager and lockfile; use its reproducible installation mode in CI. Preserve
-release-age and install-script protections where configured, checking version-specific options and units.
+Use compatible EditorConfig, ESLint, Prettier, and independent type checks. Compile TypeScript or
+choose a supported execution path; runtime type stripping does not check types. Use native package
+commands and the project's hook manager. Do not copy Bun executable scaffolds/hooks into Node-only
+projects; compatible static formatting assets may be adapted.
 
-Use EditorConfig, ESLint, Prettier, and strict type checks where compatible. Configure TypeScript
-compilation/execution deliberately; runtime type stripping is not type checking.
-
-Use Node-native commands and the project's hook manager. Do not copy Bun executable scaffolds or hooks
-into a Node-only project. For Hono use the Node adapter; Zod/OpenAPI integration and Pino are useful
-new-service defaults, not reasons to replace an existing framework, validator, or logger.
-
-Select drivers and instrumentation supported on Node, and test the production entrypoint on Node.
-Verify startup, shutdown, and resource cleanup on the selected host. For chosen containers, use the
-selected Node runtime in the image and [Docker controls](../../../references/docker-deployment.md).
+For deployment, apply [deployment controls](../../../references/deployment.md). Verify the compiled
+entrypoint, native drivers, startup/shutdown, and cleanup on the selected host. For chosen containers,
+apply [Docker controls](../../../references/docker-deployment.md) and exercise these in the built image.
+Document changed connection limits, persistent paths, backups, and migration recovery.

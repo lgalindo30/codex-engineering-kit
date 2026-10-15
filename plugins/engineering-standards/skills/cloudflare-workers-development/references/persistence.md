@@ -1,30 +1,23 @@
-# Drizzle and D1
+# Drizzle/D1
 
-For applications requiring Cloudflare D1, use Drizzle ORM with `drizzle-orm/d1`, its SQLite schema
-tools, and Drizzle Kit. Apply [shared persistence policy](../../../references/persistence.md) for
-database/ORM selection, queries, ownership, concurrency, migrations, and recovery. Do not apply PostgreSQL
-defaults to D1. Verify the selected stable versions' D1 support; do not adopt documentation RC tags
-without an explicit preview requirement.
+For selected D1, use Drizzle's D1 adapter, SQLite schema tools, and Drizzle Kit with verified stable
+versions. Apply [persistence policy](../../../references/persistence.md), excluding PostgreSQL-specific
+defaults. Initialize the typed D1 adapter from the current request's environment; feature repositories
+own queries/mappings. Cross-Worker data access follows its Service Binding contract.
 
-Access D1 through its typed binding and initialize the adapter from the current request's environment.
-Keep Drizzle queries and mappings in feature repository adapters. A D1 binding follows the owning
-Worker's data boundary; cross-Worker operations use the selected Service Binding contract.
+Generate SQL with Drizzle Kit, keep one Wrangler migration directory, and apply that history through
+Wrangler D1 commands under the shared rollout/coordinator policy. Keep database IDs and local/remote
+targets explicit per environment.
 
-Generate SQL migrations with Drizzle Kit and configure one migrations directory in Wrangler. Use
-Wrangler's D1 migration commands to apply that history, following the shared coordinator/rollout policy.
-Keep D1 database identifiers and the selected local/remote command target explicit per environment.
+Verify installed adapter transaction/batch semantics; do not assume PostgreSQL-style transaction
+callbacks. Use supported atomic batches for coupled writes and shared concurrency criteria for
+read-then-write operations. Sessions/read replication need an explicit consistency decision;
+local databases/mocks cannot prove remote parity.
 
-Verify actual D1 transaction/batch semantics for the installed adapter. Do not assume PostgreSQL
-transaction callbacks are supported. Use a supported atomic batch for coupled writes when appropriate,
-with the shared concurrency criteria for reads followed by writes. D1 sessions/read replication
-require an explicit consistency decision if used; a mock or local database cannot prove remote parity.
+Verify queries and migrations against disposable local D1 with the same adapter/history. External
+PostgreSQL/MySQL uses a separately selected platform-supported approach (possibly Hyperdrive), without
+automatically creating D1.
 
-Apply [persistence verification](../../../references/persistence.md#verification) against disposable
-local D1 with the same Drizzle adapter and Wrangler migration history.
-For external PostgreSQL/MySQL, verify the platform-supported connection approach, including Hyperdrive,
-within that database task instead of creating D1 automatically.
-
-Sources to verify when implementing:
-[Drizzle D1](https://orm.drizzle.team/docs/connect-cloudflare-d1),
-[D1 migrations](https://developers.cloudflare.com/d1/reference/migrations/),
-[D1 database API](https://developers.cloudflare.com/d1/worker-api/d1-database/).
+Sources: [Drizzle D1](https://orm.drizzle.team/docs/connect-cloudflare-d1),
+[migrations](https://developers.cloudflare.com/d1/reference/migrations/),
+[D1 API](https://developers.cloudflare.com/d1/worker-api/d1-database/).

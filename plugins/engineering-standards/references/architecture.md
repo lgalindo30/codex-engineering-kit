@@ -1,77 +1,44 @@
 # Feature and Service Boundaries
 
-Use when changing application structure or deciding whether a feature needs a separate service.
-Preserve the project's framework, deployment, selected services, and established boundaries.
-A feature request does not authorize a framework migration or additional infrastructure.
+Use when changing module boundaries or deciding whether a feature needs a separate service.
 
 ## Cohesive modules
 
-Organize related behavior by feature. Separate transport parsing/response mapping, business rules,
-and external adapters when responsibilities warrant it; small features may keep related code together.
-Avoid empty layers or splitting files merely to imitate another framework's structure. Entrypoints
-compose applications and runtime handlers rather than accumulating business operations.
+Organize by feature. Separate transport, business operations and external adapters when responsibilities
+warrant it; keep small features together. Entrypoints compose handlers and dependencies.
 
-Pass validated values and explicit dependencies into business functions instead of whole framework
-contexts. Prefer function/factory composition; use classes or framework dependency injection when an
-existing framework or real lifecycle requirement warrants it. Do not introduce decorators, reflection,
-or a container solely to organize modules. Apply [module sizing and quality](quality.md).
-
-Keep transport contracts and adapter types at their boundaries. Follow [API contracts](api-contracts.md)
-for public HTTP and internal RPC, using the selected framework's integration. A reusable business
-function does not require a new HTTP endpoint or schema package.
+Prefer functions/factories with validated values and explicit dependencies. Use classes or framework
+injection for established conventions or lifecycle needs, without adding decorators or containers merely
+for organization. Apply [module sizing](quality.md).
 
 ## Module dependencies
 
-Transport adapters call application operations with validated values. Business rules must not import
-HTTP handlers, framework contexts, database drivers or provider SDK clients. Inject the required
-persistence/integration operations and compose their concrete adapters at application entrypoints.
-Keep ORM records and transport-specific types within their adapters instead of making them the
-business model. Define interfaces only for meaningful boundaries; do not create one for every function.
+- Business rules do not import HTTP handlers, framework contexts, database drivers or provider clients.
+  Inject integration operations; keep ORM records and transport types in their adapters.
+- Expose narrow feature operations. Callers do not import private repositories or mutate another
+  feature's tables. Shared read models need ownership; cross-feature writes need an application-level
+  coordinator and [consistency controls](persistence.md).
+- Create interfaces, packages and public exports for real boundaries. An explicit module surface does
+  not require an `index.ts` barrel, shared schema package or HTTP endpoint.
 
-Expose narrow operations from each feature. Other features call those operations rather than importing
-its private repositories or writing its owned tables. A deliberate shared read model needs explicit
-ownership; it does not grant callers permission to mutate another feature's data. Coordinate operations
-spanning features at the application boundary while preserving [consistency](persistence.md).
-An explicit module surface does not require an `index.ts` barrel or a new package.
-
-For a larger backend feature, a useful optional layout is:
-
-```text
-features/
-  orders/
-    routes.ts       # Transport and response mapping
-    schemas.ts      # Transport contracts
-    service.ts      # Application operations and business rules
-    repository.ts   # Persistence adapter
-```
-
-Use fewer files for a small CRUD feature and split larger operations by responsibility when needed.
-Preserve established boundaries; do not add generic base repositories, empty layers or a formal
-architecture pattern solely to reproduce this layout. Frontend boundaries follow
-[feature organization](frontend-architecture.md#feature-organization).
+A larger backend feature may separate `routes.ts`, `schemas.ts`, `service.ts` and `repository.ts`.
+Use fewer files for small CRUD features; avoid generic base repositories and empty layers. See
+[frontend feature organization](frontend-architecture.md#feature-organization) for client boundaries.
 
 ## Separate services
 
-Keep features together while deployment, permissions, ownership, and operational needs align. Split
-when independent releases, restricted privileges, reuse by existing callers, or distinct lifecycle
-and resource requirements justify the cost. A source folder alone does not justify another service.
-Respect the cloud and supported communication mechanisms chosen for the project.
+Keep features together while deployment, permissions, ownership and operational needs align. Split for
+independent releases, restricted privileges, existing consumers or distinct resource/lifecycle needs.
+The data-owning service owns its business operations; access it through an intentional contract rather
+than shared database credentials. Shared storage requires explicit ownership and consistency.
 
-The service owning data also owns its business operations and persistence rules. Callers delegate
-operations through an intentional contract instead of accessing another service's database merely
-because credentials can be shared. Shared storage needs an explicit ownership and consistency design.
-Follow [persistence](persistence.md) when those boundaries change.
-
-Keep internal operations narrow and exposure deliberate. Apply [service security](security.md#service-boundaries),
-bounded correlation context from [logging](logging.md), and [call reliability](reliability.md) to
-delegated work. Local calls, HTTP, RPC, and durable messaging have different contracts and guarantees;
-their implementation belongs to the technology guide.
+For delegated work, apply [contracts](api-contracts.md), [service security](security.md#service-boundaries),
+[correlation](logging.md#request-correlation) and [reliability](reliability.md). Runtime transport details
+belong to the technology guide.
 
 ## Verification
 
-Test business behavior with explicit dependencies and exercise changed adapters/contracts at the real
-boundary. Verify authorization, failure behavior, and ownership across new service boundaries. Report
-mocked communication separately from exercised integration. Do not create a service for a test layout.
-For substantial module boundaries, use the existing lint/build tooling to restrict concrete forbidden
-imports when useful. Check allowed and forbidden examples and actual import resolution, including
-aliases; do not install another architecture tool or impose import restrictions on an unrelated edit.
+Exercise changed adapters and contracts, including authorization and ownership across service boundaries.
+For substantial module boundaries, existing lint/build tooling may restrict concrete forbidden imports;
+check aliases and allowed/forbidden examples. Do not add an architecture tool for an unrelated edit.
+Use the [shared testing criteria](testing.md).

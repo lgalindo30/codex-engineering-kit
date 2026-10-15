@@ -1,15 +1,13 @@
-# Astro tooling
+# Astro tooling and deployment
 
-For tooling changes or implementation handoff, apply the
-[common quality policy](../../../references/quality.md) alongside the integration details below.
+Apply [quality policy](../../../references/quality.md). Preserve compatible framework configuration,
+package manager, Astro-aware type checking, and production builds. Configure formatter/linter support
+for .astro and the chosen island framework rather than assuming plain TypeScript tooling covers them.
 
-Use the selected package manager and a toolchain compatible with the installed Astro version. Start
-from Astro's framework configuration instead of replacing it with a generic backend TypeScript setup.
-Use TypeScript where appropriate, Astro-aware type checking, and a production build. Type checking
-and building establish different evidence; neither proves browser hydration or adapter behavior.
+Apply [deployment controls](../../../references/deployment.md). Static output needs no application
+server. For on-demand routes, verify the selected adapter's runtime features and persistent-storage
+assumptions. Check built routes, metadata, assets, hydration, and real host 404 behavior as affected.
+Do not install another runtime merely for kit helpers.
 
-Adapt the project's formatter/linter to .astro files and any selected island framework. Configure
-framework-aware integrations rather than assuming a plain TypeScript linter handles Astro templates.
-
-A static site needs no application server. For on-demand rendering, select a supported adapter and
-verify its runtime and deployment output. Do not install a second runtime to reuse kit helpers.
+For chosen containers, apply [Docker controls](../../../references/docker-deployment.md) and exercise
+the actual Astro adapter or built static-server output in the image.

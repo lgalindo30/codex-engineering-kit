@@ -1,33 +1,25 @@
-# Cloudflare Frontends
+# Workers/Pages frontends
 
-Use for a selected Workers/Pages frontend deployment. Apply
-[architecture selection](../../../references/frontend-architecture.md) before new stack decisions.
-Prefer React/Vite SPAs for dynamic administrative apps and Astro static output with selective islands
-for content sites. Preserve explicit frameworks and existing services. A Next.js edge adapter requires
-an explicit discussed choice and verified feature/runtime support; do not default to Containers or
-change the host merely because a frontend needs interactivity.
+For a selected Cloudflare frontend, apply [architecture selection](../../../references/frontend-architecture.md).
+Prefer React/Vite for dynamic administrative SPAs and Astro with islands for content sites, preserving
+explicit/existing choices. A Next.js edge adapter needs an explicit choice and verified feature/runtime
+support. Interactivity alone requires neither Containers nor a host change.
 
-## Assets and routing
+Use the selected Workers assets pipeline. For SPAs configure the actual build directory and
+`assets.not_found_handling: "single-page-application"` against the installed Wrangler/Vite schema.
+Use `assets.run_worker_first` patterns when needed to route API/protected paths to handlers. Verify
+API errors and missing JS/CSS remain actual responses instead of SPA HTML. Browser guards cannot
+protect APIs/private assets; use the chosen server access boundary.
 
-On Workers, use the selected static-assets pipeline; for a SPA configure the actual build directory
-and `assets.not_found_handling: "single-page-application"` using the installed Wrangler/Vite schema.
-Send protected/API paths to their intended Worker handlers, using appropriate `assets.run_worker_first`
-patterns when assets and API share that Worker. Verify that API errors and missing JS/CSS assets remain
-their real responses rather than becoming SPA HTML. A browser route guard does not secure the API or
-private assets; apply the chosen server access boundary if those assets are restricted.
+Astro static output uses host 404 serving rather than SPA fallback. Pages uses its own routing/functions
+configuration, not Workers asset options. [Interface policy](../../../references/interface.md) applies
+independently of host. Deploying assets needs no automatic API/Hono/D1/authentication setup.
 
-For Astro static output, use static not-found serving rather than a SPA fallback. On Pages, verify the
-selected Pages routing/functions configuration; do not copy Workers asset options into a Pages config.
-Tailwind/shadcn decisions follow [interface policy](../../../references/interface.md), independent of host.
-Do not add an API, Hono, D1, or authentication merely to deploy frontend assets.
+Exercise production-like assets, deep links/refresh, Not Found, API paths, base paths, cache behavior,
+and lazy-chunk failure recovery. Vite middleware/proxies are not deployed APIs. Coordinate rollback/cache
+behavior so active browsers recover obsolete chunks; distinguish local checks from live serving.
 
-Exercise production-like assets, deep links/refresh, the app's Not Found page, API paths, base paths,
-hashed-asset caching and lazy-chunk failure recovery. Local Vite middleware/proxies are not the deployed
-API. Keep public configuration and API origin intentional, and coordinate rollback/cache behavior so
-active browsers can recover from obsolete chunk URLs. Report local checks separately from live serving.
-
-Sources to verify when implementing:
-[Workers SPA routing](https://developers.cloudflare.com/workers/static-assets/routing/single-page-application/),
+Sources: [SPA routing](https://developers.cloudflare.com/workers/static-assets/routing/single-page-application/),
 [Vite assets](https://developers.cloudflare.com/workers/vite-plugin/reference/static-assets/),
-[Pages serving](https://developers.cloudflare.com/pages/configuration/serving-pages/),
-[Next.js on Workers](https://developers.cloudflare.com/workers/framework-guides/web-apps/nextjs/).
+[Pages](https://developers.cloudflare.com/pages/configuration/serving-pages/),
+[Next.js](https://developers.cloudflare.com/workers/framework-guides/web-apps/nextjs/).

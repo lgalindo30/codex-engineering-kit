@@ -1,47 +1,41 @@
 # Contributing
 
-Use English for public content. Keep changes focused and preserve the distinction between policy,
-agent responsibility, reusable workflow, and executable enforcement. Avoid adding every preference to
-every skill; link focused references instead.
+Write public content in English. Preserve unrelated user configuration and working-tree changes.
+Keep identity, credentials, personal paths, and telemetry destinations out of distributed files.
 
-Install the pinned toolchain/dependencies, run `bun run format`, then `bun run check`. Run
-`bun run security:check` when changing dependencies. Add behavioral tests for tooling or hook changes
-that could damage user files, misreport validation, or bypass a quality gate. Test changes to skills
-against realistic tasks when appropriate and record what was actually executed.
+## Verify changes
 
-Do not add real identity defaults, personal paths, credentials, telemetry destinations, or model keys.
-Use repository-local Git identity configured by each contributor. Use scoped Conventional Commits when
-creating commits. A successful implementation or review does not authorize a push or release.
+Install the pinned dependencies, run `bun run format`, then `bun run check`.
+Run `bun run security:check` for dependency changes. Add behavioral tests for tooling changes that
+could damage files, misreport validation, or bypass a gate. Evaluate changed skill behavior with
+bounded tasks when needed and record actual results in [behavioral validation](docs/behavioral-validation.md).
 
-Increment the plugin version before every push that advances an existing remote branch, including
-documentation-only changes. Use `bun run release:bump patch` (or `minor`/`major`) before committing;
-this keeps the root package version aligned. Enable `.githooks` to check outgoing committed versions.
-See [the release workflow](docs/releasing.md) for initial branches, tags, and enforcement limits.
-Validate installation from the repository marketplace before publishing. Document breaking policy changes and project migration
-guidance; never rewrite previously generated projects implicitly.
+Commits and pushes require explicit authorization. Use scoped Conventional Commits. Before an
+authorized push, prepare and commit a higher synchronized plugin/package version through the
+[release workflow](docs/releasing.md). Document breaking changes and migration guidance; updates
+must not silently rewrite previously generated projects.
 
 ## Adding technology skills
 
-Add a discoverable folder under the plugin's skills directory with its own SKILL.md, agents/openai.yaml,
-and the references needed by its workflow. Runtime/framework behavior, testing strategy, and tooling
-belong to that skill. Names and descriptions should distinguish the capability and scope. The validator
-discovers skills automatically; no central technology registry is needed.
+Each skill has a focused `SKILL.md`, `agents/openai.yaml`, and only the resources its workflow needs.
+The validator discovers skills automatically. Describe when to use it, the decisions it owns, and
+the expected result; omit generic instructions already covered by shared policy.
 
-Keep common policies with multiple consumers in the plugin's references directory. Link to them from
-local guides rather than copying them: authentication, date semantics, server file rules, security,
-server deployment controls, and interface criteria have canonical shared sources. Local references
-should explain real integration differences, not restate those rules. If a topic has no stack-specific
-detail, link directly to the shared policy instead of adding a wrapper file. Shared policy must not link
-back into a technology skill; the local caller owns integration details.
+| Location                 | Owns                                                          |
+| ------------------------ | ------------------------------------------------------------- |
+| `skills/*/SKILL.md`      | Trigger, short workflow, and conditional resource links       |
+| `skills/*/references/`   | Stack-specific integration and verification                   |
+| `references/`            | Reusable workflow, testing principles, and engineering policy |
+| `templates/`, `scripts/` | Optional assets and deterministic operations                  |
 
-Testing strategies remain local because execution and evidence differ by stack. Transversal skills
-remain independent project-wide assessment/coordination workflows, not mandatory implementation steps.
-A testing-only task reads the local testing guide without starting application scaffolding. Load common
-policy only for the feature that needs it, not all references for every task.
+Link shared policy instead of copying it or adding a wrapper with no integration detail.
+Load references only when relevant. Technology skills remain directly usable; transversal skills
+provide independent assessments. `engineering-workflow` coordinates cross-stack work when useful.
 
-The validator follows inline Markdown links from each SKILL.md through local and shared knowledge.
-Every local reference must be reachable from its skill; every shared reference must be reachable from
-at least one skill. It rejects broken targets, orphan files, cross-skill knowledge dependencies, and
-shared-policy links back into skills. Optional shared executable/template assets are allowed.
-External links are sources to verify when implementing; structural checks do not prove their current
-content or the agent's runtime behavior. Validate relevant behavior before claiming it was exercised.
+The validator follows inline Markdown links from each `SKILL.md`. Local references must be reachable
+from their skill; shared references must be reachable from at least one skill. Only skill entrypoints
+may route to another skill's `SKILL.md`; private documents stay isolated. Shared policy cannot route
+back into skills. Broken links and orphan references fail validation; optional shared assets are allowed.
+
+External links are sources to verify during implementation. Structural checks validate packaging,
+not the current content of external documentation or an agent's runtime behavior.

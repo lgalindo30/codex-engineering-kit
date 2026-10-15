@@ -2,79 +2,58 @@
 
 ## Ownership and versioning
 
-The backend owns its runtime request/response schemas and the resulting OpenAPI contract. Each frontend,
-plugin, or other application owns its local consumption layer and form validation. Do not create
-`packages/contracts` by default, even in a monorepo. Shared schemas require an explicit project need,
-compatible runtimes, clear ownership, and a version/release policy.
+The backend owns runtime request/response schemas and OpenAPI. Consumers own local consumption and form
+validation. Do not create `packages/contracts` by default; shared schemas need compatible runtimes,
+ownership and a version/release policy.
 
-For new APIs, mount resource routes under `/api/v1`. Keep health endpoints separate when useful.
-Keep the consumer's API base URL and version in one client configuration. Do not scatter versioned
-URLs through components. Use a new major route version for incompatible public behavior, not internal
-refactors. Assess response enum changes, required fields, semantics, ordering, and error changes as
-well as removed endpoints. Do not promise compatibility based only on a successful compilation.
+For new APIs, use `/api/v1` resource routes, separating health endpoints when useful. Centralize consumer
+base URL/version. New major routes represent incompatible public behavior. Review changes to required
+fields, enums, semantics, ordering and errors as well as removed endpoints.
 
-Prefer a generated local client/types from a versioned OpenAPI artifact for substantial consumers.
-Record generator version and a reproducible generation/check command. Avoid importing server runtime
-or private schema dependencies into the browser. Generated types do not validate network
-data; add runtime response validation where the trust boundary requires it.
+Prefer generated local clients/types for substantial consumers, with a pinned generator and reproducible
+check command. Keep server/private dependencies out of browsers. Generated types need runtime validation
+where the trust boundary requires it.
 
-A small standalone API may expose its generated OpenAPI document at runtime. Once consumers generate
-clients or compatibility checks depend on it, provide a reproducible export command and retain a
-versioned artifact in the repository or release pipeline. Never maintain a separate hand-edited copy
-that can drift from the implementation.
+A small standalone API may serve generated OpenAPI at runtime. When client generation or compatibility
+checks depend on it, provide a reproducible export and versioned artifact in the repository or pipeline.
+Do not maintain a hand-edited duplicate.
 
-For internal RPC or delegated operations, define input/output schemas, safe failure semantics, and
-serialization rules at the transport boundary. Runtime validation is still required; a typed client
-does not establish trusted data. Internal operations do not become public HTTP/OpenAPI endpoints
-merely because they have contracts. Preserve the selected transport and validate delegated context.
+Internal RPC/delegated operations need validated input/output, serialization and safe failure contracts;
+they do not require public HTTP/OpenAPI endpoints.
 
 ## Schema behavior
 
-Use the selected framework's maintained validation and contract integration. Consult the matching
-technology skill for its integration details without replacing the project's framework. Define
-request schemas, response schemas, status codes, and content types together. Test that actual JSON
-matches the documented schemas; explicit response mapping must prevent accidental private fields.
+Use the framework's maintained integration. Define request/response schemas, status and content types
+together. Map responses explicitly to exclude private fields and validate serialized output at trust
+boundaries, including transformed dates. Output-validation failures are internal errors.
 
-Validate bodies, path/query parameters, and relevant headers before use. Set concrete text lengths,
-array counts, numeric ranges, pagination bounds, and accepted formats. Reject or deliberately strip
-unknown input fields; document the choice. Avoid implicit coercion that changes meaning (such as
-`"false"` becoming true). Check malformed JSON and incorrect content types consistently.
+Validate bodies, path/query parameters and relevant headers with concrete length/count/range/pagination
+limits. Reject or deliberately strip unknown fields. Avoid coercion that changes meaning. Handle malformed
+JSON, unsupported content types and parsing exceptions centrally without turning server bugs into client
+errors. Schema hooks may not cover framework parsing failures.
 
-Schema-validation hooks alone do not cover every framework parsing failure. Exercise malformed JSON
-and unsupported media types against actual requests, and map parsing/HTTP exceptions centrally while
-preserving the chosen status semantics. Do not classify unrelated server errors as invalid input.
-
-Validate mapped output against its runtime schema before returning it at a trust boundary. Ensure
-dates and transformed values match the serialized wire representation. Output validation failures
-are internal failures, not invalid client input; report them safely once at the handling boundary.
-Technology guides specify the validator integration without making one library a universal dependency.
-
-Validate external responses and environment inputs at the boundary where they become trusted. Apply
-[file policy](files.md) for uploads and [date policy](dates.md) for temporal fields. Frontend validation
-improves usability but does not replace server checks or authorization.
+Validate external responses and environment values where they become trusted. Apply [files](files.md)
+and [dates](dates.md) when relevant. Frontend validation does not replace server checks or authorization.
 
 ## Errors
 
-Use `application/problem+json` according to RFC 9457. Keep stable `type` identifiers and human-readable
-`title`; actual HTTP status and any `status` member must agree. Use safe `detail`, an opaque request or
-occurrence identifier where useful, and stable extensions such as `code`, `requestId`, and field errors.
-An error `instance` must not reveal a sensitive URL/query. Do not expose internal exceptions or stack traces.
-Apply [request correlation](logging.md#request-correlation) so public application errors contain the
-accepted `requestId` and their response header carries the same value.
+Use RFC 9457 `application/problem+json` with stable `type`, human-readable `title`, safe `detail` and
+extensions such as `code`, `requestId` or field errors. HTTP status and any `status` member agree.
+Do not expose exceptions, stacks or sensitive URL/query values through `instance`.
 
-Centralize mapping for validation, malformed input, authentication, authorization, missing resources,
-conflicts, rate limits, and unexpected exceptions. Keep public machine-readable codes independent of
-translated text. Choose and document 400/422 semantics consistently. Preserve relevant HTTP headers
-such as `WWW-Authenticate` or `Retry-After`. Do not turn every exception into a 200 response or classify
-an unknown server bug as a client validation error.
+Centralize validation/parsing, authentication, authorization, missing-resource, conflict, rate-limit and
+unexpected-error mapping. Keep machine codes independent of translated text; choose consistent 400/422
+semantics and preserve headers such as `WWW-Authenticate`/`Retry-After`. Apply
+[request correlation](logging.md#request-correlation) even without a new logger: preserve valid supplied
+IDs, generate IDs for absent/invalid values, return `X-Request-ID` on application responses and the
+matching `requestId` in public problems.
 
 ## Verification
 
-Test invalid/missing fields, exact limits, malformed payloads, unauthorized access where applicable,
-known domain failures, and unexpected failures. Test serialized success responses and documented error
-shape. For an API change, compare the OpenAPI artifact with the previous supported version and test
-relevant consumers; document breaking changes and migration requirements. A schema snapshot alone
-cannot establish semantic compatibility.
+Test serialized success/error shapes, invalid and boundary inputs, malformed payloads, authorization,
+known domain failures and unexpected errors. Compare changed OpenAPI against the supported artifact and
+exercise affected consumers; document breaking changes/migrations. Schema snapshots do not establish
+semantic compatibility. Apply [shared testing criteria](testing.md).
 
 ## Primary references
 

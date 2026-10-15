@@ -1,19 +1,17 @@
-# React/Vite tooling
+# React/Vite tooling and deployment
 
-For tooling changes or implementation handoff, apply the
-[common quality policy](../../../references/quality.md) alongside the integration details below.
+Apply [quality policy](../../../references/quality.md). Preserve Vite/JSX setup and browser/server
+TypeScript boundaries. Use the selected compatible package manager/runtime, React-aware lint/format,
+and independent type checks; do not install another runtime for kit helpers.
 
-Preserve Vite's framework setup, JSX configuration, and browser/server TypeScript boundaries. Use the
-selected package manager and compatible runtime without installing a second runtime for kit helpers.
-Configure React-aware lint rules, formatting, and independent type checks; bundling alone is not a
-complete type check.
+For new routed SPAs, configure compatible TanStack Router/Query versions. Choose file-based or
+code-based routes; add Vite route generation only for file-based routing. Preserve established choices.
 
-Use production builds to verify assets, base paths, and the selected static hosting strategy. Test
-navigation fallback when client routes are added. Keep server credentials out of browser environment
-variables. Vitest/React Testing Library and Playwright are useful test defaults; configure them only
-for behavior that needs those layers, as described in the local testing reference.
+Apply [deployment controls](../../../references/deployment.md) to generated assets on the selected
+static host. Vite's development server/proxy is not a production API. Verify base paths, hashed assets,
+HTML/asset caching, deep-link fallback, refresh, API origin, cross-origin behavior, and host security
+headers. Keep public configuration intentional and secrets out of browser values/bundles.
 
-For new routed SPAs, configure compatible @tanstack/react-router and @tanstack/react-query versions.
-Select file-based or code-based routes for the project; configure the supported Vite route-generation
-integration only when using file-based routing. Do not add TanStack Start or replace Vite to obtain
-TanStack Router. Preserve explicitly chosen or established alternatives unless migration is requested.
+For selected containers, apply [Docker controls](../../../references/docker-deployment.md) with a
+maintained static server and actual built assets. Exercise production-like serving and document
+configuration/rollback, coordinating obsolete-chunk recovery with active browsers.

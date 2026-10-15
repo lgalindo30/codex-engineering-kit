@@ -1,54 +1,36 @@
 # File Handling
 
-Apply only to features that receive, store, or serve files. Follow the task's explicit storage choice;
-otherwise preserve the project's existing storage and services. Do not infer a provider migration from
-an upload feature. When no storage is selected, recommend an option compatible with the deployment
-and record selection/setup as pending before provider-dependent implementation. A chosen cloud alone
-does not authorize provisioning its storage services.
-
-Keep storage access behind a small boundary so business logic does not depend on a provider SDK or
-filesystem. Local files are appropriate when selected and supported by persistent writable storage;
-temporary or ephemeral filesystems are not durable upload storage. For selected containers, follow
-[Docker persistence controls](docker-deployment.md#local-operation-and-persistent-data).
+Use for receiving, storing or serving files. Follow selected storage; when none exists, recommend a
+deployment-compatible option and record pending setup. Keep provider/filesystem access behind a small
+boundary. Local uploads require persistent writable storage; ephemeral filesystems are temporary.
+See [container persistence](docker-deployment.md#local-operation-and-persistent-data) when applicable.
 
 ## Limits and admission
 
-Default to a maximum of **10,000,000 bytes per file** unless the task explicitly specifies otherwise.
-Choose lower feature-specific limits when appropriate and document explicit overrides. Set separate
-limits for file count, total request bytes including multipart overhead, text fields, and processing
-resources. Expose the public limits to frontend validation without trusting the frontend to enforce them.
-
-Reject missing/non-file fields. Allowlist accepted types and verify actual content using maintained
-parsers/signature detection appropriate to those types. A client-provided MIME or filename extension
-is not proof. Reject unsupported or inconsistent content; account for archive expansion and image
-pixel limits only when those formats are part of the feature.
-
-Enforce the total request limit before body buffering/parsing and per-file limits during streaming.
-Content-Length is an early optimization, not the sole control: test missing/false length and chunked
-input. Verify the selected runtime/framework/proxy layers actually stop oversized streams. If the multipart
-parser buffers, configure a strict upstream runtime body ceiling and account for concurrent memory use;
-do not claim per-file streaming protection that the parser does not provide. Clean partial files on
-failure or cancellation. Return the documented 413 Problem Details response.
+- Default to **10,000,000 bytes per file** unless explicitly overridden; lower feature limits are valid.
+  Separately bound file count, total request/multipart bytes, text fields and processing resources.
+  Expose public limits to the client; enforce them server-side.
+- Reject missing/non-file fields. Allowlist types and verify actual content using maintained parsers or
+  signature detection. MIME/extension alone is insufficient. Bound archive expansion/image pixels for
+  accepted formats.
+- Bound total bytes before buffering/parsing and file bytes during streaming. Content-Length is only
+  an early check. If parsing buffers, use a strict upstream body ceiling and budget concurrent memory.
+  Clean partial files after failure/cancellation and return documented 413 Problem Details.
 
 ## Storage and retrieval
 
-Generate storage names or object keys independently of submitted filenames. Keep the original name as
-sanitized metadata only. For filesystem storage, prevent traversal and symlink escapes and store
-outside the public webroot and executable paths. For object storage, enforce the selected bucket/key
-boundary and access policy. Write safely without overwriting another user's content. Bound storage
-usage and define cleanup, including incomplete uploads supported by the chosen integration.
+Generate independent storage keys; retain sanitized submitted names as metadata. Prevent traversal,
+symlink escapes and cross-user overwrites. Keep filesystem uploads outside public/executable paths;
+apply object bucket/key boundaries and access policy. Bound storage use and clean incomplete uploads.
 
-Protect retrieval according to the feature's ownership/access rules. Serve safe content types and
-content-disposition deliberately; do not execute uploaded content or allow active untrusted content to
-run under the application's origin. Add malware scanning only when warranted by the accepted content
-and risk, not as unused infrastructure.
+Authorize retrieval, set safe content type/disposition and prevent uploaded active content executing
+under the application origin. Add malware scanning when the accepted content/risk warrants it.
 
 ## Verification
 
-Exercise the exact size boundary and one byte over, total request limits, multiple files, disguised or
-malformed content, absent content length, unsafe names, interrupted uploads, and access denial where
-applicable. Check that failure leaves no persistent partial file. Validate the browser's useful error
-message as well as the server's rejection.
+Exercise exact limits/one byte over, multipart totals, multiple files, malformed/disguised content,
+missing/false Content-Length and chunked input, unsafe names, interrupted uploads and denied retrieval.
+Verify actual runtime/proxy stream rejection, cleanup and useful browser errors. Apply [shared criteria](testing.md).
 
 ## Primary references
 

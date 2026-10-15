@@ -18,7 +18,8 @@ pushed together; another push advancing the same remote branch needs another hig
 
 The repository's `pre-push` hook reads Git's ref-update input and checks versions in each outgoing
 **committed tree** against the old remote object ID. An uncommitted bump cannot satisfy the check.
-The hook also runs the regular quality command. Enable repository hooks with:
+The hook also runs the regular quality command. Inspect any existing local `core.hooksPath` before
+enabling repository hooks:
 
 ```sh
 git config --local core.hooksPath .githooks

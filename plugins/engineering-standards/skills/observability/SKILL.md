@@ -1,29 +1,19 @@
 ---
 name: observability
-description: Investigate failures across services, audit logging and correlation, or design explicit telemetry integrations. Routine application diagnostics belong to the technology skill.
+description: Investigate cross-service failures, audit logging/correlation, or integrate requested telemetry. Routine diagnostics belong to the technology skill.
 ---
 
 # Observability
 
-This is an independent project-level workflow, not a prerequisite for development skills. Use local
-technology references only when their execution detail helps the assigned analysis; do not route
-ordinary implementation work through this skill.
+Read [the shared workflow](../../references/workflow.md) and
+[diagnostics/telemetry guidance](references/observability.md).
 
-Preserve the project's conventions and explicit task scope. Read
-[observability guidance](references/observability.md).
+Choose the requested scope:
 
-Choose the scope from the request:
+- Application baseline: existing or runtime-supported structured console logging, correlation, and
+  centralized safe errors; no remote telemetry service by default.
+- Investigation: reproduce and narrow the failing boundary using existing tools before adding others.
+- Explicit integration: define signals/destination and verify current SDK/runtime compatibility.
 
-- **Application baseline:** structured console logs using the existing logger or the selected technology's supported integration, request correlation, safe centralized error
-  handling, and useful development output. No centralized service or telemetry SDK by default.
-- **Debugging:** reproduce, collect redacted evidence, test a hypothesis, make the smallest correction,
-  and verify the failing behavior. Use existing tools and observability before introducing new ones.
-- **Explicit telemetry integration:** verify current official SDK/runtime compatibility, identify the
-  desired signals and deployment destination, then integrate only the requested capabilities.
-
-Keep logging dependencies injectable at application boundaries so output destinations can evolve.
-Do not build a custom observability framework. Confirm meaningful checks for correlation, redaction,
-and failure behavior. If diagnostics cannot be reproduced, state what evidence remains missing.
-
-Knowledge of OpenTelemetry is not authorization to install a collector, choose a paid service, enable
-session recording, or export user data. Service selection belongs to the explicit integration task.
+Keep logger dependencies injectable at application boundaries without building a custom framework.
+Verify correlation, redaction, and failure behavior. Report missing evidence when reproduction is unavailable.

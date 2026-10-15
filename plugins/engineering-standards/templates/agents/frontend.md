@@ -1,19 +1,19 @@
 # Frontend Project Instructions
 
-- Use English for code, comments, documentation, and generated content unless the product explicitly requires another language.
-- This is a quality scaffold, not an installed React, Astro, or Next.js application. Document actual framework commands after setup.
-- Inspect the prompt and existing project for framework, rendering needs and deployment service/runtime. Ask for missing consequential choices before dependent scaffolding; do not block unrelated small edits. Preserve explicit choices. Prefer React/Vite SPA for dynamic administrative apps on edge/serverless asset hosts, Next.js on a selected compatible host for complex apps, and Astro with selective islands for mostly static content. These preferences do not make serverless incompatible with SSR or require SSR on every server route.
-- Next.js may own integrated server behavior or consume a separate backend. Follow the selected architecture and keep secrets and persistence out of browser code.
-- Preserve the chosen design system, including Ant Design. For unselected new styling, prefer Tailwind; add shadcn/ui for complex React forms, tables and controls. Add only needed components. Keep CSS for Tailwind imports, project tokens/base styles and specific custom needs; resolve visual identity per project.
-- Keep shared components in components/ or its established equivalent, normally components/ui/ for shadcn primitives; keep single-feature components near that feature. Treat customized generated UI as maintained source.
-- Reuse an appropriate Skeleton for initial asynchronous loading with known structure. Preserve cached content during refresh, respect reduced motion, and avoid artificial loading for static content.
-- Keep the API base URL and version centralized. Prefer client types generated from a pinned backend OpenAPI contract, with local Zod schemas for forms and runtime boundaries.
-- Use React Hook Form with local Zod schemas for new React forms; preserve explicitly selected or established supported alternatives. A UI system alone does not select its form-state library. Keep errors associated with fields, focus invalid controls and preserve values on failure. Prevent duplicate submissions, show accessible progress and handle server errors/recovery. Backend validation and authorization remain mandatory. Do not keep access or refresh tokens in localStorage.
-- Prefer TanStack Query when remote-state caching is needed. Use the framework router; do not add a second router to Next.js or Astro by default.
-- Give navigable views their own paths and include a useful Not Found page. Store validated filters, sorting and pagination in URL search parameters; preserve back/forward, refresh and deep links, keeping transient or sensitive input out of URLs.
-- Split substantial SPA routes and heavy optional dependencies using the chosen router or React lazy imports with loading/error boundaries. Verify deferred production chunks and bounded failure recovery without reload loops or losing meaningful unsaved work. Do not split every small primitive.
-- Use Vitest and React Testing Library for React behavior, and Playwright for critical browser journeys. Replace the deliberately failing initial test placeholder with an appropriate aggregate command once frontend tests exist.
-- Maintain accessibility, semantic markup, keyboard support, loading states, empty states, and actionable error states.
-- Prefer functional composition and explicit dependencies. Keep manually maintained source files below 400 lines and responsibilities cohesive.
-- The current quality commands are `bun run format:check`, `bun run lint`, `bun run typecheck`, `bun run test`, and `bun run check` after dependency installation. This initial tooling configuration must be adapted to the chosen framework, including JSX, browser types, and framework lint rules.
-- Keep server-only Bun APIs out of browser modules. Follow applicable OWASP guidance and update these instructions as project decisions change.
+- Use English for repository content; honor the product's requested language.
+- This is a Bun quality scaffold; no application framework is installed. Record the selected framework,
+  rendering mode, backend boundary, host and actual application commands after setup. Preserve choices.
+- Adapt TypeScript JSX/browser/server boundaries and framework lint before application checks.
+- Prefer functional composition, explicit dependencies and cohesive maintained files below 400 lines.
+  Keep reused UI shared and feature-specific UI near its feature; customized generated UI is maintained source.
+- Centralize API origin/version and use the backend's supported contract. Validate forms locally and
+  mutations on the server. Keep secrets, persistence and server-only Bun APIs out of browser dependencies;
+  never put access/refresh tokens in browser storage or logs.
+- Provide accessible keyboard/focus behavior, loading/empty/error states and recoverable submissions.
+  Prevent duplicate pending mutations and preserve meaningful unsaved values on failure.
+- After dependency installation, checks are `bun run format:check`, `bun run lint`, `bun run typecheck`,
+  `bun run test` and aggregate `bun run check`. The initial test placeholder fails deliberately; configure
+  behavioral tests before replacing it. Report actual results and unexecuted checks.
+- Preserve unrelated configuration. Keep credentials/personal identity out of distributed assets; add
+  services and perform live remote actions only within authorized scope. Update these instructions as
+  architecture and commands change.

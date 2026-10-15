@@ -1,70 +1,46 @@
 # Rate Limiting at Application Boundaries
 
-Recommend rate limiting for authentication, public submissions, expensive operations, and other
-abuse-sensitive endpoints in the requested functionality. Inspect the actual serving boundary,
-deployment target, selected services, and existing limits before proposing implementation.
+Recommend controls for authentication, public submissions, expensive operations and other abuse-sensitive
+endpoints. Inspect the real serving boundary, selected services and existing controls first.
 
 ## Service selection and pending work
 
-Respect the project's chosen cloud/services and established architecture, including deployments
-outside managed clouds. Prefer a suitable existing or native control at the trusted edge, gateway,
-or server boundary. Verify current capabilities against the endpoint and required scope; provider
-configuration and runtime integration belong to the relevant technology guide.
-Do not introduce a different vendor, change hosting, or provision a service because another guide
-describes it. A tooling mention alone does not select a deployment provider. If the deployment or
-service is unspecified, keep the recommendation generic and leave service selection pending.
+Prefer a suitable existing/native control at the trusted edge, gateway or server. Technology guidance
+owns provider integration. Without a deployment/service selection, leave selection pending.
 
-Implement when requested or included in scope. Otherwise record a concrete pending item in the
-deliverable or existing planning mechanism: affected endpoints, proposed control, policy decisions,
-required configuration, and next step. Missing account access or configuration remains explicit
-pending work. Distinguish recommended, prepared, configured, and verified protection; do not claim
-that middleware or a configuration file alone establishes active enforcement.
+Implement when included in scope; otherwise record endpoints, proposed control, policy/configuration
+decisions and next step. Distinguish prepared, configured and verified protection using [workflow criteria](workflow.md).
 
 ## Policy and enforcement
 
-Choose thresholds, windows, allowed bursts, and key scope from expected traffic and operation cost,
-not an arbitrary universal quota. Document protected endpoints and justified health/internal-route
-exemptions. Preserve existing controls and check how multiple enforcement layers interact.
-
-Prefer a verified user/tenant identity for authenticated traffic. For anonymous traffic, use a bounded
-key combining endpoint policy with a trusted identifier when suitable. Account for shared networks,
-proxies, and platform trust when using IP addresses; do not accept spoofable client identity headers.
-Bound key length, cardinality, and retention where the control supports them. Authenticate before
-user-based limits; apply protection before expensive work, provider calls, and side effects. Early
-anonymous controls may also protect the authentication boundary.
-
-Enforce at the real trusted serving boundary and check that alternate routes cannot bypass it.
-Browser delays and counters in one process do not establish distributed enforcement. Confirm the
-selected control's consistency, geographic scope, and concurrency behavior. Approximate abuse
-protection is different from exact global quotas or billing; stricter requirements need an explicit
-design rather than unsupported guarantees from the default limiter.
-
-Keep rate limiting alongside validation, authorization, bounded requests, and applicable
-[anti-bot protection](public-forms.md); none substitutes for the others.
+- Choose thresholds, windows, bursts and key scope from traffic/cost, not a universal quota. Document
+  protected endpoints and justified health/internal exemptions; account for stacked controls.
+- Prefer verified user/tenant identity for authenticated traffic. Anonymous keys need trusted identifiers
+  and endpoint scope. Account for proxies/shared networks; reject spoofable identity headers. Bound key
+  length/cardinality/retention. Authenticate before user limits; reject before costly work/effects.
+- Verify alternate routes cannot bypass enforcement. Process-local/browser counters do not establish
+  distributed protection. Confirm geographic scope, consistency and concurrency. Exact global quotas
+  or billing need a design beyond approximate abuse limiting.
+- Combine limits with validation, authorization, request bounds and [anti-bot controls](public-forms.md).
 
 ## Responses and failures
 
-For application/API rate-limit rejection, return a documented `429` following the
-[shared error contract](api-contracts.md#errors). Check gateway/edge rejection behavior separately
-and document differences when that layer cannot produce the application error format. Include
-`Retry-After` only when supported by a defensible retry policy; do not invent an exact reset time.
-Keep client recovery bounded and avoid retry storms or automatic duplicate mutations.
+Return documented application `429` [Problem Details](api-contracts.md#errors). Check edge/gateway
+responses separately and document format differences. Include `Retry-After` only with a defensible policy;
+keep client recovery bounded and mutation retries safe.
 
-Define behavior when the limiter is unavailable according to endpoint risk and availability needs.
-Distinguish limiter failures from exceeded limits; do not silently bypass enforcement or label every
-failure as `429`. Use safe errors and the [shared logging policy](logging.md), without credentials,
-raw identity keys, or routine per-request logging.
+Choose limiter-unavailable behavior from endpoint risk/availability. Distinguish failure from exceeded
+limits: avoid silent bypass or converting every failure to 429. Apply [safe logging](logging.md) without
+credentials, raw identity keys or routine per-request logs.
 
 ## Verification
 
-Exercise allowed, exceeded, and limiter-failure paths at the actual enforcement boundary. Check
-trusted identity selection, policy isolation, exemptions, bypass attempts, concurrent requests when
-relevant, response/retry semantics, and no effects after rejection. Use isolated keys and disposable
-environments. Distinguish mocks, local integration, pending setup, and observed remote behavior;
-local tests do not prove distributed accuracy or live configuration.
+Exercise allowed, exceeded and unavailable paths at the enforcement boundary. Check identity, policy
+isolation, exemptions, bypasses, concurrency, retry semantics and no effects after rejection. Use isolated
+keys and [shared testing criteria](testing.md).
 
 ## Primary references
 
 - [OWASP REST Security](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html)
-- [RFC 6585: 429 Too Many Requests](https://www.rfc-editor.org/rfc/rfc6585.html#section-4)
+- [RFC 6585: 429](https://www.rfc-editor.org/rfc/rfc6585.html#section-4)
 - [RFC 9110: Retry-After](https://www.rfc-editor.org/rfc/rfc9110.html#section-10.2.3)

@@ -1,62 +1,42 @@
-# Workers Tooling and Deployment Checks
+# Workers tooling and deployment
 
-Apply the [common quality policy](../../../references/quality.md). Use strict TypeScript/ESM for new
-application code and TypeScript for supported tool configuration; `wrangler.jsonc` describes platform
-configuration. Preserve the project's package manager and lockfile. For a new Bun-managed project,
-pin Bun, use its maturity controls and frozen installs, and keep Node.js available for tools that
-require it. Bun package management does not imply Bun runtime compatibility for Workers or Wrangler.
+Apply [quality policy](../../../references/quality.md). Use strict TypeScript/ESM and supported TypeScript
+tool configuration; `wrangler.jsonc` owns platform settings. Preserve the package manager/lockfile.
+Bun-managed projects keep pinned Bun, maturity controls, and frozen installs plus supported Node for
+Wrangler. Neither Bun package management nor `nodejs_compat` makes workerd a full Node/Bun runtime.
 
-## Wrangler and Vite
+## Wrangler/Vite
 
-Install a compatible stable Wrangler locally and invoke that pinned executable through project scripts.
-Wrangler runs on its supported Node.js releases; Workers run in workerd. Avoid CLI invocations that
-silently download an unpinned latest version. Pin compatible Hono, Zod, OpenAPI integration, TypeScript,
-Vite, Cloudflare plugins, and Drizzle packages only when the application needs them.
+Use pinned local stable Wrangler through project scripts, avoiding implicit latest downloads. Pin
+compatible Hono/Zod/OpenAPI, Vite/Cloudflare, and Drizzle dependencies only as needed. New Worker builds
+prefer `@cloudflare/vite-plugin`, especially browser assets plus APIs; preserve supported existing flows.
+Keep one production build path. Ordinary Vite Node serving does not simulate Workers.
 
-Use Vite with `@cloudflare/vite-plugin` for new Workers development/builds, especially combined browser
-assets and APIs. Verify official framework support and preserve a requested or established Wrangler
-dev/build flow. Keep one authoritative production build path and validate bindings in local workerd;
-Vite's ordinary Node dev server alone does not simulate Workers. Browser and Worker TypeScript configs
-must have appropriate environments so Bun/Node globals and privileged modules do not enter browser code.
+Configure entrypoint, environments, compatibility date/flags, bindings, assets, rate limits, and logging
+against the installed schema. New compatibility dates are deliberate; test updates to existing ones.
+Use `nodejs_compat` only for dependencies requiring supported APIs. Separate browser/Worker TypeScript
+environments to keep privileged modules and runtime globals out of browser code.
 
-Configure the actual TypeScript entrypoint, environments, compatibility date/flags, bindings, assets,
-rate limits, and warning/error logging policy in Wrangler. Use a current deliberate compatibility date
-for a new project; review/test changes on existing projects. Enable `nodejs_compat` for supported
-dependencies that need it without assuming the full Node runtime becomes available.
+Generate runtime/binding types with `wrangler types` from actual config; regenerate after changes and
+verify environment-specific CI generation. Avoid drifting handwritten `Env` interfaces. Validate runtime
+configuration values where used; keep local secrets ignored and examples non-secret.
 
-Generate binding/runtime types using `wrangler types` from the actual configuration. Use those types
-for Hono bindings and platform handlers instead of a drifting handwritten Env interface. Regenerate
-after binding/configuration changes and check supported environment-specific generation in CI. Typed
-bindings do not validate secret values; validate required runtime configuration at its usage boundary.
-Keep local secret files ignored and provide non-secret configuration examples.
+## Quality and deployment
 
-## Quality and testing
+Use the actual Vite/Wrangler build in the quality command. Verify the current official Vitest integration
+(presently `@cloudflare/vitest-plugin`); existing `@cloudflare/vitest-pool-workers` setups need a supported
+compatibility/migration path. See [testing](testing.md) for runtime execution.
 
-Use the shared quality command criteria with the actual Vite/Wrangler production build.
-Use Vitest's current official Workers integration, presently `@cloudflare/vitest-plugin`,
-after verifying compatible versions and
-configuration. Existing `@cloudflare/vitest-pool-workers` setups need the documented compatibility or
-migration path rather than copied obsolete setup. See [testing](testing.md) for execution boundaries.
+Kit [templates](../../../templates/README.md) are optional Bun quality assets, not Worker scaffolds.
+Adapt compatible assets without Bun Test, Node listeners, or container assumptions.
 
-The optional kit [templates](../../../templates/README.md) are Bun-specific quality assets, not a
-Workers scaffold. Adapt only compatible assets; do not copy Bun Test, Node-listener assumptions, or
-container checks into a workerd application. Record verified scripts and real package boundaries in
-project instructions. Project-wide quality audits remain separate tasks.
+Apply [deployment controls](../../../references/deployment.md). Check built configuration/binding targets
+with the selected pipeline and available deploy dry-run. Keep secrets, domains, database IDs, migrations,
+and private-service exposure explicit per environment. Verify remote D1, bindings, distributed limits,
+and runtime behavior separately from local builds.
 
-## Deployment
-
-Apply [shared deployment controls](../../../references/deployment.md) for the selected Cloudflare target.
-Verify built deployment configuration and binding names/targets using the selected Vite/Wrangler
-pipeline and an available deploy dry-run.
-Keep secrets, domains, database IDs, migrations, and internal-service exposure explicit per environment.
-
-Use the shared rollout/pending-work criteria for live actions. Verify remote bindings, D1 storage,
-rate-limit distribution, and runtime behavior separately from local builds. Updating a guide does
-not authorize installation of application dependencies here.
-
-Sources to verify when implementing:
-[Wrangler requirements](https://developers.cloudflare.com/workers/wrangler/install-and-update/),
-[Wrangler configuration](https://developers.cloudflare.com/workers/wrangler/configuration/),
-[TypeScript](https://developers.cloudflare.com/workers/languages/typescript/),
-[Vite plugin](https://developers.cloudflare.com/workers/vite-plugin/),
-[Vitest integration](https://developers.cloudflare.com/workers/testing/vitest-integration/).
+Sources: [Wrangler requirements](https://developers.cloudflare.com/workers/wrangler/install-and-update/),
+[configuration](https://developers.cloudflare.com/workers/wrangler/configuration/),
+[types](https://developers.cloudflare.com/workers/languages/typescript/),
+[Vite](https://developers.cloudflare.com/workers/vite-plugin/),
+[Vitest](https://developers.cloudflare.com/workers/testing/vitest-integration/).

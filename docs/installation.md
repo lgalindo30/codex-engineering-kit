@@ -17,11 +17,9 @@ disk and successful cache ingestion do not prove that a running session loaded t
 
 ## Updates and removal
 
-Pull an intentionally selected release, run frozen dependency installation and `bun run check`, then
-rerun plugin setup and its check command. Every push advancing an existing branch must carry a higher
-plugin version than its remote destination, including documentation-only changes. Prepare the version
-change before committing; the pre-push gate checks committed content and never creates commits or
-edits versions. See [the release workflow](releasing.md).
+Pull an intentionally selected release, run `bun install --frozen-lockfile` and `bun run check`, then
+rerun plugin setup and its check command. Authors preparing an update must follow the
+[release workflow](releasing.md) before an authorized push.
 
 A same-version reinstall is not proof that cached resources changed. Never edit Codex cache contents
 as the source. Updating this plugin does not migrate applications previously generated from its

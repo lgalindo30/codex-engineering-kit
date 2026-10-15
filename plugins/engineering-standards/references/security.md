@@ -1,49 +1,42 @@
 # Security at Application Boundaries
 
-Apply these controls to the requested functionality; do not install authentication, roles, or security
-infrastructure for features that do not require them. Preserve the project's selected architecture.
-Consult the relevant current OWASP cheat sheet when implementing a sensitive boundary, rather than
-claiming general OWASP compliance from a checklist.
+Use the relevant current OWASP guidance for sensitive boundaries; a checklist does not establish general
+OWASP compliance.
 
-- Validate untrusted data with bounded schemas; parameterize database queries and safely invoke tools
-  without interpolating input into shell commands. Validation does not replace contextual output encoding.
-- Perform permission and ownership checks in the backend before returning or modifying protected data.
-  Absence of a role system does not mean all authenticated users may access each other's records.
-- Treat URLs, redirects, file paths, and third-party data as independent trust boundaries. For URL-fetching
-  features constrain destinations and redirects against SSRF; do not invent URL-fetching features.
-- Keep secrets out of source, templates, browser bundles, error bodies, and logs. Document environment
-  variable names with non-secret placeholders. Limit access granted to the runtime and CI.
-- Configure precise CORS and proxy trust; CORS alone is not authentication or CSRF prevention. Set headers
-  and content policies appropriate to the app without breaking required functionality silently.
-- Bound expensive requests, uploads, pagination, network operations, and security-sensitive retries.
-  Follow the [shared rate-limiting policy](rate-limiting.md) for abuse-sensitive endpoints, respecting
-  the selected cloud/services and recording unrequested implementation or missing configuration as pending.
-- Use [authentication](authentication.md) and [file handling](files.md) guidance when applicable.
-- Recommend [anti-bot protection](public-forms.md) for public unauthenticated submission forms using
-  the selected cloud/services. Record unrequested implementation or missing configuration as pending;
-  when implemented, enforce protection before effects and provide accessible pending/retry behavior.
-  Do not implement custom cryptographic primitives or rely on TypeScript types to sanitize runtime input.
-- Review newly added dependencies for maintenance, provenance, compatibility, and known vulnerabilities.
-  Preserve release-age controls; report advisory lookup failures instead of declaring a clean audit.
+- Validate untrusted data with bounded schemas, parameterize queries and avoid shell interpolation.
+  Encode output for its context; TypeScript types do not sanitize runtime values.
+- Render untrusted text safely; sanitize product-required rich HTML with a maintained solution.
+- Enforce backend permissions and record ownership before returning/modifying protected data.
+- Constrain URL fetches and redirects against SSRF. Treat redirects, paths and provider data as their own
+  trust boundaries.
+- Keep secrets out of source, templates, browser bundles, public errors and logs. Use non-secret
+  environment placeholders and minimum runtime/CI permissions.
+- Configure precise CORS, proxy trust and content/security headers. CORS does not replace authentication
+  or CSRF defenses.
+- Bound costly requests, pagination, uploads, network operations and retries. Follow [rate-limit guidance](rate-limiting.md)
+  for abuse-sensitive endpoints and [anti-bot guidance](public-forms.md) for public submissions.
+- Use [authentication](authentication.md) and [file handling](files.md) controls when applicable.
+  Use maintained cryptographic implementations.
+- Review new dependencies for maintenance, provenance, compatibility and known vulnerabilities.
+  Preserve release-age protections.
 
-Test realistic denial cases and failure paths: missing permission, boundary violations, malicious paths,
-sensitive-data leakage, and unsafe cross-origin state changes when relevant. Report a vulnerability
-only when supported by a plausible execution path; use a requested specialized security workflow rather than expanding every routine implementation into an audit.
+Exercise relevant denial paths: missing permission, boundary violations, malicious paths, leakage and
+unsafe cross-origin mutations. A vulnerability report needs a plausible execution path; routine
+implementation does not require a full security audit. Apply [shared testing criteria](testing.md).
 
 ## Service boundaries
 
-Treat delegated calls as independent trust boundaries. Restrict private entrypoints and permissions,
-validate input/output contracts, and explicitly propagate only trusted bounded authorization context.
-Do not assume a service-to-service transport transfers the caller's identity or grants resource access.
-Keep permissions and exposure aligned with [service ownership](architecture.md#separate-services).
-Apply [call reliability](reliability.md) for bounded upstream work and safe retries.
+Restrict private entrypoints/permissions, validate delegated input/output, and propagate only trusted,
+bounded authorization context. A service transport does not transfer caller identity or grant resource
+access. Align exposure with [service ownership](architecture.md#separate-services) and apply
+[reliability](reliability.md) to upstream work.
 
 ## Primary references by boundary
 
-- [OWASP Input Validation](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)
-- [OWASP REST Security](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html)
-- [OWASP Authorization](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
-- [OWASP SQL Injection Prevention](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html)
-- [OWASP SSRF Prevention](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
-- [OWASP XSS Prevention](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
-- [OWASP Secrets Management](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html)
+- [Input validation](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)
+- [REST security](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html)
+- [Authorization](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
+- [SQL injection](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html)
+- [SSRF](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
+- [XSS](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
+- [Secrets](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html)

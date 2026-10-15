@@ -1,85 +1,54 @@
-# React and Vite applications
+# React/Vite integration
 
-Use a client SPA when it fits the requested product. For new SPAs needing navigation, use TanStack Router
-(@tanstack/react-router). Preserve a requested or established router unless migration is authorized. Vite development middleware is not a production backend.
-For new framework/host decisions, use [architecture selection](../../../references/frontend-architecture.md).
+Keep secrets, authorization, persistence, and privileged integrations in the selected server.
+Browser environment values are public. Reuse the design system and accessible components; apply
+[interface policy](../../../references/interface.md) without adding competing component/state libraries.
 
-- Keep secrets, authorization, persistence, and privileged integrations in the selected server.
-  Browser-exposed environment variables are public configuration, not secret storage.
-- Keep shareable state in routes/search parameters and transient state local. Use TanStack Query for
-  remote state when useful without duplicating the same cache in component effects.
-- Preserve accessible UI primitives and the existing design system. Do not add a component library
-  or another state manager for a feature that existing tools handle well.
-- Use Vitest and React Testing Library for meaningful component behavior when no runner is established.
-  Distinguish mocked API tests from integration against the actual backend.
-- Validate types independently from bundling. Build and verify deep-link fallback, base paths, assets,
-  and critical browser journeys against production-like serving when changing deployment or routing.
-- Follow the selected package manager; Node and Bun tooling are both possible subject to compatibility.
+## Routes and remote state
 
-## TanStack routing and remote state
+For new routed SPAs, use TanStack Router with typed routes, validated search parameters, loading/error
+boundaries, and a Not Found view. Keep shareable state in URLs and transient state local. Preserve
+back/forward, refresh, and direct links. A screen without navigation needs no router. Apply
+[URL/data-view policy](../../../references/interface.md#navigation-and-data-views).
 
-Use TanStack Router for typed routes, navigation, validated search parameters, and route-level loading
-and error boundaries. Give primary navigable views stable pathnames; use search parameters for filters,
-pagination, and other shareable state. Preserve browser back/forward, refresh, and direct-link behavior.
-A simple screen without navigation does not need a router merely to satisfy a dependency checklist.
-Provide a router Not Found view for unknown paths. Apply
-[URL/data-view policy](../../../references/interface.md#navigation-and-data-views) to filters, sorting and pagination.
+Use TanStack Query for remote reads/mutations and one shared QueryClient/cache. Integrate route loaders
+with reusable query keys/options and that same client. Choose supported loading/preload APIs for the
+installed versions; make freshness, cancellation, retries, and mutation invalidation deliberate.
+Do not duplicate this cache in effects or add TanStack Start merely to obtain TanStack Router.
 
-Use TanStack Query (@tanstack/react-query) for remote server state: useQuery for reads, useMutation for
-writes, and a shared QueryClient/provider for cache ownership. Keep transient UI state local. Do not
-rebuild the same remote cache with useEffect/useState or store route state in a competing router.
+Follow [API consumer contracts](../../../references/api-contracts.md). Handle actual status/error shapes
+in the query/API layer. Mocked fixtures cannot establish backend compatibility.
 
-When route loading needs remote data, integrate the router with the same QueryClient and reusable query
-keys/options. Use the installed versions' supported preloading/loading APIs so navigation and components
-share data rather than making independent caches. Make freshness, cancellation, error handling, and
-post-mutation invalidation deliberate. Verify integration signatures against compatible official docs.
-Keep session-scoped data isolated and clear it on session changes. Router guards do not replace server
-authorization. Next.js and Astro keep their native routing; this default belongs to the React/Vite SPA.
+## Sessions, forms, and files
 
-Official references: [Vite](https://vite.dev/guide/), [React](https://react.dev/learn),
-[TanStack Router integration](https://tanstack.com/router/latest/docs/guide/external-data-loading),
-[TanStack Query APIs](https://tanstack.com/query/latest/docs/framework/react/reference/index).
+Apply [authentication policy](../../../references/authentication.md) to existing/requested sessions.
+The server/provider owns credentials and session lifecycle; route guards control navigation only.
+Clear private query data on session loss and prevent stale requests from repopulating a new session.
+Coordinate refresh across concurrent failures when the client owns it; verify browser origin/cookies.
 
-## Code loading
+Keep usability validation local and authorization server-side. Apply
+[public-form policy](../../../references/public-forms.md) for submission protection and pending setup.
+Coordinate widget callbacks with the real endpoint, pending/disabled controls, retries, and unmount.
 
-For substantial SPAs, split navigable feature routes and expensive optional dependencies rather than
-shipping all views/editors/charts in the initial bundle. Use the chosen router's supported route code
-splitting, or module-scope `React.lazy(() => import(...))` with appropriately placed `Suspense` and
-error boundaries. Keep the shell and common lightweight controls available; do not lazily split every
-primitive. Preload likely navigation selectively without eagerly downloading all features.
+For files, apply [file policy](../../../references/files.md) using the producer's documented limits.
+Handle progress, cancellation, 413/type/access errors, and retry without duplicate uploads. Render names
+as text; revoke preview object URLs on replacement/unmount. Invalidate affected queries after mutations
+and clear private previews on session changes. Test server rejection with small local fixtures.
 
-Inspect production chunks and browser requests: dynamic imports in source alone do not prove deferred
-loading if eager imports/barrel exports also reach the module. Provide recovery for rejected imports
-or stale asset URLs after deployment. Use the installed Vite/router APIs, bounded reload/retry behavior
-and appropriate HTML/hashed-asset caching; preserve meaningful unsaved work and avoid reload loops.
-Apply this across SPA hosts, not only Cloudflare. Verify initial/deferred requests, navigation fallbacks
-and import failure recovery in production-like serving when these boundaries change.
+## Code loading and diagnostics
 
-Sources: [React lazy](https://react.dev/reference/react/lazy),
-[TanStack splitting](https://tanstack.com/router/latest/docs/guide/code-splitting),
+For substantial SPAs, split feature routes and expensive optional dependencies using supported router
+splitting or module-scope React.lazy/Suspense. Keep the shell available and preload selectively.
+Inspect production chunks/network requests: eager imports or barrels can defeat dynamic imports.
+Handle stale/failed chunks with bounded recovery, appropriate HTML/hashed-asset caching, and preserved
+unsaved work. Verify deferred requests and recovery through production-like serving on any host.
+
+Diagnose rendering, cache, transport, and backend failures with redacted browser console/network evidence
+and server correlation IDs. Verify the original interaction after fixing it.
+
+Sources: [Vite](https://vite.dev/guide/),
+[TanStack external data](https://tanstack.com/router/latest/docs/guide/external-data-loading),
+[Query](https://tanstack.com/query/latest/docs/framework/react/reference/index),
+[React lazy](https://react.dev/reference/react/lazy),
+[Router splitting](https://tanstack.com/router/latest/docs/guide/code-splitting),
 [Vite load errors](https://vite.dev/guide/build.html#load-error-handling).
-
-## API contracts and interaction
-
-Apply the consumer responsibilities in the [shared API contract policy](../../../references/api-contracts.md).
-Handle actual status/error shapes, cancellation, and bounded retries in the API/query layer. Mocked
-fixtures do not establish backend compatibility.
-
-Reuse accessible components and preserve loading, empty, error, and retry states. Retain useful cached
-content during refresh. Keep form validation local for usability while the server owns authorization
-and persistence. Avoid unsafe HTML and exposing secrets in public environment variables or bundles.
-For existing authentication, preserve its supported session design; never introduce browser localStorage
-as a secret token store. Authentication and remote services are added only within task scope.
-
-For public submission forms, follow the [shared anti-bot policy](../../../references/public-forms.md)
-to recommend protection appropriate to the selected cloud/services and record pending implementation
-or configuration. When implemented, coordinate the browser control lifecycle with the actual protected
-endpoint. Reuse button loading/disabled styles, handle retries, and ignore stale callbacks on unmount.
-
-## Diagnostics
-
-Reproduce browser failures with console/network evidence and safe correlation IDs from the server.
-Distinguish rendering, cache, transport, and backend failures before changing code. Redact tokens and
-sensitive responses from logs, traces, and screenshots. Verify the original interaction after the fix.
-Do not send user data to analytics or a telemetry service merely to add diagnostics; an explicit
-integration must define its privacy boundaries, destination, and failure behavior.

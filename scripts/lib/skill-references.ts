@@ -29,11 +29,15 @@ function knowledgeScope(
   skillRoots: string[],
   assetRoots: string[],
   fromShared: boolean,
+  fromEntrypoint: boolean,
   target: string,
-): 'follow' | 'reject' | 'asset' {
+): 'follow' | 'reject' | 'asset' | 'route' {
   // A complete skill directory owns all its documents, not only references/ and SKILL.md.
   // Check ownership before asset allowances so those cannot bypass skill isolation.
-  if (skillRoots.some((skill) => skill !== root && inside(skill, target))) return 'reject';
+  const owner = skillRoots.find((skill) => skill !== root && inside(skill, target));
+  if (owner) {
+    return fromEntrypoint && target === join(owner, 'SKILL.md') ? 'route' : 'reject';
+  }
   if (inside(root, target)) return fromShared ? 'reject' : 'follow';
   if (shared && inside(shared, target)) return 'follow';
   if (assetRoots.some((asset) => inside(asset, target))) return 'asset';
@@ -62,7 +66,15 @@ function inspect(
         problems.push(`Broken reference: ${relative(root, file)} -> ${href}`);
         continue;
       }
-      const scope = knowledgeScope(root, shared, skillRoots, assetRoots, fromShared, target);
+      const scope = knowledgeScope(
+        root,
+        shared,
+        skillRoots,
+        assetRoots,
+        fromShared,
+        file === join(root, 'SKILL.md'),
+        target,
+      );
       if (scope === 'follow') {
         pending.push(target);
       } else if (scope === 'reject') {
@@ -70,6 +82,7 @@ function inspect(
       }
       // Optional shared executable/template assets remain allowed. Shared policy must not
       // route back into skills; skill-specific details belong to the caller's local guide.
+      // Entrypoint routing does not adopt another skill's knowledge; each skill is checked separately.
     }
   }
   for (const file of referenceFiles(join(root, 'references')).sort()) {

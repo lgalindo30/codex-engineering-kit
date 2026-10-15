@@ -1,43 +1,27 @@
-# Workers Verification
+# Workers testing
 
-Choose the smallest meaningful test boundary for the changed behavior. Preserve the project's runner
-and compatible integration; for new Workers tests use Vitest with Cloudflare's official Workers
-integration, running in workerd through local Miniflare. Confirm installed versions and the current
-plugin/config API from official docs. Node/Bun-only passing tests do not establish platform compatibility.
+Apply the [shared testing policy](../../../references/testing.md).
 
-- Test pure business rules with explicit fake dependencies when no platform behavior is involved.
-  Keep fakes narrow and avoid mocking the whole Hono context or retesting library internals.
-- Exercise Hono requests through the real Worker/application boundary with configured local bindings:
-  input limits, malformed JSON, wrong/missing content types, safe errors, authorization if present,
-  exact serialized output schemas, and OpenAPI inclusion for all mounted features.
-- Verify actual Drizzle queries and reviewed migrations against disposable local D1. Use the installed
-  test integration's storage isolation and supported migration helpers; do not copy assumptions from
-  an older integration. Include conflicts, coupled-write failure, and deduplication where relevant.
-- For Service Bindings, run disposable local Workers together to verify HTTP/RPC serialization,
-  expected failures, authorization context, and handler dispatch. A mock of a binding cannot establish
-  real RPC or inter-Worker compatibility. Keep remote bindings and production resources out of tests.
-- Apply [shared rate-limit verification](../../../references/rate-limiting.md#verification) through
-  Hono and configured local rate-limit bindings. Distinguish simulated rejection from exercised
-  binding behavior; local tests do not establish global quotas or distributed accuracy.
-- Use Turnstile test keys and controlled Siteverify responses for accepted/rejected/provider-failure
-  cases when Turnstile is the selected integration. Browser/component checks follow
-  [Turnstile verification](turnstile.md#verification) and the
-  [shared form criteria](../../../references/public-forms.md#verification).
-  Never send production secrets or tokens to fixtures. Verify no side effects after rejection.
-- Apply [logging verification](../../../references/logging.md#verification) through actual requests,
-  including structured console severity. Default production success paths emit no routine logs;
-  exercise other levels only when explicitly selected. Static Wrangler
-  configuration checks alone do not prove remotely stored log behavior.
-- Exercise changed `scheduled`/`queue` handlers with the integration's supported event helpers,
-  including retry/idempotency behavior when applicable. Do not add background handlers for a test rubric.
+Preserve compatible existing integration; new tests use Vitest's official Workers integration in
+workerd/local Miniflare. Verify installed versions and current APIs. Node/Bun-only tests cannot prove
+platform behavior. Keep pure business tests independent; avoid mocking the entire Hono context.
 
-For a bug fix, demonstrate the original trigger fails before and passes after the correction when
-practical; reuse an existing regression test. Apply [quality handoff](../../../references/quality.md)
-with affected Workers tests and the real Vite/Wrangler production build. Report mocks versus exercised
-bindings and local versus live behavior. Do not use no-test success flags, coverage quotas, or prompt
-wording snapshots as evidence. Frontend rendering/tests remain owned by the frontend's actual framework.
+- Exercise actual Worker/Hono requests with local bindings: parsing/media types, limits, authorization,
+  safe serialized schemas/errors, and OpenAPI inclusion for all mounted features.
+- Verify real Drizzle queries/migrations on disposable local D1 using the integration's supported storage
+  isolation and migration helpers. Include changed conflicts, coupled-write failure, and deduplication.
+- Run disposable peer Workers for changed HTTP/RPC serialization, failures, permissions, and dispatch.
+  Mocks cannot establish inter-Worker compatibility; exclude production resources and remote bindings.
+- Exercise [rate-limit checks](../../../references/rate-limiting.md#verification) through configured local
+  bindings, distinguishing simulated rejection and distributed behavior. For chosen Turnstile, use
+  [test-key/UI checks](turnstile.md#verification) and verify rejection precedes side effects.
+- Exercise [logging checks](../../../references/logging.md#verification) through actual requests/native
+  severity; default production success emits no routine logs. Config checks cannot prove remote storage.
+- Test changed scheduled/queue handlers with supported event helpers and relevant retry/idempotency cases.
 
-Sources to verify when implementing:
-[Workers Vitest integration](https://developers.cloudflare.com/workers/testing/vitest-integration/),
-[Configuration](https://developers.cloudflare.com/workers/testing/vitest-integration/configuration/),
-[Test APIs](https://developers.cloudflare.com/workers/testing/vitest-integration/test-apis/).
+Run affected runtime tests and the real Vite/Wrangler build. Frontend tests remain owned by their
+framework. Report which bindings were exercised, local/live scope, and mocked boundaries.
+
+Sources: [Workers Vitest](https://developers.cloudflare.com/workers/testing/vitest-integration/),
+[configuration](https://developers.cloudflare.com/workers/testing/vitest-integration/configuration/),
+[test APIs](https://developers.cloudflare.com/workers/testing/vitest-integration/test-apis/).

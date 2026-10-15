@@ -1,20 +1,15 @@
-# Bun tooling
+# Bun tooling and deployment
 
-For tooling changes or implementation handoff, apply the
-[common quality policy](../../../references/quality.md) alongside the integration details below.
+Apply [quality policy](../../../references/quality.md). Use strict TypeScript/ESM for new code, pin Bun
+and dependencies, commit `bun.lock`, and use frozen CI installs. `install.minimumReleaseAge = 86400`
+filters new resolutions by age in seconds; advisory review still applies to existing lockfiles.
 
-Use strict TypeScript and ESM for new application code. Pin Bun and intentional dependency versions,
-commit bun.lock, and use frozen installation in CI. Bun's install.minimumReleaseAge = 86400 filters
-new resolutions by age in seconds; it does not re-audit an existing lockfile. Review advisories separately.
+The optional [quality scaffold and hooks](../../../templates/README.md) execute with Bun. Use preflight
+and dry-run on an empty target, or review compatible assets after framework initialization. They are
+quality helpers, not application generators; keep hook trust/activation explicit. Configure compatible
+EditorConfig, ESLint, Prettier, type checks, and meaningful tests before accepting the quality command.
 
-The optional [quality scaffold and hooks](../../../templates/README.md) execute with Bun. Use their
-preflight and dry-run on an empty target, or review individual assets after framework initialization.
-They are quality helpers, not application generators. Keep hook trust and activation explicit.
-
-Use EditorConfig, ESLint, Prettier, and strict type checks where compatible. Configure meaningful Bun
-tests before accepting the scaffold's check command; its initial test placeholder intentionally fails.
-
-For a new server, Pino console logging and Hono's Zod/OpenAPI integration are useful defaults. Verify
-library, database driver, and telemetry compatibility on Bun itself. Verify the production entrypoint,
-shutdown, and persistence on the selected host. For chosen containers, use a pinned Bun runtime image
-and the [Docker deployment controls](../../../references/docker-deployment.md).
+For deployment, apply [deployment controls](../../../references/deployment.md). Verify the actual Bun
+entrypoint, drivers, shutdown, persistence, and cleanup on the selected host. For chosen containers,
+apply [Docker controls](../../../references/docker-deployment.md) with a pinned Bun image and exercise
+native dependencies in that image. Document changed connection limits, backups, and migration recovery.

@@ -1,42 +1,19 @@
-# React/Vite testing strategy
+# React/Vite testing
 
-## Select the test boundary
+Apply the [shared testing policy](../../../references/testing.md).
 
-Preserve the existing runner. Vitest with React Testing Library is a useful new-project default for
-component behavior; Playwright can cover critical browser journeys without replacing focused tests.
+Preserve the runner; Vitest/React Testing Library and Playwright are useful new-project options for
+component behavior and critical journeys respectively.
 
-- Unit-test pure logic and transformations with deterministic inputs and explicit external dependencies.
-- Exercise component interaction through accessible roles and labels: validation, submission, pending
-  states, errors, empty data, retries, and keyboard/focus behavior. Avoid internal state assertions.
-- Test client cache invalidation and API error handling when changed. Keep network mocks at the HTTP
-  boundary and cover realistic response shapes; do not mock the implementation under test.
-- For TanStack integrations, verify validated search parameters, browser back/forward, route loading
-  and error states, mutation invalidation, and session cache clearing. Use isolated router/query
-  instances per test; confirm route loading and components use the same cache.
-- Verify critical navigation, refresh/deep links, and shareable URL state in a browser. Use production-
-  like serving when routing fallback, base paths, bundles, or assets change.
-- Cover Not Found routes, filter/sort/page history restoration and reset, form values/focus after errors,
-  and duplicate pending submissions. For code splitting changes inspect initial/deferred production
-  requests and failed chunk recovery, keeping useful content/unsaved work and avoiding reload loops.
-- For styling changes verify generated Tailwind variants, responsive/focus states and reduced motion
-  through rendered behavior; checking class strings alone does not establish working styles.
-- Distinguish mocked API journeys from end-to-end tests against the real backend. Client-side validation
-  tests cannot establish server authorization or data integrity.
-
-## Isolation and regressions
-
-Reset test caches and handlers between tests. Use disposable app instances, accounts, and backend
-resources; never production. Give concurrent runs separate resources and avoid live messages or payment
-side effects. Control clocks where relevant and await observable conditions rather than sleeping.
-
-For a defect, show its expected failure before fixing it when practical, then rerun that scenario.
-Reuse an existing protective test. Favor behavior assertions over broad snapshots, CSS class details,
-or private implementation. Complement automated accessibility checks with keyboard/focus inspection
-for changed interactions. Do not impose a universal coverage percentage.
-
-## Execution and reporting
-
-Run focused tests and the project's format, lint, type, and relevant build checks. Vite bundling does
-not replace type checking, and a build alone does not prove browser behavior. Report commands, results,
-mocked versus real dependencies, skipped checks, and missing prerequisites. Retain redacted failure
-traces/screenshots when useful; retries are diagnostic evidence, not a substitute for resolving flakes.
+- Exercise accessible interactions: validation, pending/error/empty/retry states, keyboard, and focus.
+  For styling changes inspect generated variants, responsive/focus behavior, and reduced motion rather
+  than class strings alone; complement automated accessibility checks with keyboard/focus inspection.
+- For TanStack changes, use isolated router/query instances; check shared loader/component cache,
+  validated search state, back/forward, mutation invalidation, and session clearing.
+- Verify Not Found, direct links/refresh, and filter/sort/page history in a browser. For changed routing,
+  assets, base paths, or splitting, use production-like serving and inspect initial/deferred requests,
+  failed-chunk recovery, retained unsaved work, and bounded retries.
+- For forms, check retained values, server errors, invalid-control focus, and duplicate submission guards.
+  Test file selection, preview cleanup, cancellation, retry, and actual server rejection handling.
+- Distinguish HTTP fixtures from real backend journeys; browser validation cannot prove server access
+  or data integrity. Vite bundling is separate from type checking and browser execution.

@@ -1,12 +1,16 @@
 # Monorepo Instructions
 
-- Use English for repository content and generated project defaults unless explicitly requested otherwise.
-- This is a root quality scaffold. It does not create applications or choose their directories. Add Bun workspaces only for real packages.
-- For delegated work, assign responsibility boundaries and acceptance criteria; workers investigate and design their own solution. One owner must coordinate root configuration and lockfile changes.
-- Add scoped AGENTS.md files at actual application or package boundaries; inspect existing instructions before changing a subproject. Do not create a file in every technical directory.
-- Prefer Bun and strict TypeScript. Backend applications use Hono, Zod, OpenAPI, and console Pino logging; frontend applications use React, Astro, or Next.js according to product needs.
-- Keep API contracts local to the backend and generate consumers from versioned OpenAPI. Do not create packages/contracts unless explicitly justified for this project.
-- Do not add authentication, roles, remote storage, queues, telemetry, or deployment infrastructure merely because a skill describes them.
-- Prefer functional composition and explicit dependencies. Keep manually maintained source files below 400 lines and responsibilities cohesive.
-- The current root commands are `bun run format:check`, `bun run lint`, `bun run typecheck`, `bun run test`, and `bun run check` after dependency installation. The test placeholder deliberately fails until behavioral tests are configured. Initially the other checks cover the root scaffold only; update root aggregation and scoped configurations as packages are added.
-- Keep one root lockfile when adopting Bun workspaces. Configure package-specific checks and explicit cross-package integration tests; do not assume a passing root TypeScript check verifies every framework.
+- Use English for repository content and generated defaults unless requested otherwise.
+- This Bun/strict TypeScript quality scaffold creates no applications. Record selected stacks and actual
+  commands per application; add workspaces only for real packages.
+- Assign delegated file ownership/acceptance criteria; one owner coordinates root config and lockfile.
+- Use scoped AGENTS.md files for actual app/package boundaries; inspect target instructions before edits.
+- Keep contracts backend-owned; generate clients from versioned OpenAPI. Shared contracts need justification.
+- Preserve architecture and unrelated configuration. Add services and perform live remote actions only
+  within authorized scope; keep secrets/personal identity out of distributed assets.
+- Prefer functional composition, explicit dependencies and cohesive maintained files below 400 lines.
+- After dependencies are installed, root checks are `bun run format:check`, `bun run lint`,
+  `bun run typecheck`, `bun run test` and aggregate `bun run check`. The initial test placeholder fails
+  until behavioral tests exist; current checks cover the root scaffold only.
+- When adding packages, keep one workspace lockfile and configure scoped checks, root aggregation and
+  cross-package integration tests. Report actual coverage/unexecuted checks and update these instructions.

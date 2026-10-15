@@ -107,6 +107,54 @@ test('shared policy cannot send readers back into a technology skill', () => {
   );
 });
 
+test('routes between discovered skill entrypoints without adopting private references', () => {
+  const skill = fixture({
+    'skill/SKILL.md': '[Backend](../other/SKILL.md)\n[Workflow](../references/workflow.md)',
+    'other/SKILL.md': '[Runtime](references/runtime.md)',
+    'other/references/runtime.md': '# Runtime details',
+    'references/workflow.md': '# Shared workflow',
+  });
+  const other = join(skill, '..', 'other');
+  expect(inspectReferenceGraph([skill, other], join(skill, '..', 'references'))).toEqual([]);
+
+  // A route does not make the caller's orphan knowledge reachable through another skill.
+  mkdirSync(join(skill, 'references'));
+  writeFileSync(join(skill, 'references/orphan.md'), '# Not loaded by the caller');
+  expect(inspectReferenceGraph([skill, other], join(skill, '..', 'references'))).toEqual([
+    `${skill}: Unreachable reference: references/orphan.md`,
+  ]);
+});
+
+test('only an entrypoint may route to another skill, including within an allowed asset root', () => {
+  const skill = fixture({
+    'skill/SKILL.md': '[Guide](references/guide.md)\n[Workflow](../references/workflow.md)',
+    'skill/references/guide.md': '[Backend](../../other/SKILL.md)',
+    'other/SKILL.md': '# Backend',
+    'references/workflow.md': '[Backend](../other/SKILL.md)',
+  });
+  expect(
+    inspectReferenceGraph([skill, join(skill, '..', 'other')], join(skill, '..', 'references'), [
+      join(skill, '..'),
+    ]),
+  ).toEqual([
+    `${skill}: Knowledge outside allowed roots: ../references/workflow.md -> ../other/SKILL.md`,
+    `${skill}: Knowledge outside allowed roots: references/guide.md -> ../../other/SKILL.md`,
+  ]);
+});
+
+test('routing still validates each destination skill and rejects unknown entrypoints', () => {
+  const skill = fixture({
+    'skill/SKILL.md': '[Backend](../other/SKILL.md)\n[Unknown](../unknown/SKILL.md)',
+    'other/SKILL.md': '[Missing](references/missing.md)',
+    'unknown/SKILL.md': '# Not a discovered skill',
+  });
+  const other = join(skill, '..', 'other');
+  expect(inspectReferenceGraph([skill, other], join(skill, '..', 'references'))).toEqual([
+    `${skill}: Knowledge outside allowed roots: SKILL.md -> ../unknown/SKILL.md`,
+    `${other}: Broken reference: SKILL.md -> references/missing.md`,
+  ]);
+});
+
 test('rejects other skill documents outside references even within an allowed asset root', () => {
   const skill = fixture({
     'skill/SKILL.md': '[Other](../other/README.md)\n[Shared](../references/quality.md)',

@@ -1,0 +1,6 @@
+interface:
+  display_name: 'Engineering Workflow'
+  short_description: 'Coordinate work across engineering skills'
+  default_prompt: 'Use $engineering-workflow to coordinate and verify this project change.'
+policy:
+  allow_implicit_invocation: true
