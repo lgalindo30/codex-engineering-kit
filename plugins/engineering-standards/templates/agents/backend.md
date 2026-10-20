@@ -1,8 +1,11 @@
 # Backend Project Instructions
 
 - Use English for repository content and generated defaults unless requested otherwise.
-- This is a Bun quality scaffold; no application framework is installed. Record the selected runtime,
+- This is a Bun/Vite+ quality scaffold; no application framework is installed. Record the selected runtime,
   framework, database, host and actual application commands after setup. Preserve established choices.
+- Use project-local Vite+ for formatting, lint and type checks in `vite.config.ts`; keep type-aware
+  lint and type checking enabled. Preserve existing tools; do not add ESLint, Prettier or Turborepo
+  by default. Keep a supported Node runtime for Vite+ alongside the selected Bun runtime.
 - Prefer functional composition, explicit dependencies and cohesive maintained files below 400 lines.
 - Keep schemas backend-owned and consumers on versioned OpenAPI; no shared contracts package by default.
   Use `/api/v1` for new resource routes. Validate untrusted input/configuration and authorize data access.

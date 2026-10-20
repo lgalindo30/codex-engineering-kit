@@ -7,6 +7,7 @@ description: Build or change React/Vite single-page applications, including rout
 
 Read [the shared workflow](../../references/workflow.md).
 
+For new projects, default to [Vite+](../../references/vite-plus.md) for unified tooling.
 For new routed SPAs, use TanStack Router and TanStack Query for remote state; preserve established
 alternatives. Keep privileged integrations and persistence in the selected backend.
 

@@ -9,10 +9,8 @@ type PlannedFile = { path: string; content: string; action: 'create' | 'unchange
 const templateRoot = fileURLToPath(new URL('../templates/', import.meta.url));
 const commonTemplates = {
   '.editorconfig': 'editorconfig',
-  '.prettierrc.json': 'prettierrc.json',
-  '.prettierignore': 'prettierignore',
   '.gitignore': 'gitignore',
-  'eslint.config.mjs': 'eslint.config.mjs',
+  'vite.config.ts': 'vite.config.ts',
   'tsconfig.json': 'tsconfig.json',
   'env.d.ts': 'env.d.ts',
   'bunfig.toml': 'bunfig.toml',
@@ -77,12 +75,18 @@ function packageContent(profile: Profile): string {
       type: 'module',
       packageManager: `bun@${Bun.version}`,
       scripts: {
-        format: 'prettier --write .',
-        'format:check': 'prettier --check .',
-        lint: 'eslint .',
-        typecheck: 'tsc --noEmit',
+        format: 'vp fmt',
+        'format:check': 'vp fmt --check',
+        lint: 'vp lint',
+        typecheck: 'vp check --no-fmt --no-lint',
         test: 'bun -e "console.error(\'Configure behavioral tests for this application before accepting quality checks.\'); process.exit(1)"',
-        check: 'bun run format:check && bun run lint && bun run typecheck && bun run test',
+        ...(profile === 'frontend'
+          ? { dev: 'vp dev', build: 'vp build', preview: 'vp preview', test: 'vp test run' }
+          : {}),
+        check:
+          profile === 'frontend'
+            ? 'vp check && bun run test && bun run build'
+            : 'vp check && bun run test',
         'security:check': 'bun audit',
       },
     },

@@ -7,7 +7,7 @@ filters new resolutions by age in seconds; advisory review still applies to exis
 The optional [quality scaffold and hooks](../../../templates/README.md) execute with Bun. Use preflight
 and dry-run on an empty target, or review compatible assets after framework initialization. They are
 quality helpers, not application generators; keep hook trust/activation explicit. Configure compatible
-EditorConfig, ESLint, Prettier, type checks, and meaningful tests before accepting the quality command.
+EditorConfig, Vite+ static checks, and meaningful tests before accepting the quality command.
 
 For deployment, apply [deployment controls](../../../references/deployment.md). Verify the actual Bun
 entrypoint, drivers, shutdown, persistence, and cleanup on the selected host. For chosen containers,

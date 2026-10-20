@@ -1,8 +1,11 @@
 # Monorepo Instructions
 
 - Use English for repository content and generated defaults unless requested otherwise.
-- This Bun/strict TypeScript quality scaffold creates no applications. Record selected stacks and actual
+- This Bun/Vite+/strict TypeScript quality scaffold creates no applications. Record selected stacks and actual
   commands per application; add workspaces only for real packages.
+- Use project-local Vite+ for formatting, lint and type checks in `vite.config.ts`; keep type-aware
+  lint and type checking enabled. Preserve existing tools; do not add ESLint, Prettier or Turborepo
+  by default. Keep a supported Node runtime for Vite+ alongside the selected Bun runtime.
 - Assign delegated file ownership/acceptance criteria; one owner coordinates root config and lockfile.
 - Use scoped AGENTS.md files for actual app/package boundaries; inspect target instructions before edits.
 - Keep contracts backend-owned; generate clients from versioned OpenAPI. Shared contracts need justification.
@@ -13,4 +16,4 @@
   `bun run typecheck`, `bun run test` and aggregate `bun run check`. The initial test placeholder fails
   until behavioral tests exist; current checks cover the root scaffold only.
 - When adding packages, keep one workspace lockfile and configure scoped checks, root aggregation and
-  cross-package integration tests. Report actual coverage/unexecuted checks and update these instructions.
+  cross-package integration tests using Vite Task (`vp run -r`), with verified package coverage. Report actual coverage/unexecuted checks and update these instructions.

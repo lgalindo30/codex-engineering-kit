@@ -3,7 +3,8 @@
 Apply the [shared testing policy](../../../references/testing.md).
 
 Preserve the runner; Vitest/React Testing Library and Playwright are useful new-project options for
-component behavior and critical journeys respectively.
+component behavior and critical journeys respectively. New Vite+ projects use `vp test run` and
+`vite-plus/test` imports, with compatible DOM/browser and Testing Library dependencies.
 
 - Exercise accessible interactions: validation, pending/error/empty/retry states, keyboard, and focus.
   For styling changes inspect generated variants, responsive/focus behavior, and reduced motion rather

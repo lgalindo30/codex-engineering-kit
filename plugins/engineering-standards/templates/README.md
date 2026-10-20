@@ -24,27 +24,33 @@ remain. Keep a Git checkpoint before manually adopting changes.
 ## Install and verify
 
 Choose a compatible stable Bun runtime first; the initializer records its actual version in
-`packageManager`. It does not download dependencies. Resolve compatible stable versions of `@eslint/js`,
-`@types/bun`, `eslint`, `prettier`, `typescript` and `typescript-eslint` using
+`packageManager`. It does not download dependencies. New scaffolds use a shared `vite.config.ts`
+with Vite+ formatting, lint and enabled type checks; no ESLint, Prettier or Turborepo config is generated.
+Legacy ESLint/Prettier assets remain available only for established compatible projects.
+
+Resolve compatible stable versions of `vite-plus`, `@types/bun` and `typescript` using
 [dependency selection](../references/quality.md#dependency-selection), then install reviewed versions
-with `bun add --dev --exact`. Review the manifest and commit `bun.lock`; CI uses `bun install --frozen-lockfile`.
-The 24-hour release-age control remains enabled. `bun run security:check` is a separate network audit.
+with `bun add --dev --exact`. Follow [Vite+ setup](../references/vite-plus.md) for supported Node,
+Vite/Vitest overrides and framework integration. Review the manifest and commit `bun.lock`; CI uses
+`bun install --frozen-lockfile`. The 24-hour release-age control remains enabled.
+`bun run security:check` is a separate network audit. No global Vite+ installation is required.
 
-Initial checks:
+Initial static checks are `bun run format:check`, `bun run lint` and `bun run typecheck`.
+`bun run check` aggregates `vp check` with tests, plus the frontend production build.
+Frontend scripts use `vp dev`, `vp build`, `vp preview` and `vp test run`; supply the actual application,
+framework plugin and behavioral tests before acceptance. Prefer `bun create vite-plus` for a complete
+new React/Vite app and review compatible kit assets afterward instead of overlaying initializers.
 
-```sh
-bun run format:check
-bun run lint
-bun run typecheck
-```
-
-The `test` placeholder deliberately fails until behavioral tests exist. Backend tests use `bun test`;
-React tests use Vitest/Testing Library, with Playwright for critical browser journeys. Adapt frontend JSX,
-browser/server types and framework lint. Monorepos need real workspaces and aggregate checks.
-Then use `bun run check` as the acceptance gate; do not bypass missing tests with unconditional success
-or `--pass-with-no-tests`.
+Backend and monorepo test placeholders deliberately fail until behavioral tests exist. Backend tests
+can use `bun test`; React tests use Vite+'s Vitest with Testing Library and Playwright for critical
+browser journeys. Adapt frontend JSX, browser/server types and framework lint. Monorepos need real
+workspaces and Vite Task aggregation. Do not bypass missing tests with unconditional success or
+`--pass-with-no-tests`. Bare `vp check` runs static checks, not the aggregate package script.
 
 ## Optional Git hooks
+
+The supplied staged hook targets legacy ESLint/Prettier projects. Do not copy it into a Vite+ project;
+hook migration is outside this setup.
 
 Review and copy `pre-commit`, `commit-msg`, `pre-push`, `check-staged.ts` and `commit-message.ts` from
 `hooks/` into `.githooks/`. Inspect `git config --local --get core.hooksPath`; integrate an existing manager.

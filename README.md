@@ -54,7 +54,9 @@ Use $change-verification to fix this bug and verify related flows and engineerin
 Skills load shared policies and stack references as needed. They preserve existing project choices;
 enabling the plugin does not install application dependencies or generate an application.
 Optional [Bun project assets](plugins/engineering-standards/templates/README.md) provide conservative
-quality scaffolding and hooks that require activation/trust.
+quality scaffolding and hooks that require activation/trust. New compatible JS/TS projects default to
+[Vite+](plugins/engineering-standards/references/vite-plus.md) for unified dev/build, testing, lint,
+formatting and workspace tasks, while preserving Bun and existing project toolchains.
 
 ## Develop and verify
 

@@ -36,10 +36,42 @@ describe('project quality scaffolding', () => {
     expect(packageJson.dependencies).toBeUndefined();
     expect(packageJson.devDependencies).toBeUndefined();
     expect(packageJson.packageManager).toBe(`bun@${Bun.version}`);
-    expect(packageJson.scripts.check).toContain('format:check');
+    expect(packageJson.scripts.check).toBe('vp check && bun run test');
     expect(await Bun.file(join(target, '.codex/hooks.json')).exists()).toBe(false);
     expect(await readFile(join(target, 'bunfig.toml'), 'utf8')).toContain('86400');
   });
+
+  test.each(['backend', 'frontend', 'monorepo'] as const)(
+    '%s uses unified tooling without generating legacy tool configs',
+    async (profile) => {
+      const target = await directory();
+      await applyProject({ target, profile, dryRun: false });
+      const manifest = await Bun.file(join(target, 'package.json')).json();
+      expect(manifest.scripts['format:check']).toBe('vp fmt --check');
+      expect(manifest.scripts.lint).toBe('vp lint');
+      expect(manifest.scripts.typecheck).toBe('vp check --no-fmt --no-lint');
+      const config = await readFile(join(target, 'vite.config.ts'), 'utf8');
+      expect(config).toContain("from 'vite-plus'");
+      expect(config).toContain('typeAware: true, typeCheck: true');
+      for (const file of [
+        'eslint.config.mjs',
+        '.prettierrc.json',
+        '.prettierignore',
+        'turbo.json',
+      ]) {
+        expect(await Bun.file(join(target, file)).exists()).toBe(false);
+      }
+      if (profile === 'frontend') {
+        expect(manifest.scripts.test).toBe('vp test run');
+        expect(manifest.scripts.build).toBe('vp build');
+        expect(manifest.scripts.check).toContain('bun run build');
+      } else {
+        const result = Bun.spawnSync(['bun', 'run', 'test'], { cwd: target });
+        expect(result.exitCode).not.toBe(0);
+        expect(result.stderr.toString()).toContain('Configure behavioral tests');
+      }
+    },
+  );
 
   test('reapplying does not replace dependency versions adopted by project setup', async () => {
     const target = join(await directory(), 'project');
@@ -70,7 +102,7 @@ describe('project quality scaffolding', () => {
     await mkdir(target);
     const protectedFile = join(root, 'private-config');
     await writeFile(protectedFile, 'untouched');
-    await symlink(protectedFile, join(target, '.prettierrc.json'));
+    await symlink(protectedFile, join(target, 'vite.config.ts'));
     await expect(applyProject({ target, profile: 'monorepo', dryRun: false })).rejects.toThrow(
       'nothing was written',
     );
@@ -180,6 +212,21 @@ describe('opt-in project hooks', () => {
   test('pre-commit checks the staged version and preserves partially staged files', async () => {
     const target = await directory();
     await applyProject({ target, profile: 'backend', dryRun: false });
+    const manifest = await Bun.file(join(target, 'package.json')).json();
+    manifest.scripts['format:check'] = 'prettier --check .';
+    manifest.scripts.lint = 'eslint .';
+    await writeFile(join(target, 'package.json'), `${JSON.stringify(manifest, null, 2)}\n`);
+    await rm(join(target, 'vite.config.ts'));
+    for (const [name, asset] of Object.entries({
+      '.prettierrc.json': 'prettierrc.json',
+      '.prettierignore': 'prettierignore',
+      'eslint.config.mjs': 'eslint.config.mjs',
+    })) {
+      await writeFile(
+        join(target, name),
+        await readFile(resolve('plugins/engineering-standards/templates/quality', asset), 'utf8'),
+      );
+    }
     await symlink(resolve('node_modules'), join(target, 'node_modules'), 'dir');
     git(target, 'init', '-q');
     const sourcePath = join(target, 'sample.ts');

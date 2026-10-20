@@ -12,6 +12,12 @@ mechanical splits. See [architecture](architecture.md) for boundaries. Keep pers
 paths out of generated assets. When commits are requested, use Conventional Commits and meaningful
 monorepo scopes.
 
+## New-project toolchain
+
+Use [Vite+](vite-plus.md) for new compatible JS/TS projects instead of assembling separate Vite,
+Vitest, ESLint, Prettier and Turborepo configuration. Preserve Bun where selected and framework-owned
+commands and checks. Existing projects retain their toolchain unless migration is requested.
+
 ## Dependency selection
 
 Resolve new dependencies from their official registry at setup time. Choose the latest stable release

@@ -4,6 +4,10 @@ Apply [quality policy](../../../references/quality.md). Preserve Vite/JSX setup 
 TypeScript boundaries. Use the selected compatible package manager/runtime, React-aware lint/format,
 and independent type checks; do not install another runtime for kit helpers.
 
+For new projects, use the [Vite+ setup](../../../references/vite-plus.md): prefer `bun create vite-plus`,
+keep config in `vite.config.ts`, and use local `vp` scripts for dev/build/test/check. Use Vite Task for
+workspace orchestration instead of introducing Turborepo. Preserve existing standalone tooling.
+
 For new routed SPAs, configure compatible TanStack Router/Query versions. Choose file-based or
 code-based routes; add Vite route generation only for file-based routing. Preserve established choices.
 
