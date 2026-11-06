@@ -49,7 +49,7 @@ Use $change-verification to fix this bug and verify related flows and engineerin
 | change-verification            | Iterative bug/feature acceptance and standards review |
 | repository-quality             | Toolchains, checks, hooks, CI, and dependencies       |
 | project-instructions           | AGENTS.md at actual project boundaries                |
-| observability                  | Logging, debugging, and requested telemetry           |
+| observability                  | Operational signals, diagnostics and telemetry        |
 
 Skills load shared policies and stack references as needed. They preserve existing project choices;
 enabling the plugin does not install application dependencies or generate an application.
@@ -68,6 +68,12 @@ bun run check
 `check` runs formatting, lint, strict types, tooling tests, and structural validation.
 Run the separate network-dependent `bun run security:check` when changing dependencies.
 Agent evaluations and their status are documented in [behavioral validation](docs/behavioral-validation.md).
+For contributing from any checkout, use the explicit [Git hook setup and worktree checks](docs/git-hooks.md).
+New operational work follows the shared
+[observability contract](plugins/engineering-standards/references/operation-observability.md) and
+[resource budgets](plugins/engineering-standards/references/resource-budgets.md); optional Workers/D1
+and MCP profiles apply only to selected integrations. Source updates do not automatically instrument
+applications or refresh an installed plugin.
 
 - [Contributing and knowledge ownership](CONTRIBUTING.md)
 - [Architecture](docs/design.md)

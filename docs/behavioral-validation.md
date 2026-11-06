@@ -22,6 +22,7 @@ Structural checks validate packaging and tooling, not agent behavior.
 | [Cloudflare](evaluations/scenarios/cloudflare.md)   | Modular Workers API; Turnstile form                                | Not run |
 | [Protection](evaluations/scenarios/protection.md)   | Provider-aware forms and rate limiting                             | Not run |
 | [Workflow](evaluations/scenarios/workflow.md)       | Small changes; focused implementation and review exercises         | Not run |
+| [Operations](evaluations/scenarios/operations.md)   | Observability, recovery, capacity and MCP/client behavior          | Not run |
 
 ## Run an evaluation
 
@@ -35,3 +36,5 @@ Record delegation as context, not an acceptance criterion. Investigate failures 
 an isolated failure does not automatically justify a global rule.
 
 Older evaluation notes remain available in Git history.
+See [operational implementation evidence](evaluations/2026-11-06-operational-standards.md) for the
+bounded executable gate checks and explicit limits of the current standards revision.

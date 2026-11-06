@@ -15,6 +15,9 @@ preferences, and unrelated plugins. Model and concurrency choices remain with Co
 Runtime/framework integration belongs to technology skills. Reusable rules have one source in
 `references/`; local guides explain integration differences. The common workflow and testing
 references remove repeated process instructions without replacing runtime-specific verification.
+The shared operation-observability and resource-budget policies define generic evidence; Workers/D1
+and MCP details stay in their optional skill-local profiles. Adoption records link requirements to
+actual implementation, executed checks and observed coverage rather than relying on declared skill use.
 `change-verification` closes one fix or feature through behavioral evidence, applicable standards
 inspection and in-scope repairs. It reuses the selected stack guides; `testing-strategy` retains
 project-wide coverage assessment. Read-only inspection remains read-only, and unexecuted checks remain
