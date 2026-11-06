@@ -35,6 +35,11 @@ errors. Schema hooks may not cover framework parsing failures.
 Validate external responses and environment values where they become trusted. Apply [files](files.md)
 and [dates](dates.md) when relevant. Frontend validation does not replace server checks or authorization.
 
+For cross-runtime/protocol consumers, verify the chosen schema dialect and features in the actual
+validator/client versions. Exercise regex anchors, Unicode/escaping, formats, references and unions
+with accepted and rejected values. One validator's acceptance is not proof of portability; exported
+schemas, protocol round trips and semantic behavior are separate verification layers.
+
 ## Errors
 
 Use RFC 9457 `application/problem+json` with stable `type`, human-readable `title`, safe `detail` and

@@ -8,6 +8,8 @@ description: Review public API compatibility and coordinate consumer migrations 
 Read [the shared workflow](../../references/workflow.md) and [API policy](../../references/api-contracts.md).
 Use this independent workflow for contract evolution; ordinary endpoint implementation stays in its
 technology skill.
+For MCP producers/consumers, load the optional [MCP profile](references/mcp.md) for schema portability,
+discovery, result envelopes and actual client verification; it does not select MCP for other projects.
 
 Identify producers, consumers, supported versions, and generated-artifact ownership. Classify
 compatibility before changing independently deployed applications; preserve existing versioning unless
