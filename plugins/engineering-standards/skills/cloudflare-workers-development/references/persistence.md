@@ -13,6 +13,8 @@ Verify installed adapter transaction/batch semantics; do not assume PostgreSQL-s
 callbacks. Use supported atomic batches for coupled writes and shared concurrency criteria for
 read-then-write operations. Sessions/read replication need an explicit consistency decision;
 local databases/mocks cannot prove remote parity.
+For new costly database operations or telemetry changes, verify [binding/SQL observation coverage](observability.md)
+without changing adapter semantics or treating missing provider metadata as zero work.
 
 Verify queries and migrations against disposable local D1 with the same adapter/history. External
 PostgreSQL/MySQL uses a separately selected platform-supported approach (possibly Hyperdrive), without

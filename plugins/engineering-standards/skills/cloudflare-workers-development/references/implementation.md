@@ -37,10 +37,15 @@ native structured console output. A small request adapter may attach/redact cont
 no Pino or custom framework is needed. Use `console.warn/error` so Cloudflare records correct severity.
 Default production output to warnings/errors with `requestId`; omit routine success/access logs. Explicit
 project requirements may enable other levels; development diagnostics may be temporarily more verbose.
+Keep the [operational evidence profile](observability.md) distinct from routine access logging: required
+bounded operation measurements need an enabled, verified emission path even when ordinary info logs
+are filtered. Prefer bounded summaries/metrics over a log line for every query.
 
 Enable Workers Logs with `observability.logs.invocation_logs: false`. Verify the installed schema and
 that success emits no routine logs while unexpected failure emits one safe correlated error.
 Workers Logs stores output; it is not the application logger.
+For operations that need resource/termination diagnosis, verify a provider outcome and CPU/wall-time
+source under the selected configuration; disabled invocation logs alone do not provide that evidence.
 
 Sources: [Best practices](https://developers.cloudflare.com/workers/best-practices/workers-best-practices/),
 [Hono](https://hono.dev/docs/guides/best-practices),

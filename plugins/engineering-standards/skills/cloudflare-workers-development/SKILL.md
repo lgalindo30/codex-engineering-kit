@@ -17,6 +17,7 @@ Read only the relevant guidance:
 - [Implementation](references/implementation.md): feature boundaries, platform handlers, Service Bindings, logging.
 - [Contracts](references/contracts.md): Hono/Zod and runtime schemas.
 - [Persistence](references/persistence.md): Drizzle/D1 and migrations.
+- [Operational evidence](references/observability.md): binding/SQL coverage, resource termination and bounded logs.
 - [Security](references/security.md): rate-limit bindings and private services.
 - [Turnstile](references/turnstile.md): public forms on Cloudflare or explicit Turnstile integration.
 - [Frontends](references/frontends.md): selected Workers/Pages assets and routing.

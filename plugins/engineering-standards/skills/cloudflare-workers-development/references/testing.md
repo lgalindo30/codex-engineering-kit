@@ -17,6 +17,8 @@ platform behavior. Keep pure business tests independent; avoid mocking the entir
   [test-key/UI checks](turnstile.md#verification) and verify rejection precedes side effects.
 - Exercise [logging checks](../../../references/logging.md#verification) through actual requests/native
   severity; default production success emits no routine logs. Config checks cannot prove remote storage.
+- For operational instrumentation or changed capacity, exercise the [Workers evidence profile](observability.md#runtime-verification),
+  including incomplete callbacks, missing SQL metadata, overflow and observer failure on the compiled target.
 - Test changed scheduled/queue handlers with supported event helpers and relevant retry/idempotency cases.
 
 Run affected runtime tests and the real Vite/Wrangler build. Frontend tests remain owned by their
