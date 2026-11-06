@@ -64,6 +64,10 @@ git config --local core.hooksPath .githooks
 Pre-commit checks an index snapshot with local tools, including partially staged files; it never formats
 or stages. Stage configuration/lockfile changes together. Commit messages require Conventional Commits,
 with scopes for workspaces. Pre-push runs types/tests across configured packages. Hooks supplement CI.
+The optional [activation helper](../scripts/git-hooks.ts) can replace the single configuration command
+after files are installed: run it with `--dry-run`, `--activate`, then `--check` from the actual checkout.
+It verifies every registered worktree and refuses conflicting managers or missing executables. Prove
+rejection through real Git in disposable worktrees/local bare remotes; a path check alone is insufficient.
 
 ## Optional Codex Stop hook
 

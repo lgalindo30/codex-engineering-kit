@@ -22,7 +22,9 @@ The hook also runs the regular quality command. Inspect any existing local `core
 enabling repository hooks:
 
 ```sh
-git config --local core.hooksPath .githooks
+bun run setup:hooks --dry-run
+bun run setup:hooks --activate
+bun run setup:hooks --check
 ```
 
 For new branches, the hook requires a version above the greatest version among locally fetched
@@ -44,6 +46,9 @@ bun run release:check-range BASE_COMMIT HEAD_COMMIT
 Hooks are local safeguards and can be bypassed or absent on another clone. They are not remote server
 enforcement. Configure protected branches and required CI checks separately if stronger enforcement
 is needed. A commit made through another tool or directly on GitHub does not run these local hooks.
+See [worktree setup and negative verification](git-hooks.md). CI compares the pushed commit with the
+previous remote tip, or a pull request head with its base. An initial branch creation has no previous
+tip and retains structural version validation through the quality job.
 
 After obtaining a new revision, install dependencies and run `bun run check`, then rerun the documented
 plugin installation and check commands. Increasing the plugin version allows Codex to identify

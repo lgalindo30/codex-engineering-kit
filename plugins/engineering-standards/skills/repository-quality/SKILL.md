@@ -16,6 +16,8 @@ Provide one check-only entrypoint for applicable formatting, lint, types, meanin
 keep autofixes separate. Verify hook activation, permissions, the staged snapshot, relevant pre-push
 packages, and complete CI coverage. Explain Codex hook trust and skipped execution; file existence is
 not evidence of enforcement. Do not add a runtime just for helpers or loop on unchanged failures.
+Check effective configuration in linked worktrees and prove rejection through real Git using only
+disposable fixtures and a local bare remote. Preserve other hook managers and unstaged content.
 
 Use reproducible installs and [dependency selection](../../references/quality.md#dependency-selection).
 For changed dependencies, audit advisories and distinguish findings from connectivity errors; fix

@@ -6,6 +6,9 @@ Keep identity, credentials, personal paths, and telemetry destinations out of di
 ## Verify changes
 
 Install the pinned dependencies, run `bun run format`, then `bun run check`.
+Review `bun run setup:hooks --dry-run`, explicitly activate with `bun run setup:hooks --activate`,
+and verify `bun run setup:hooks --check` from the working checkout, including linked worktrees.
+Resolve reported conflicts without replacing an existing hook manager. See [hook setup](docs/git-hooks.md).
 Run `bun run security:check` for dependency changes. Add behavioral tests for tooling changes that
 could damage files, misreport validation, or bypass a gate. Evaluate changed skill behavior with
 bounded tasks when needed and record actual results in [behavioral validation](docs/behavioral-validation.md).

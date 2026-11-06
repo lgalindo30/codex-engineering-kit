@@ -34,3 +34,5 @@ Git hooks require local activation. Codex hooks require review/trust through the
 mechanism. The plugin itself installs no global hooks. This repository provides a project Stop
 configuration pointing to the tested template; it is skipped until trusted. Run `bun run check`
 manually when hook execution is unavailable. Setup never bypasses hook trust.
+Use the separate [Git hook setup](git-hooks.md) to verify every worktree; plugin installation does not
+activate Git hooks or migrate another project's hook manager.

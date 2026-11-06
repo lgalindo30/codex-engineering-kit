@@ -40,3 +40,12 @@ keep fix commands separate and reuse the check in CI. Scope checks to real packa
 Optional Git hooks check staged content without modifying user edits. Codex hooks require client trust
 and bounded failures; do not add another runtime merely for a kit hook. Apply [testing](testing.md) and
 [workflow handoff](workflow.md) criteria rather than copying the manual into project instructions.
+
+For hook setup or changes, inspect effective configuration and executable permissions from each actual
+checkout, including linked worktrees and worktree-specific overrides. Preserve existing hook managers;
+do not assume `.git` is a directory. Use Git-resolved internal paths and a worktree-compatible hook path.
+Compatible Bun projects can adapt the optional [activation helper](../scripts/git-hooks.ts) after their
+reviewed `.githooks` files exist; it is not a hook-manager migration or proof of Vite+ integration.
+Exercise real Git rejection of an invalid staged commit and pre-push in disposable worktrees/local bare
+remotes, preserve unstaged edits, and verify corrected acceptance and unchanged refs after rejection.
+Run the aggregate independently in CI; required checks/branch protection need separate host evidence.
