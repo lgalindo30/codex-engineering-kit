@@ -13,6 +13,8 @@ behavior; a focused task does not require the complete implementation workflow.
 - Preserve unrelated edits and configuration. Do not overwrite conflicting settings or create nested
   repositories to fit a skill or delegated role. Never distribute secrets, personal Git identity or
   machine-specific paths.
+- Do not add code comments. Use clear names and cohesive functions; put rationale in documentation.
+  Preserve legally required notices and tool directives required for correct behavior.
 - Write repository content in English and honor the product's requested locales. Technology defaults
   apply when no compatible choice is established; they do not authorize migrations.
 

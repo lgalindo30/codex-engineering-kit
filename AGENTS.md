@@ -3,6 +3,7 @@
 This repository contains a public Codex plugin, shared engineering policies, and project tooling.
 
 - Write repository content, code, comments, and generated project defaults in English.
+- Do not add code comments. Express intent through clear names and cohesive functions; keep explanations in documentation. Preserve legally required notices and tool directives required for correct behavior.
 - Keep personal Git identity in local Git configuration only. Never put personal names, email defaults, credentials, or machine-specific paths in distributed templates.
 - Use Bun and strict TypeScript for executable tooling. Prefer functional composition and explicit dependencies.
 - For new compatible JS/TS project defaults, use project-local Vite+ with Bun; preserve existing toolchains and framework-specific checks.

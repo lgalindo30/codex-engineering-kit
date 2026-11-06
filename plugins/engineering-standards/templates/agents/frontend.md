@@ -4,6 +4,8 @@
 - This is a Bun/Vite+ quality scaffold; no application framework is installed. Record the selected framework,
   rendering mode, backend boundary, host and actual application commands after setup. Preserve choices.
 - Adapt TypeScript JSX/browser/server boundaries and framework lint before application checks.
+- Do not add code comments. Use clear names and cohesive functions; keep explanations in documentation.
+  Preserve legally required notices and tool directives required for correct behavior.
 - Keep configuration minimal: omit tool defaults, empty sections and duplicated inherited settings.
 - Use project-local Vite+ for formatting, lint and type checks in `vite.config.ts`; keep type-aware
   lint and type checking enabled. Preserve existing tools; do not add ESLint, Prettier or Turborepo
