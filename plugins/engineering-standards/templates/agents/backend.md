@@ -3,6 +3,7 @@
 - Use English for repository content and generated defaults unless requested otherwise.
 - This is a Bun/Vite+ quality scaffold; no application framework is installed. Record the selected runtime,
   framework, database, host and actual application commands after setup. Preserve established choices.
+- Keep configuration minimal: omit tool defaults, empty sections and duplicated inherited settings.
 - Use project-local Vite+ for formatting, lint and type checks in `vite.config.ts`; keep type-aware
   lint and type checking enabled. Preserve existing tools; do not add ESLint, Prettier or Turborepo
   by default. Keep a supported Node runtime for Vite+ alongside the selected Bun runtime.

@@ -6,6 +6,7 @@ This repository contains a public Codex plugin, shared engineering policies, and
 - Keep personal Git identity in local Git configuration only. Never put personal names, email defaults, credentials, or machine-specific paths in distributed templates.
 - Use Bun and strict TypeScript for executable tooling. Prefer functional composition and explicit dependencies.
 - For new compatible JS/TS project defaults, use project-local Vite+ with Bun; preserve existing toolchains and framework-specific checks.
+- Keep configuration minimal: omit options that repeat tool defaults, duplicate inherited settings, or add empty sections.
 - Keep manually maintained source files below 400 lines and split by responsibility. Avoid mechanical fragmentation.
 - Preserve unrelated user configuration, agents, installed plugins, and working-tree changes.
 - Plugin setup must support dry-run, repeatable execution, conflict detection, and supported Codex removal.

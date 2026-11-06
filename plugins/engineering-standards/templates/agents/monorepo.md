@@ -3,6 +3,7 @@
 - Use English for repository content and generated defaults unless requested otherwise.
 - This Bun/Vite+/strict TypeScript quality scaffold creates no applications. Record selected stacks and actual
   commands per application; add workspaces only for real packages.
+- Keep configuration minimal: omit tool defaults, empty sections and duplicated inherited settings.
 - Use project-local Vite+ for formatting, lint and type checks in `vite.config.ts`; keep type-aware
   lint and type checking enabled. Preserve existing tools; do not add ESLint, Prettier or Turborepo
   by default. Keep a supported Node runtime for Vite+ alongside the selected Bun runtime.

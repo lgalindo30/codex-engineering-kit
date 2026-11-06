@@ -36,6 +36,14 @@ not establish runtime compatibility. Bun backends can keep `bun test` for Bun-sp
 Consolidate supported settings in `vite.config.ts` with `defineConfig` from `vite-plus`. Put formatting
 in `fmt`, lint in `lint`, tests in `test`, and task orchestration in `run`. Enable both
 `lint.options.typeAware` and `lint.options.typeCheck`; otherwise `vp check` does not establish type safety.
+Declare only settings that differ from the adopted version's defaults or enable required behavior;
+omit empty blocks and duplicated inherited settings. The kit retains `fmt.singleQuote` to select
+single quotes, explicit lint error severity for `no-debugger` and `no-unused-vars`, and both type options.
+Formatting defaults supply semicolons, 100 columns, two spaces, trailing commas and LF line endings;
+`.gitignore` supplies output-directory exclusions during file discovery, and Oxfmt skips lockfiles.
+Add extra ignores only for a demonstrated gap, such as tracked generated files or explicitly named
+files that must always be excluded. Keep explanations in documentation, not comments in config.
+
 Adapt browser/server tsconfig boundaries and React/framework lint rules to the actual application.
 
 Use package scripts backed by local tools:
@@ -67,4 +75,8 @@ replace its failing test placeholder with real package aggregation as packages a
 
 Sources: [getting started](https://viteplus.dev/guide/),
 [configuration](https://viteplus.dev/config/), [check](https://viteplus.dev/guide/check),
+[Oxfmt defaults](https://oxc.rs/docs/guide/usage/formatter/config),
+[formatter ignores](https://oxc.rs/docs/guide/usage/formatter/ignore-files),
+[linter ignores](https://oxc.rs/docs/guide/usage/linter/ignore-files),
+[Oxlint severity](https://oxc.rs/docs/guide/usage/linter/config),
 [task execution](https://viteplus.dev/guide/run), [monorepos](https://viteplus.dev/guide/monorepo).

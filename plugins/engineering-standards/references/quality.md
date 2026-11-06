@@ -12,6 +12,10 @@ mechanical splits. See [architecture](architecture.md) for boundaries. Keep pers
 paths out of generated assets. When commits are requested, use Conventional Commits and meaningful
 monorepo scopes.
 
+Keep configuration minimal. Omit options equal to the adopted tool version's defaults, empty sections,
+and settings already supplied by inherited configuration. Verify defaults before removing an option;
+preserve deliberate deviations and required framework or runtime settings. Keep rationale in documentation.
+
 ## New-project toolchain
 
 Use [Vite+](vite-plus.md) for new compatible JS/TS projects instead of assembling separate Vite,
