@@ -54,3 +54,21 @@ with actual implementation/check/signal evidence and explicit missing layers.
 Plugin installation/cache refresh and session discovery are separate from committing the source.
 The previously installed 2.4.0 cache was not rewritten. Existing projects keep their selected tools;
 this change does not migrate their configuration or activate new remote services.
+
+## Authorized synchronization follow-through
+
+The subsequent authorized fast-forward preserved the original nine changes and published the separate
+commits at `53ed1fa` (2.5.0). GitHub run 42157732067 passed the release job and both macOS/Linux quality
+jobs on pinned Bun 1.3.14, establishing those previously unavailable checks. Its dependency audit failed
+on transitive minimatch 10.2.6, advisory GHSA-g3hv-75wg-m249; that failure was not suppressed or retried
+as a presumed transient error.
+
+Patch 2.5.1 pins the root tooling override to minimatch 11.0.4 and regenerates the lockfile without
+changing direct dependency pins. Registry inspection found the current direct-package releases still
+request affected minimatch ranges. The newer 11.0.5 did not meet the existing 24-hour release-age policy;
+11.0.4 did. See [the compatibility decision](../compatibility.md). The patch requires the aggregate,
+negative worktree Git gates, frozen install and network audit before another authorized push; hosted
+results and final installed-session discovery must be reported separately after they run.
+The patch's local aggregate passed all 44 tests/164 assertions with Bun 1.4.3, including the real Git
+negative worktree gates. `bun install --frozen-lockfile --offline` reported no changes, and `bun audit`
+reported no vulnerabilities across 99 checked packages. These results do not predeclare hosted CI success.
