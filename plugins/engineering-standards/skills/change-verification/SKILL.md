@@ -34,6 +34,9 @@ the change touches those concerns. Formatting and passing tests alone do not est
 For each actionable violation, identify the rule, code location, affected scenario and impact.
 Keep required corrections separate from optional improvements; established compatible choices are not
 defects merely because a skill offers a default. Zero findings is a valid outcome.
+For an operational baseline or telemetry change, inspect emitted coverage against
+[the adoption evidence](../../references/operation-observability.md#acceptance-and-adoption-evidence).
+Keep standard loading, implementation conformance and exercised runtime behavior as separate claims.
 
 When independent inspection is requested or materially useful, give a read-only reviewer the request,
 exact candidate diff, applicable skill paths and available check evidence without prescribing a verdict.

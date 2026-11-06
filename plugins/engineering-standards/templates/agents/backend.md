@@ -18,6 +18,8 @@
   bytes per file unless overridden, with separate request/count limits and content verification.
 - Log structured console events, redact secrets and avoid complete bodies. Keep credentials/personal
   identity out of distributed assets. Add services and perform live remote actions only within scope.
+- Define bounded phase/dependency measurements and failure coverage for new costly operations. Verify
+  correlation, missing metrics, redaction and observer failures before accepting the operational baseline.
 - After dependency installation, checks are `bun run format:check`, `bun run lint`, `bun run typecheck`,
   `bun run test` and aggregate `bun run check`. The initial test placeholder fails deliberately; replace
   it with `bun test` after adding behavioral tests. Report actual results and unexecuted checks.

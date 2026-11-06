@@ -15,6 +15,8 @@
 - Preserve architecture and unrelated configuration. Add services and perform live remote actions only
   within authorized scope; keep secrets/personal identity out of distributed assets.
 - Prefer functional composition, explicit dependencies and cohesive maintained files below 400 lines.
+- Define operational budgets and bounded phase/dependency evidence at each relevant service boundary;
+  verify correlation, failure/missing coverage and privacy through the actual entrypoints.
 - After dependencies are installed, root checks are `bun run format:check`, `bun run lint`,
   `bun run typecheck`, `bun run test` and aggregate `bun run check`. The initial test placeholder fails
   until behavioral tests exist; current checks cover the root scaffold only.

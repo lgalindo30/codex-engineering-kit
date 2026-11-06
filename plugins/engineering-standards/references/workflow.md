@@ -23,6 +23,9 @@ behavior; a focused task does not require the complete implementation workflow.
 Use observable acceptance criteria and small changes that can be verified before dependent work
 accumulates. Follow [testing policy](testing.md) for verification and the selected stack's local guide
 for execution. Run the project's documented quality command before handoff.
+For new backend/job operations or changed costly dependencies, include the relevant
+[operational observability acceptance](operation-observability.md#acceptance-and-adoption-evidence).
+Reuse established instrumentation for small changes and avoid adding remote infrastructure by default.
 
 When architecture or commands change, update the project's AGENTS.md with durable decisions and
 verified commands. Keep task plans, hypotheses and temporary diagnosis notes out of permanent rules.

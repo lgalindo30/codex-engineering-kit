@@ -3,6 +3,9 @@
 Use the existing structured logger with machine-readable production and readable development console
 output. Configure levels at the application boundary; use explicit logger dependencies or request-scoped
 children. Runtime guides define default levels and supported transports.
+For new backend/job operations and changes to costly dependencies, apply
+[observability by design](operation-observability.md), including phases, measurement coverage and
+acceptance evidence. Local instrumentation is part of that baseline; remote integrations remain scoped.
 
 Include UTC time, service/environment, level, method, normalized route, status and duration when useful.
 Prefer route templates to raw URLs containing identifiers/queries.

@@ -2,6 +2,8 @@
 
 For application logging, apply [logging policy](../../../references/logging.md) and the selected runtime's
 integration/production levels. Routine logging setup does not require this project-level workflow.
+Use [the operation contract](../../../references/operation-observability.md) to choose meaningful phases,
+dependency measurements and bounded failure coverage before implementing the requested instrumentation.
 
 ## Investigation
 
