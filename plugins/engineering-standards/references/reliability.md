@@ -23,6 +23,19 @@ stored deduplication with the effect where supported, using [database controls](
 Client flags do not provide server replay protection. Claim exactly-once external effects only with a
 supported explicit design.
 
+For durable mutations, bind replay identity to its actor/tenant, operation and stable request content.
+Compare the stored canonical request or a versioned content fingerprint/hash; reject reuse of the key
+with different content. Define canonicalization before hashing and preserve exact original bytes where
+the contract requires them. Neither a hash nor a request ID grants permission. Store the receipt with
+the effect atomically where supported, recheck authorization on replay, and test concurrent same-key
+requests, changed bodies, retention/expiry and recovery. Never claim atomicity across an external
+provider unless its actual protocol provides it.
+
+Represent unknown effect outcomes explicitly after disconnects, timeout or a crash between dispatch
+and receipt. Preserve the durable attempt identity and reconcile provider receipts/state before retrying;
+do not turn a missing response into a known-unapplied result. Define who resolves unprovable outcomes.
+Use [fencing](persistence.md#leases-and-fencing) when workers can outlive ownership.
+
 ## Durable background work
 
 Use a durable mechanism when work needs persistence/recovery after the request/process ends. Define

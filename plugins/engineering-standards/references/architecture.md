@@ -31,6 +31,8 @@ Keep features together while deployment, permissions, ownership and operational 
 independent releases, restricted privileges, existing consumers or distinct resource/lifecycle needs.
 The data-owning service owns its business operations; access it through an intentional contract rather
 than shared database credentials. Shared storage requires explicit ownership and consistency.
+For costly work, assess [resource budgets and work amplification](resource-budgets.md) before splitting
+services; a new deployment boundary does not itself fix an expensive algorithm or unbounded scan.
 
 For delegated work, apply [contracts](api-contracts.md), [service security](security.md#service-boundaries),
 [correlation](logging.md#request-correlation) and [reliability](reliability.md). Runtime transport details

@@ -21,6 +21,10 @@ Use [persistence controls](persistence.md#migrations-and-recovery) for compatibl
 recovery. Verify data survives replacement and explain rollback limits for data/external effects.
 Prepare reviewed output/configuration and recovery steps before authorized live actions; follow
 [workflow scope](workflow.md).
+For stateful client systems, record acceptable data-loss/recovery windows, the recovery owner and
+restore evidence proportionate to criticality. Backup configuration alone is not a restoration test.
+Include configuration/secrets dependencies and receipt/fencing compatibility; a code rollback cannot
+undo external effects. Keep alert/runbook and cost ownership explicit for operational requirements.
 
 ## Verification and handoff
 

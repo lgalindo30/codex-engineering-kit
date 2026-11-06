@@ -32,6 +32,12 @@ or every theoretical input combination. Explain unreachable branches and materia
 Exercise the integration boundary when unit tests or mocks cannot demonstrate the acceptance criterion.
 Recheck impacted cases after repairs; evidence must correspond to the final implementation.
 
+For costly processing or changed resource guards, apply [resource budgets and representative fixtures](resource-budgets.md).
+For operational instrumentation, exercise [coverage, privacy and observer failure](operation-observability.md#acceptance-and-adoption-evidence).
+For gate changes, prove a known-invalid fixture is rejected through the real gate and a corrected one
+is accepted; distinguish direct helper execution from Git/CI/client dispatch. Never inject faults into
+the user's active work or use a real external destination to test rejection.
+
 ## Isolation and execution
 
 Use disposable databases, directories, accounts and ports with deterministic fixtures and explicit
