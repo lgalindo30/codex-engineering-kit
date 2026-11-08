@@ -16,6 +16,8 @@ negative zero; UTF-8 byte limits differ from character counts; exact typed ident
 prose need not grant the same authority. Define allowed outcomes from the contract's observable
 ordering when failures compete, such as malformed bytes and an exceeded stream budget. Do not widen
 the allowed outcomes merely to accept an unexplained failure.
+For persisted request identity, derive equivalence and historical limitations through
+[persisted identity compatibility](persisted-identity.md), including coexisting-version schedules.
 
 Guarantee essential success, rejection and failure-outcome families in bounded runs through mandatory
 witnesses, generator examples or deliberately scheduled discriminants. Being possible in an arbitrary

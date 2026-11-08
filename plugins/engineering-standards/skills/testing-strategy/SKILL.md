@@ -29,7 +29,9 @@ independent held-out defects, and measure total execution/review/maintenance cos
 and detection gaps explicit. Start with a bounded pilot; do not import another project's case ceiling.
 Exercise recipe activation on realistic changes before relying on review-only transfer.
 
-Run affected tests and the documented quality command. Report commands, outcomes, unexecuted scope,
+Select commands through [execution and evidence reuse](../../references/testing.md#execution-selection-and-evidence-reuse).
+For retirement inspect shared setup, parameterized expansion, non-test fixture consumers and runner
+suite failures as specified in the retirement policy. Report commands, outcomes, unexecuted scope,
 and remaining gaps, distinguishing static skill validation from observed autonomous-agent behavior.
 For instruction changes, forward-test realistic requests with independent agents in disposable
 workspaces; inspect their selected scope, artifacts, actual probes and incomplete-run handling.

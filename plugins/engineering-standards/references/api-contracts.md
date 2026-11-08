@@ -23,6 +23,9 @@ they do not require public HTTP/OpenAPI endpoints.
 
 ## Schema behavior
 
+When parser/serialization changes affect stored identity, apply
+[persisted identity compatibility](persisted-identity.md) as well as public compatibility checks.
+
 Use the framework's maintained integration. Define request/response schemas, status and content types
 together. Map responses explicitly to exclude private fields and validate serialized output at trust
 boundaries, including transformed dates. Output-validation failures are internal errors.

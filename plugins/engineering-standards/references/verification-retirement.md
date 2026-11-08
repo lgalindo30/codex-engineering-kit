@@ -39,6 +39,12 @@ without inventing an additional approval requirement for an already authorized r
 
 ## Review recipes and activation
 
+Before removal inspect shared setup/hooks, dependencies between cases, parameterized expansion, empty
+suites, dead imports and commands targeting retired files. Trace fixture imports outside tests,
+including CLI/scripts. Retained cases must not rely on setup performed by removed cases. Physically
+remove retired material and verify actual selection and the runner's overall exit/suite result;
+passing assertion counts cannot override failed suites.
+
 Each review-only recipe needs an ID, named guarantees, implementation/contract/dependency triggers,
 indirect callers, relevant migration/configuration triggers, required probes and success witnesses,
 permitted runtime/data, accountable role, execution budget and known limits. Include the acceptance
@@ -95,4 +101,6 @@ source bytes; a successful full gate on a later phase does not retroactively val
 Never delete a failing assertion solely for green output, hide a large matrix inside one case, rename
 tests out of discovery or introduce silent skips/exclusions. Project budgets are finite local choices,
 not universal suite ceilings or deletion targets. Update policy, mappings, commands and consumers
-together; run the selected complete gate on the final artifact and report unexecuted scope.
+together; follow [execution selection](testing.md#execution-selection-and-evidence-reuse) on the final
+artifact and report gaps. Export evidence through
+[review closure](adversarial-review.md#evidence-export-before-cleanup) before deleting experiments.

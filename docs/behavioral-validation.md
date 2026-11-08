@@ -6,6 +6,9 @@ Structural checks validate packaging and tooling, not agent behavior.
 
 ## Bounded evaluations
 
+- [2026-11-08 persisted compatibility](evaluations/2026-11-08-persisted-compatibility.md): six temporary
+  scenarios with independent validation, historical identity/receipt boundaries, real SQLite version
+  interleavings, retirement dependencies and evidence replay after deletion.
 - [2026-11-08 installed release](evaluations/2026-11-08-installed-release-evals.md): explicit installed
   2.6.0 invocation, independent discovery/validation, async repair and an informed generator correction
   after a post-design semantic-boundary challenge in temporary projects.

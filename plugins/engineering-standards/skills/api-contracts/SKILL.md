@@ -14,6 +14,9 @@ discovery, result envelopes and actual client verification; it does not select M
 Identify producers, consumers, supported versions, and generated-artifact ownership. Classify
 compatibility before changing independently deployed applications; preserve existing versioning unless
 migration is requested.
+When parsing, serialization, fingerprints, signatures or persisted identifiers change, load
+[persisted identity compatibility](../../references/persisted-identity.md). Trace stored consumers as
+well as public callers; version only when evidence requires it.
 
 Define runtime request/response schemas and public errors with OpenAPI. Keep form/consumer schemas
 local; generated clients come from a pinned artifact when useful, without introducing shared private

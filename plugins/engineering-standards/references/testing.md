@@ -101,12 +101,28 @@ cannot settle, terminate/dispose its owned isolated process/runtime at the outer
 its state or report that trial as passed. There is no universal case ceiling, coverage percentage,
 mutation score or finding quota.
 
-Start with affected tests, then run the required project quality command and relevant production build.
-Broaden checks for unresolved risk; do not repeat passing suites without new evidence. Investigate
+Select commands through the execution rules below. Investigate
 failures without deleting assertions, masking flakes with retries or silently skipping missing tools.
 Report commands and outcomes using the [delivery rules](workflow.md#delivery).
 
+## Execution selection and evidence reuse
+
+Classify the actual diff and map its impact to existing evidence. Behavior-affecting changes require
+affected checks, the applicable complete project gate and relevant production build. Pure prose edits
+need document formatting, links and consistency checks, not runtime reruns solely for changed prose.
+Instructions, schemas, generated contracts, commands, configuration and tooling can change behavior
+despite a Markdown extension. Unknown impact broadens investigation.
+
+Honor explicit project-required checks, including unconditional aggregate mandates. This exception
+does not silently weaken CI/hooks or change their scope. Record selected commands and omitted layers.
+Bind evidence to relevant code, configuration, dependencies, tooling, fixtures and necessary new files,
+including dirty/untracked bytes. Identify evidence invalidated by each later edit; justify reuse of
+partial results. Pure prose edits can preserve runtime evidence while renewing document checks and
+the final scoped report. Never reuse a verdict for changed behavior or identify dirty state by commit alone.
+
 ## Replacements and reduced protection
+
+Apply the execution selection above when deciding which evidence needs renewal.
 
 Preserve existing protective evidence during ordinary fixes. Use
 [verification retirement](verification-retirement.md) when evaluating suite quality, replacing or

@@ -55,6 +55,19 @@ fixture failures, infrastructure failures and reproduced product failures have d
 A timeout is incomplete exploration unless independent evidence establishes a product resource-bound
 violation. Do not count all nonzero exits as detected defects.
 
+## Evidence export before cleanup
+
+Before deleting an experiment, export valuable minimal reproducers/corpus, commands, relevant outputs,
+artifact identity, versions and seed/shrink path when applicable. Redact secrets and real data; apply
+project-owned size/retention limits. Replay exported evidence from its retained location without the
+disposable copy; verify hashes, dependencies and failure/success meaning. If replay is unavailable,
+state the limitation instead of claiming reproducibility or deleting the only required evidence.
+This does not require turning every probe into a permanent test.
+
+Distinguish retained reproducible evidence, observations without retained reproducers, inference and
+unexecuted checks. Count real bugs, oracle/fixture mistakes, environment failures and injected defects
+separately. Then remove only owned resources.
+
 ## Correction and closure
 
 Correct confirmed in-scope defects only when implementation is authorized. Pin the new artifact and
@@ -62,8 +75,8 @@ have independent validation recheck the counterexample and affected alternate fl
 requirements, configuration or evidence can invalidate prior verdicts; explicitly justify any reused
 partial evidence. The final overall verdict must identify the final bytes and execution envelope.
 
-Run the currently selected complete project gate and relevant build, retaining valuable runtime and
-browser witnesses. Keep durable counterexamples through properties, a corpus or a small behavioral
+Apply [execution selection](testing.md#execution-selection-and-evidence-reuse), retaining valuable
+runtime/browser witnesses. Keep durable counterexamples through properties, a corpus or a small behavioral
 check. Report behavioral acceptance and standards conformance separately.
 
 Block a verified verdict on validated material failures or missing evidence needed for a material

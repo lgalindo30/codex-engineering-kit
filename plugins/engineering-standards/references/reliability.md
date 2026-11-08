@@ -31,6 +31,9 @@ the effect atomically where supported, recheck authorization on replay, and test
 requests, changed bodies, retention/expiry and recovery. Never claim atomicity across an external
 provider unless its actual protocol provides it.
 
+For changes to stored request representations, parsers or identity algorithms, apply
+[persisted identity compatibility](persisted-identity.md) before changing replay behavior.
+
 Represent unknown effect outcomes explicitly after disconnects, timeout or a crash between dispatch
 and receipt. Preserve the durable attempt identity and reconcile provider receipts/state before retrying;
 do not turn a missing response into a known-unapplied result. Define who resolves unprovable outcomes.

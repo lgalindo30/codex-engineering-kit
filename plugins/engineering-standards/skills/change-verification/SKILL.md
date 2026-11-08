@@ -23,6 +23,9 @@ including dirty/untracked source and the requirements/configuration/evidence use
 Record the [review selection](../../references/testing.md#scope-and-review-selection) for material
 changes or project review-only recipes. Trace indirect consumers and migration/configuration impact;
 do not treat an unmatched filename as proof that a contract is unaffected.
+For changed parsers, canonicalization, fingerprints/signatures or stored identity, apply
+[persisted identity compatibility](../../references/persisted-identity.md) to historical bytes, replay,
+missing evidence and coexisting versions before accepting a correction.
 
 Build the [flow evidence map](../../references/testing.md#flow-evidence) for this change. For a bug,
 demonstrate failure before and success after the fix when practical, using an isolated baseline if
@@ -64,8 +67,8 @@ evidence still applies; an old verdict does not automatically cover new bytes.
 
 Close as verified only when required checks for the primary acceptance, related feasible flows and
 applicable standards pass on the final implementation, with no unresolved findings that invalidate acceptance.
-Run the required quality command and relevant build. Follow the shared testing policy for isolation,
-test layers and avoiding redundant execution.
+Select commands and evidence reuse through the shared [execution policy](../../references/testing.md#execution-selection-and-evidence-reuse).
+Follow its isolation, boundary and incomplete-execution rules.
 
 If a required check cannot run or investigation cannot progress without missing access, environment or
 a product decision, report partial verification and the concrete blocker. Never weaken acceptance or

@@ -40,6 +40,9 @@ with streaming or partitioned work.
 
 ## Migrations and recovery
 
+Identity/serialization changes also require [persisted identity compatibility](persisted-identity.md),
+even without a schema migration. It owns historical evidence and cross-version replay requirements.
+
 Keep reviewed versioned migrations and one coordinator per schema/target. Review generated SQL; apply
 production migrations as compatible deployment steps, outside request handling and every-process startup.
 

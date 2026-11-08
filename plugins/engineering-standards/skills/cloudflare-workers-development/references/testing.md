@@ -26,7 +26,8 @@ when matching project review recipes.
   including incomplete callbacks, missing SQL metadata, overflow and observer failure on the compiled target.
 - Test changed scheduled/queue handlers with supported event helpers and relevant retry/idempotency cases.
 
-Run affected runtime tests and the real Vite/Wrangler build. Frontend tests remain owned by their
+For changes requiring runtime/build evidence under the shared execution policy, run affected runtime
+tests and the real Vite/Wrangler build. Frontend tests remain owned by their
 framework. Report which bindings were exercised, local/live scope, and mocked boundaries.
 
 Sources: [Workers Vitest](https://developers.cloudflare.com/workers/testing/vitest-integration/),
