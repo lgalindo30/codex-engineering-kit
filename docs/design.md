@@ -22,6 +22,13 @@ actual implementation, executed checks and observed coverage rather than relying
 inspection and in-scope repairs. It reuses the selected stack guides; `testing-strategy` retains
 project-wide coverage assessment. Read-only inspection remains read-only, and unexecuted checks remain
 explicit gaps rather than passing verdicts.
+The shared verification policy owns consequence-based selection; its adversarial-review reference
+owns independent roles and artifact-bound evidence, and its retirement reference owns per-guarantee
+traceability, review-recipe activation and comparable detection/total-cost decisions. Technology
+guides retain actual runtime boundaries. Review-only retirement explicitly reduces continuous
+regression detection and requires project-owned acceptance; documentation installs no review runner.
+The conditional generated-verification reference owns invariant families, mandatory/causal witnesses,
+generator reachability and harness profiles without prescribing one test per generated input.
 See [contributing](../CONTRIBUTING.md#adding-technology-skills) for ownership and link constraints.
 
 ## Project boundaries

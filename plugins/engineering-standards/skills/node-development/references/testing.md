@@ -5,6 +5,10 @@ Apply the [shared testing policy](../../../references/testing.md).
 Preserve the runner; Node's test runner or Vitest are new-project options. Configure TypeScript
 execution explicitly and type-check separately. Run runtime-sensitive tests on Node itself.
 
+Generated parser inputs or operation traces may provide durable contract evidence. Select listener,
+native-driver and process checks separately when transport or startup changes; a passing property
+over an imported handler does not establish them. Apply project review recipes to indirect consumers.
+
 - Test handlers through the application boundary, including malformed JSON, content types, limits,
   authorization, and serialized errors. Use a real listener/adapter for changed transport, streaming,
   shutdown, or connection behavior; request helpers cannot establish these.

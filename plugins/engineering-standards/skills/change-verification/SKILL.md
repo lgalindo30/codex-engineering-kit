@@ -18,11 +18,19 @@ Identify the requested behavior, affected entrypoints/consumers, current diff, p
 baseline failures. Define observable acceptance criteria from the request and existing contracts;
 do not infer expected results from the implementation being checked.
 
+Pin the [artifact and execution envelope](../../references/adversarial-review.md#artifact-and-handoff),
+including dirty/untracked source and the requirements/configuration/evidence used for the verdict.
+Record the [review selection](../../references/testing.md#scope-and-review-selection) for material
+changes or project review-only recipes. Trace indirect consumers and migration/configuration impact;
+do not treat an unmatched filename as proof that a contract is unaffected.
+
 Build the [flow evidence map](../../references/testing.md#flow-evidence) for this change. For a bug,
 demonstrate failure before and success after the fix when practical, using an isolated baseline if
 needed; disclose missing pre-fix evidence. Trace the cause through related callers and state transitions.
 For a feature, derive cases from its acceptance criteria and changed decisions. Investigate a failed
 check before attributing it to the change; distinguish setup failures and unrelated baseline defects.
+For material compound guards, use [causal witnesses](../../references/generated-verification.md#causal-state-and-boundary-witnesses)
+to distinguish the named guard from another rejection, and preflight from commit-time enforcement.
 
 ## Inspect the implementation
 
@@ -38,16 +46,21 @@ For an operational baseline or telemetry change, inspect emitted coverage agains
 [the adoption evidence](../../references/operation-observability.md#acceptance-and-adoption-evidence).
 Keep standard loading, implementation conformance and exercised runtime behavior as separate claims.
 
-When independent inspection is requested or materially useful, give a read-only reviewer the request,
-exact candidate diff, applicable skill paths and available check evidence without prescribing a verdict.
-The implementer owns corrections and final verification; a reviewer does not silently edit its target.
+For independent inspection selected by project policy or failure consequences, follow
+[adversarial review](../../references/adversarial-review.md). Give discovery requirements and the pinned
+artifact before author explanations. Have a separate agent validate candidate findings and expected
+behavior. Keep discovery, validation and execution states separate; a reviewer does not edit its target.
 
 ## Repair and verify
 
 For authorized implementation work, correct demonstrated in-scope defects and standards violations,
-retain protective tests, and rerun the affected checks. Update the flow map for newly discovered paths.
+retain protective evidence, and rerun the affected checks. Test retirement requires the separate
+[replacement decision](../../references/verification-retirement.md), not removal of a failing check
+to close the fix. Update the flow map for newly discovered paths.
 Recheck previously passing behavior that a subsequent repair could affect; earlier evidence may be stale.
 Change the hypothesis or experiment when an attempt fails instead of retrying the same repair blindly.
+Pin each repair as a new artifact and independently revalidate affected findings. Explain which prior
+evidence still applies; an old verdict does not automatically cover new bytes.
 
 Close as verified only when required checks for the primary acceptance, related feasible flows and
 applicable standards pass on the final implementation, with no unresolved findings that invalidate acceptance.
@@ -57,6 +70,7 @@ test layers and avoiding redundant execution.
 If a required check cannot run or investigation cannot progress without missing access, environment or
 a product decision, report partial verification and the concrete blocker. Never weaken acceptance or
 label an unexecuted check as passed to finish the loop.
+Missing required review or unresolved unknown recipe impact also leaves verification incomplete.
 
 Report behavior and standards verdicts separately, the flow/check evidence, corrections, remaining
 findings and unverified scope. Scope the conclusion to what was exercised; do not promise that no bug

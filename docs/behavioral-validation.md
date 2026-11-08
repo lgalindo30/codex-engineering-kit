@@ -6,6 +6,12 @@ Structural checks validate packaging and tooling, not agent behavior.
 
 ## Bounded evaluations
 
+- [2026-11-08 CRM source inspection](evaluations/2026-11-08-crm-source-inspection.md): real unstaged
+  and untracked migration evidence, generator consolidation, causal witnesses, harness boundaries
+  and a limited HTTP property replay in disposable Bun copies.
+- [2026-11-07 adversarial adoption](evaluations/2026-11-07-adversarial-adoption.md): consequence-based
+  recipe selection, retirement traceability, comparable sensitivity/cost, independent review/validation
+  and explicit unavailable-execution and reduced-protection decisions in isolated fixtures.
 - [2026-10-15 change verification](evaluations/2026-10-15-change-verification.md): independent bug,
   feature and read-only inspection exercises, parent checks and explicit execution limits.
 - [2026-10-15 simplification](evaluations/2026-10-15-simplification.md): per-skill local execution,

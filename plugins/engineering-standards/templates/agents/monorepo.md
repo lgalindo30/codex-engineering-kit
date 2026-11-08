@@ -17,6 +17,10 @@
 - Prefer functional composition, explicit dependencies and cohesive maintained files below 400 lines.
 - Define operational budgets and bounded phase/dependency evidence at each relevant service boundary;
   verify correlation, failure/missing coverage and privacy through the actual entrypoints.
+- Select independent review and executable evidence from affected guarantees and failure consequences,
+  without a unit test per change. Trace indirect consumers, migrations and configuration when activating
+  review recipes; record their owners and results. Map retired guarantees individually to replacement
+  evidence or explicitly accepted reduced continuous protection. Missing required review remains incomplete.
 - After dependencies are installed, root checks are `bun run format:check`, `bun run lint`,
   `bun run typecheck`, `bun run test` and aggregate `bun run check`. The initial test placeholder fails
   until behavioral tests exist; current checks cover the root scaffold only.

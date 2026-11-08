@@ -47,6 +47,12 @@ browser journeys. Adapt frontend JSX, browser/server types and framework lint. M
 workspaces and Vite Task aggregation. Do not bypass missing tests with unconditional success or
 `--pass-with-no-tests`. Bare `vp check` runs static checks, not the aggregate package script.
 
+The script name `test` does not impose unit tests per function/change. Select executable properties,
+corpus replay, distinct behavior checks or justified direct validators through the
+[verification policy](../references/testing.md), retaining relevant runtime/browser witnesses.
+The unconfigured placeholders remain failures. Independent review and review-only retirement records
+require actual project adoption; generating these instructions activates no review runner or CI job.
+
 ## Optional Git hooks
 
 The supplied staged hook targets legacy ESLint/Prettier projects. Do not copy it into a Vite+ project;

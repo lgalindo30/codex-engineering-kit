@@ -21,7 +21,8 @@ behavior; a focused task does not require the complete implementation workflow.
 ## Delivery
 
 Use observable acceptance criteria and small changes that can be verified before dependent work
-accumulates. Follow [testing policy](testing.md) for verification and the selected stack's local guide
+accumulates. Follow [consequence-based verification](testing.md) for review selection, durable evidence
+and explicit test-retirement tradeoffs, and the selected stack's local guide
 for execution. Run the project's documented quality command before handoff.
 For new backend/job operations or changed costly dependencies, include the relevant
 [operational observability acceptance](operation-observability.md#acceptance-and-adoption-evidence).

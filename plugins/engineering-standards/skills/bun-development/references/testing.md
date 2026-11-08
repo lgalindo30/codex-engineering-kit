@@ -5,6 +5,10 @@ Apply the [shared testing policy](../../../references/testing.md).
 Use Bun Test for new Bun backend code, preserving a suitable existing suite. Its Jest-style API does
 not require Jest. Execute on the selected Bun version and type-check separately.
 
+For retry/receipt workflows, generated action traces can challenge persisted effects through the real
+engine. They do not replace Bun listener, driver or startup witnesses. Select those boundaries from
+the changed guarantees and shared review ledger; no test per helper is required.
+
 - Exercise Hono handlers with request helpers for contracts and error behavior. Use a real Bun listener
   for changed streaming limits, adapter behavior, connections, or graceful shutdown.
 - Verify database constraints, transactions, concurrency, and migrations against the actual engine

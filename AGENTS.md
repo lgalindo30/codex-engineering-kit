@@ -15,6 +15,7 @@ This repository contains a public Codex plugin, shared engineering policies, and
 - For delegated work, assign file ownership; workers must not overwrite another worker's changes. The parent owns integration and final verification.
 - Do not install infrastructure, authentication, telemetry, or unrelated project tooling merely because a skill describes it.
 - Run the repository's documented quality command before reporting implementation complete; report unavailable checks accurately.
+- Follow [the verification policy](plugins/engineering-standards/references/testing.md) for consequence-based review selection, executable evidence, and explicit test-retirement tradeoffs.
 - Verify effective Git hooks from the working checkout with `bun run setup:hooks --check`; preserve other hook managers and worktree overrides.
 - Before an authorized push advancing repository content, prepare and commit a higher plugin version using the release workflow, even for documentation-only changes. Never bump or create commits inside a push hook.
 - Do not commit or push unless explicitly requested.

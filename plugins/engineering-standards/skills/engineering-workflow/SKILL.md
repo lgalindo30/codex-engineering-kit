@@ -26,3 +26,10 @@ Read the selected entrypoints and their relevant references; the table is not a 
 Routine stack implementation uses its own testing and tooling guidance. Coordinate shared contracts
 and dependent changes at the real package boundaries, without duplicating another skill's procedure.
 When delegating, assign non-overlapping file ownership and integrate the results before verification.
+
+Select verification through the [shared policy](../../references/testing.md#scope-and-review-selection).
+Trace shared dependencies, indirect consumers, migrations and configuration before selecting review
+recipes. Record triggered, non-triggered and unknown relevant recipes, the evidence for each choice,
+assigned roles and execution results. Unknown impact broadens the affected investigation without
+launching every assessment skill. Keep the coordinator accountable for missing required review and
+the final artifact-bound verdict; a planned recipe or future runner is not executed protection.

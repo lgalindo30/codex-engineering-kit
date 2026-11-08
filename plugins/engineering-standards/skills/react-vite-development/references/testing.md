@@ -6,6 +6,10 @@ Preserve the runner; Vitest/React Testing Library and Playwright are useful new-
 component behavior and critical journeys respectively. New Vite+ projects use `vp test run` and
 `vite-plus/test` imports, with compatible DOM/browser and Testing Library dependencies.
 
+Generated route/search or state-transition properties can challenge independent invariants, while
+actor switching, storage, rendered focus and chunk recovery need browser evidence when affected.
+Match review recipes through shared client/query dependencies and build configuration as well as UI files.
+
 - Exercise accessible interactions: validation, pending/error/empty/retry states, keyboard, and focus.
   For styling changes inspect generated variants, responsive/focus behavior, and reduced motion rather
   than class strings alone; complement automated accessibility checks with keyboard/focus inspection.

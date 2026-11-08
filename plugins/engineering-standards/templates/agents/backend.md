@@ -20,7 +20,12 @@
   identity out of distributed assets. Add services and perform live remote actions only within scope.
 - Define bounded phase/dependency measurements and failure coverage for new costly operations. Verify
   correlation, missing metrics, redaction and observer failures before accepting the operational baseline.
+- Select verification from failure consequences: independent review for material authority/effect changes,
+  properties or bounded corpus checks for durable guarantees, and real runtime/storage boundaries.
+  Do not require a unit test per change. Trace indirect consumers and record applicable review recipes;
+  distinguish replacement evidence from project-accepted loss of continuous protection when retiring checks.
 - After dependency installation, checks are `bun run format:check`, `bun run lint`, `bun run typecheck`,
   `bun run test` and aggregate `bun run check`. The initial test placeholder fails deliberately; replace
-  it with `bun test` after adding behavioral tests. Report actual results and unexecuted checks.
+  it with `bun test` or the project's selected executable checks once configured. Report actual results
+  and unexecuted checks; missing required review is incomplete verification.
 - Apply relevant OWASP controls and update these instructions as architecture and commands change.

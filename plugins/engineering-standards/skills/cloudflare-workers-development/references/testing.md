@@ -4,7 +4,12 @@ Apply the [shared testing policy](../../../references/testing.md).
 
 Preserve compatible existing integration; new tests use Vitest's official Workers integration in
 workerd/local Miniflare. Verify installed versions and current APIs. Node/Bun-only tests cannot prove
-platform behavior. Keep pure business tests independent; avoid mocking the entire Hono context.
+platform behavior. Select pure business properties/checks for distinct guarantees; avoid mocking the
+entire Hono context. Generated state traces must observe real local bindings for D1/R2 guarantees;
+control contested storage calls explicitly and isolate owned state between trials/shrinks under the
+shared execution policy. They do not
+replace compiled dispatch, socket or binding witnesses. Include migrations and binding configuration
+when matching project review recipes.
 
 - Exercise actual Worker/Hono requests with local bindings: parsing/media types, limits, authorization,
   safe serialized schemas/errors, and OpenAPI inclusion for all mounted features.

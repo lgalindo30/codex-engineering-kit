@@ -17,6 +17,10 @@
   never put access/refresh tokens in browser storage or logs.
 - Provide accessible keyboard/focus behavior, loading/empty/error states and recoverable submissions.
   Prevent duplicate pending mutations and preserve meaningful unsaved values on failure.
+- Select verification from failure consequences without a unit-test quota. Use independent review for
+  material contract changes and properties/corpus checks for durable guarantees; retain browser evidence
+  for affected navigation, storage and rendered interaction. Trace indirect consumers and review recipes;
+  record replacement evidence or explicitly accepted reduced protection before retiring checks.
 - After dependency installation, checks are `bun run format:check`, `bun run lint`, `bun run typecheck`,
   `bun run test`, `bun run build` and aggregate `bun run check`. Tests use `vp test run`; add
   behavioral tests and the actual Vite application before acceptance. Report actual results and unexecuted checks.

@@ -16,6 +16,11 @@ Provide one check-only entrypoint for applicable formatting, lint, types, meanin
 keep autofixes separate. Verify hook activation, permissions, the staged snapshot, relevant pre-push
 packages, and complete CI coverage. Explain Codex hook trust and skipped execution; file existence is
 not evidence of enforcement. Do not add a runtime just for helpers or loop on unchanged failures.
+For changed review jobs or suite selection, apply the
+[verification policy](../../references/testing.md) and
+[retirement record](../../references/verification-retirement.md). Verify recipe dispatch and unavailable
+required-review behavior through the actual selected mechanism; distinguish a manual coordinator
+exercise from an automated CI job. Trace indirect consumers and dependency/configuration changes.
 Check effective configuration in linked worktrees and prove rejection through real Git using only
 disposable fixtures and a local bare remote. Preserve other hook managers and unstaged content.
 
