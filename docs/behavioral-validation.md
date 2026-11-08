@@ -6,6 +6,9 @@ Structural checks validate packaging and tooling, not agent behavior.
 
 ## Bounded evaluations
 
+- [2026-11-08 installed release](evaluations/2026-11-08-installed-release-evals.md): explicit installed
+  2.6.0 invocation, independent discovery/validation, async repair and an informed generator correction
+  after a post-design semantic-boundary challenge in temporary projects.
 - [2026-11-08 CRM source inspection](evaluations/2026-11-08-crm-source-inspection.md): real unstaged
   and untracked migration evidence, generator consolidation, causal witnesses, harness boundaries
   and a limited HTTP property replay in disposable Bun copies.

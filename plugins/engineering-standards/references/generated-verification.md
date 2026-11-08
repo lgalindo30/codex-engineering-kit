@@ -21,6 +21,8 @@ Guarantee essential success, rejection and failure-outcome families in bounded r
 witnesses, generator examples or deliberately scheduled discriminants. Being possible in an arbitrary
 generator does not establish that an outcome executed. Include contract-relevant long inputs, state
 history, page tails and boundary positions even when ordinary random trials stay small for cost.
+Verify that a witness reaches the claimed semantic boundary: padding discarded by a transformation
+does not exercise large retained content. Vary retained size/structure as well as raw input size.
 Pair random variation with these witnesses; do not enumerate every theoretical combination.
 
 Check observed progress, preserved information and distinct outputs as well as safety/idempotence.
@@ -59,6 +61,8 @@ failure, timeout and interruption. Reconcile the property inventory with target 
 filters after changes. A passing filtered property/fuzz campaign does not establish that retained
 examples or the complete project gate passed. Preserve ordinary discovery instead of narrowing it to
 make retirement appear complete.
+Keep disposable mutation/experiment copies outside ordinary test discovery; preserve product
+discovery rules rather than narrowing them to hide experimental failures.
 
 Use stable property identities for reproducible seeds and retain the generator/runtime versions,
 shrink coordinates and minimized synthetic failures. Pin the actual artifact through
